@@ -1,6 +1,8 @@
 /** @type {import('next-sitemap').IConfig} */
+const { landingPageSlugs } = require("./config/landing-pages-slugs");
+
 module.exports = {
-    siteUrl: 'https://makebw.com',
+    siteUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
     generateRobotsTxt: true,
     generateIndexSitemap: false,
 
@@ -14,17 +16,16 @@ module.exports = {
         '/*/sign-in',       // Auth pages
         '/*/sign-up',
         '/*/forgot-password',
-        '/*/create',        // AI Studio (requires login)
     ],
 
     // Generate alternate language links
     alternateRefs: [
         {
-            href: 'https://makebw.com/en',
+            href: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/en`,
             hreflang: 'en',
         },
         {
-            href: 'https://makebw.com/zh',
+            href: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/zh`,
             hreflang: 'zh',
         },
     ],
@@ -40,7 +41,6 @@ module.exports = {
                     '/*/sign-in',
                     '/*/sign-up',
                     '/*/forgot-password',
-                    '/*/create',
                 ],
             },
         ],
@@ -49,24 +49,14 @@ module.exports = {
     // ✅ 核心修复：手动添加动态路由路径
     additionalPaths: async (config) => {
         const locales = ['en', 'zh'];
-        const formats = ['jpg', 'png', 'webp', 'heic'];
-        const staticPages = [
-            'color-to-black-and-white',
-            'photo-to-coloring-page',
-            'invert-colors',
-            'privacy',
-            'terms',
-            'about'
-        ];
+        const staticPages = ['pricing', 'privacy', 'terms', 'about'];
         const result = [];
 
-        // Add format-specific pages
+        // Landing pages (pSEO slugs)
         for (const locale of locales) {
-            for (const format of formats) {
-                const path = `/${locale}/${format}-to-black-and-white`;
-
+            for (const slug of landingPageSlugs) {
                 result.push({
-                    loc: path,
+                    loc: `/${locale}/${slug}`,
                     changefreq: 'weekly',
                     priority: 0.9,
                     lastmod: new Date().toISOString(),
@@ -77,7 +67,7 @@ module.exports = {
         // Add static feature and policy pages
         for (const locale of locales) {
             for (const page of staticPages) {
-                const priority = page.includes('privacy') || page.includes('terms') ? 0.5 : 0.8;
+                const priority = page.includes('privacy') || page.includes('terms') ? 0.5 : 0.7;
                 result.push({
                     loc: `/${locale}/${page}`,
                     changefreq: page.includes('privacy') || page.includes('terms') ? 'monthly' : 'weekly',
@@ -99,13 +89,9 @@ module.exports = {
             // Homepage has highest priority
             priority = 1.0;
             changefreq = 'daily';
-        } else if (path.includes('-to-black-and-white')) {
-            // Format pages are important landing pages
+        } else if (landingPageSlugs.some((s) => path.endsWith(`/${s}`))) {
+            // Landing pages are important pages
             priority = 0.9;
-            changefreq = 'weekly';
-        } else if (path.includes('photo-to-coloring-page') || path.includes('color-to-black-and-white')) {
-            // Feature pages
-            priority = 0.8;
             changefreq = 'weekly';
         }
 

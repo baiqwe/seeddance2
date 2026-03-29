@@ -8,22 +8,18 @@ import { Logo } from "./logo";
 import { usePathname } from "next/navigation";
 import { MobileNav } from "./mobile-nav";
 import { useTranslations } from "next-intl";
-import { useRouter, usePathname as useIntlPathname } from "@/i18n/routing";
-
-interface HeaderProps {
-  user: any;
-}
+import { useUser } from "@/hooks/use-user";
 
 interface NavItem {
   label: string;
   href: string;
 }
 
-export default function Header({ user }: HeaderProps) {
+export default function Header() {
   const pathname = usePathname();
-  const router = useRouter();
   const t = useTranslations('nav');
   const isDashboard = pathname?.startsWith("/dashboard");
+  const { user } = useUser();
 
   // 更可靠地检测当前 locale
   const pathParts = pathname?.split('/') || [];
@@ -43,9 +39,8 @@ export default function Header({ user }: HeaderProps) {
   // Main navigation items
   const mainNavItems: NavItem[] = [
     { label: t('home'), href: localePrefix },
-    { label: "✨ AI Studio", href: `${localePrefix}/create` },
+    { label: t('tools'), href: `${localePrefix}/photo-to-anime` },
     { label: t('pricing'), href: `${localePrefix}/pricing` },
-    { label: currentLocale === 'zh' ? '填色画' : 'Coloring Pages', href: `${localePrefix}/photo-to-coloring-page` },
     { label: t('about'), href: `${localePrefix}/about` },
   ];
 

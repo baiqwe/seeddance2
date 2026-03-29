@@ -2,12 +2,18 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import createIntlMiddleware from 'next-intl/middleware'
 import { routing } from './i18n/routing'
+import { hasSupabaseEnv } from './utils/supabase/env'
 
 const intlMiddleware = createIntlMiddleware(routing)
 
 export async function middleware(request: NextRequest) {
   // 1. 先运行 intl 中间件，获取基础 Response (包含语言 Cookie 和重定向逻辑)
   let response = intlMiddleware(request)
+
+  // Preview mode: allow local UI review without Supabase env configured.
+  if (!hasSupabaseEnv()) {
+    return response
+  }
 
   // 2. 初始化 Supabase 客户端
   const supabase = createServerClient(

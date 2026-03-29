@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { hasSupabaseEnv } from "@/utils/supabase/env";
 import {
   SubscriptionStatus,
   ACTIVE_STATUSES,
@@ -53,14 +54,19 @@ export function useSubscription() {
     daysLeft: null,
     credits: 0,
   });
-  const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const [loading, setLoading] = useState(hasSupabaseEnv());
+  const supabase = hasSupabaseEnv() ? createClient() : null;
 
   useEffect(() => {
     checkSubscription();
   }, []);
 
   const checkSubscription = async () => {
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
     try {
       const {
         data: { user },

@@ -1,10 +1,11 @@
 /**
  * JSON-LD Structured Data for SoftwareApplication
- * Helps search engines understand MakeBW as a web application
+ * Helps search engines understand the app as a web application
  * 
  * Note: This is a server component to avoid hydration issues
  */
 import { getTranslations } from 'next-intl/server';
+import { site } from '@/config/site';
 
 export async function SoftwareApplicationSchema({ locale }: { locale: string }) {
     const t = await getTranslations({ locale, namespace: 'metadata' });
@@ -12,7 +13,7 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
     const schema = {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "MakeBW - Image to Black and White Converter",
+        "name": `${site.siteName} - Photo to Anime AI Converter`,
         "description": t('description'),
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Web Browser",
@@ -22,14 +23,13 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
             "priceCurrency": "USD"
         },
         "featureList": [
-            "Grayscale conversion",
-            "Line art generation for coloring pages",
-            "Color inversion",
-            "HEIC file support",
-            "Privacy-first browser processing",
-            "No upload required"
+            "Photo to anime AI conversion",
+            "Multiple anime styles (Ghibli-inspired, cyberpunk, 90s retro, webtoon)",
+            "Adjustable anime intensity",
+            "Preserve key colors (eyes/hair)",
+            "Download generated images"
         ],
-        "screenshot": "https://makebw.com/og-image.png",
+        "screenshot": new URL(site.ogImagePath, site.siteUrl).toString(),
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.8",

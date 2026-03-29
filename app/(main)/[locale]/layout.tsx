@@ -6,20 +6,11 @@ import Header from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
-import { Geist } from "next/font/google";
 import { SoftwareApplicationSchema } from "@/components/json-ld-schema";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { ClarityAnalytics } from "@/components/clarity-analytics";
-import { createClient } from "@/utils/supabase/server";
+import { site } from "@/config/site";
 import "../../globals.css";
-
-// ✅ 必须添加这一行，让前端页面兼容 Cloudflare Edge
-export const runtime = 'edge';
-
-const geistSans = Geist({
-    display: "swap",
-    subsets: ["latin"],
-});
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
@@ -28,19 +19,19 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 
     return {
         // ✅ SEO 核心: metadataBase 用于生成绝对 URL
-        metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://makebw.com'),
+        metadataBase: new URL(site.siteUrl),
 
         title: {
             default: messages.metadata.title,
-            template: '%s | MakeBW.com'
+            template: `%s | ${site.siteName}`
         },
         description: messages.metadata.description,
         keywords: messages.metadata.keywords,
 
         // ✅ 作者和站点信息
-        authors: [{ name: 'Bai' }],
-        creator: 'Bai',
-        publisher: 'MakeBW.com',
+        authors: [{ name: site.siteName }],
+        creator: site.siteName,
+        publisher: site.siteName,
 
         // ✅ Open Graph - 添加图片
         openGraph: {
@@ -48,14 +39,14 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             description: messages.metadata.description,
             type: "website",
             locale: locale === 'zh' ? 'zh_CN' : 'en_US',
-            url: `https://makebw.com/${locale}`,
-            siteName: 'MakeBW.com',
+            url: `${site.siteUrl}/${locale}`,
+            siteName: site.siteName,
             images: [
                 {
-                    url: 'https://makebw.com/web-app-manifest-512x512.png',
+                    url: new URL(site.ogImagePath, site.siteUrl).toString(),
                     width: 512,
                     height: 512,
-                    alt: 'MakeBW - Free Image to Black and White Converter',
+                    alt: site.siteName,
                 },
             ],
         },
@@ -65,7 +56,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             card: "summary_large_image",
             title: messages.metadata.title,
             description: messages.metadata.description,
-            images: ['https://makebw.com/web-app-manifest-512x512.png'],
+            images: [new URL(site.ogImagePath, site.siteUrl).toString()],
         },
 
         // ✅ Canonical & 多语言 alternates
@@ -130,19 +121,8 @@ export default async function LocaleLayout(props: {
 
     const messages = await getMessages({ locale });
 
-    // 从 Supabase 获取用户认证状态（添加错误处理）
-    let user = null;
-    try {
-        const supabase = await createClient();
-        const { data } = await supabase.auth.getUser();
-        user = data?.user || null;
-    } catch (error) {
-        // Supabase 调用失败时，用户状态设为 null，页面仍可正常渲染
-        console.error('Failed to get user:', error);
-    }
-
     return (
-        <html lang={locale} className={geistSans.className} suppressHydrationWarning>
+        <html lang={locale} suppressHydrationWarning>
             <body className="bg-background text-foreground antialiased" suppressHydrationWarning>
                 <GoogleAnalytics />
                 <ClarityAnalytics />
@@ -155,7 +135,7 @@ export default async function LocaleLayout(props: {
                         disableTransitionOnChange
                     >
                         <div className="relative min-h-screen flex flex-col">
-                            <Header user={user} />
+                            <Header />
                             <main className="flex-1">{children}</main>
                             <Footer />
                         </div>

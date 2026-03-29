@@ -4,6 +4,7 @@ import { Logo } from "./logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { landingPages } from "@/config/landing-pages";
 
 export function Footer() {
   const pathname = usePathname();
@@ -15,19 +16,17 @@ export function Footer() {
   const currentLocale = (pathParts[1] === 'en' || pathParts[1] === 'zh') ? pathParts[1] : 'en';
   const localePrefix = `/${currentLocale}`;
 
-  // 工具链接 - 内链建设核心
   const toolLinks = [
-    { label: "Grayscale Converter", labelZh: "灰度转换", href: `${localePrefix}/color-to-black-and-white` },
-    { label: "Coloring Page Maker", labelZh: "填色画制作", href: `${localePrefix}/photo-to-coloring-page` },
-    { label: "Invert Colors", labelZh: "反色工具", href: `${localePrefix}/invert-colors` },
+    { label: "Photo to Anime", labelZh: "照片转二次元", href: `${localePrefix}/photo-to-anime` },
+    { label: landingPages["ghibli-filter"]?.h1 || "Ghibli Filter", labelZh: "吉卜力风格", href: `${localePrefix}/ghibli-filter` },
+    { label: landingPages["anime-pfp-generator"]?.h1 || "Anime PFP", labelZh: "动漫头像", href: `${localePrefix}/anime-pfp-generator` },
+    { label: landingPages["cyberpunk-anime"]?.h1 || "Cyberpunk Anime", labelZh: "赛博朋克", href: `${localePrefix}/cyberpunk-anime` },
   ];
 
-  // 格式链接 - 长尾词页面
-  const formatLinks = [
-    { label: "JPG to B&W", href: `${localePrefix}/jpg-to-black-and-white` },
-    { label: "PNG to B&W", href: `${localePrefix}/png-to-black-and-white` },
-    { label: "WebP to B&W", href: `${localePrefix}/webp-to-black-and-white` },
-    { label: "HEIC to B&W", href: `${localePrefix}/heic-to-black-and-white` },
+  const styleLinks = [
+    { label: landingPages["90s-anime-filter"]?.h1 || "90s Anime", href: `${localePrefix}/90s-anime-filter` },
+    { label: landingPages["webtoon-ai"]?.h1 || "Webtoon", href: `${localePrefix}/webtoon-ai` },
+    { label: landingPages["cosplay-enhancer"]?.h1 || "Cosplay Enhancer", href: `${localePrefix}/cosplay-enhancer` },
   ];
 
   const legalLinks = [
@@ -62,9 +61,9 @@ export function Footer() {
               {t('tagline')}
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
-              {currentLocale === 'zh' 
-                ? '🔒 所有图片处理均在浏览器本地完成，从不上传到服务器。' 
-                : '🔒 All images are processed locally in your browser. Never uploaded to any server.'}
+              {currentLocale === 'zh'
+                ? '提示：为生成效果，上传图片会发送到第三方 AI 服务处理。'
+                : 'Note: uploads are sent to a third-party AI service for generation.'}
             </p>
           </div>
 
@@ -86,13 +85,13 @@ export function Footer() {
             </nav>
           </div>
 
-          {/* Formats - 格式长尾词 */}
+          {/* Styles */}
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-semibold">
-              {currentLocale === 'zh' ? '支持格式' : 'Formats'}
+              {currentLocale === 'zh' ? '热门风格' : 'Styles'}
             </h3>
             <nav className="flex flex-col gap-2">
-              {formatLinks.map((link) => (
+              {styleLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -124,10 +123,10 @@ export function Footer() {
         {/* Bottom */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 md:flex-row">
           <p className="text-center text-sm text-muted-foreground md:text-left">
-            © {new Date().getFullYear()} MakeBW.com. {t('rights')}
+            © {new Date().getFullYear()} {t('brand')}. {t('rights')}
           </p>
           <p className="text-center text-sm text-muted-foreground md:text-right">
-            Built by <span className="font-medium">Bai</span>
+            {t('built_by')}
           </p>
         </div>
       </div>

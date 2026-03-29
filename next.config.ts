@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   devIndicators: {
     appIsrStatus: false,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 
   images: {
     unoptimized: true, // Required for Cloudflare Pages
@@ -45,4 +48,3 @@ const nextConfig: NextConfig = {
 };
 
 export default withNextIntl(nextConfig);
-

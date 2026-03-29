@@ -3,8 +3,8 @@ import { setRequestLocale } from 'next-intl/server';
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Pricing - MakeBW",
-    description: "Pricing plans for MakeBW AI tools."
+    title: "Pricing",
+    description: "Pricing plans for Photo to Anime AI credits and subscriptions."
 };
 
 type Props = {

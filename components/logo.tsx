@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { site } from "@/config/site";
 
 export function Logo() {
   const pathname = usePathname();
@@ -16,13 +17,13 @@ export function Logo() {
     >
       <Image
         src="/favicon-96x96.png"
-        alt="MakeBW Logo"
+        alt={`${site.siteName} Logo`}
         width={32}
         height={32}
         className="rounded-lg"
       />
       <span className="font-bold text-lg bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-        MakeBW
+        {site.siteName}
       </span>
     </Link>
   );

@@ -17,8 +17,8 @@ export type PricingPlan = {
     originalPrice?: number; // 原价（用于展示划线价格或计算折扣）
 };
 
-// 10 积分 = 1 次生成
-export const CREDITS_PER_GENERATION = 10;
+// 1 credit = 1 generation (new users start with a small free allowance)
+export const CREDITS_PER_GENERATION = 1;
 
 // === 核心定价策略 ===
 

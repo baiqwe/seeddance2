@@ -2,13 +2,20 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
+import { hasSupabaseEnv } from "@/utils/supabase/env";
 
 export function useUser() {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const [loading, setLoading] = useState(hasSupabaseEnv());
+  const supabase = hasSupabaseEnv() ? createClient() : null;
 
   useEffect(() => {
+    if (!supabase) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     // Get user on mount
     getUser();
 
@@ -26,6 +33,12 @@ export function useUser() {
   }, []);
 
   async function getUser() {
+    if (!supabase) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     try {
       const {
         data: { user },

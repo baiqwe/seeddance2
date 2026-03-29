@@ -1,7 +1,7 @@
 {
-  "name": "MakeBW - Free Image to Black and White Converter",
-  "short_name": "MakeBW",
-  "description": "Convert images to black and white instantly. Free, private, browser-based image processing.",
+  "name": "Photo to Anime AI Converter",
+  "short_name": "Photo2Anime",
+  "description": "Turn any photo into anime-style art with AI. Choose styles like Ghibli-inspired, cyberpunk, 90s retro, and webtoon.",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -23,4 +23,3 @@
   "scope": "/",
   "orientation": "portrait-primary"
 }
-
