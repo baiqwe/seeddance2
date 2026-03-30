@@ -64,7 +64,9 @@ export default async function TermsPage(props: { params: Promise<{ locale: strin
           <div className="text-center space-y-3">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{isZh ? "服务条款" : "Terms of Service"}</h1>
             <p className="text-muted-foreground">
-              {isZh ? "这是第一版简化条款，后续会更新。" : "This is a simplified v1 and may be updated."}
+              {isZh
+                ? `使用 ${site.siteName} 前，请先阅读以下规则。访问或使用本服务，即表示你同意按这些条款使用本网站。`
+                : `Please read these terms before using ${site.siteName}. By accessing or using the service, you agree to use the site under these terms.`}
             </p>
           </div>
 
@@ -86,6 +88,11 @@ export default async function TermsPage(props: { params: Promise<{ locale: strin
                   ? "禁止上传违法、侵权、或包含敏感个人信息的内容。"
                   : "Do not upload illegal, infringing, or sensitive personal information."}
               </p>
+              <p>
+                {isZh
+                  ? "如果你代表客户、品牌或团队使用本服务，你应确保自己有足够授权。"
+                  : "If you use the service on behalf of a client, brand, or team, you are responsible for having sufficient permission to do so."}
+              </p>
             </CardContent>
           </Card>
 
@@ -106,6 +113,11 @@ export default async function TermsPage(props: { params: Promise<{ locale: strin
                 {isZh
                   ? "我们不保证生成结果一定可用于商业用途；如需商业使用请自行核实权利与合规。"
                   : "We don’t guarantee outputs are fit for commercial use; verify rights and compliance yourself."}
+              </p>
+              <p>
+                {isZh
+                  ? "你应对自己下载、发布、再编辑或商用生成内容的方式负责。"
+                  : "You are responsible for how you download, publish, edit, or commercially use generated outputs."}
               </p>
             </CardContent>
           </Card>
@@ -132,6 +144,11 @@ export default async function TermsPage(props: { params: Promise<{ locale: strin
                 {isZh
                   ? `如需取消订阅、申请账单协助或了解退款政策，请联系 ${site.supportEmail}。`
                   : `For subscription cancellation, billing help, or refund questions, contact ${site.supportEmail}.`}
+              </p>
+              <p>
+                {isZh
+                  ? "除非付款页面或书面支持说明另有规定，已消耗的积分通常不支持退回。"
+                  : "Unless stated otherwise on the checkout page or in written support, consumed credits are generally non-refundable."}
               </p>
             </CardContent>
           </Card>

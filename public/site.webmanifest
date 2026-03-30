@@ -1,7 +1,7 @@
 {
-  "name": "Photo to Anime AI Converter",
-  "short_name": "Photo2Anime",
-  "description": "Turn any photo into anime-style art with AI. Choose styles like Ghibli-inspired, cyberpunk, 90s retro, and webtoon.",
+  "name": "Photo to Anime AI",
+  "short_name": "Anima",
+  "description": "Turn any photo into anime-style art with AI. Create avatars, cosplay edits, and stylized anime portraits in seconds.",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

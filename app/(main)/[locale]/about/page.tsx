@@ -82,6 +82,11 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                 ? "把你的照片转换成高质量的动漫风格图像，用于头像、社交分享、创作灵感。"
                 : "Turn your photos into high-quality anime-style images for avatars, sharing, and creative inspiration."}
             </p>
+            <p className="text-sm text-muted-foreground">
+              {isZh
+                ? `${site.siteName} 是一个面向动漫爱好者、Coser、创作者和游戏玩家的独立工具站，专注于把真实照片快速转换成更稳定、更好看的二次元风格图像。`
+                : `${site.siteName} is an independent tool built for anime fans, cosplayers, creators, and gamers who want fast, high-quality anime transformations from real photos.`}
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -125,6 +130,11 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
           </div>
 
           <div className="text-center">
+            <p className="mb-4 text-sm text-muted-foreground">
+              {isZh
+                ? `商务、版权或支持问题可联系：${site.supportEmail}`
+                : `For support, rights, or business inquiries, contact: ${site.supportEmail}`}
+            </p>
             <Button asChild size="lg">
               <Link href={`${localePrefix}`}>{isZh ? "开始生成" : "Start Generating"}</Link>
             </Button>

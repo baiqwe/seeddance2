@@ -16,7 +16,7 @@ export function Logo() {
       className="flex items-center gap-2 hover:opacity-90 transition-opacity"
     >
       <Image
-        src="/favicon-96x96.png"
+        src="/favicon.svg"
         alt={`${site.siteName} Logo`}
         width={32}
         height={32}

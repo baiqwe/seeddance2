@@ -68,8 +68,8 @@ export default async function PrivacyPage(props: { params: Promise<{ locale: str
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{isZh ? "隐私政策" : "Privacy Policy"}</h1>
             <p className="text-muted-foreground">
               {isZh
-                ? "本页面是第一版简化说明，后续会随着产品与合规需求迭代。"
-                : "This is a simplified v1 policy and will evolve as the product and compliance needs change."}
+                ? `${site.siteName} 致力于只收集运行服务所需的最少信息，并尽可能清晰地说明图片、账号与支付数据的处理方式。`
+                : `${site.siteName} aims to collect only the minimum information needed to run the service and to explain clearly how uploads, account data, and billing data are handled.`}
             </p>
           </div>
 
@@ -90,6 +90,11 @@ export default async function PrivacyPage(props: { params: Promise<{ locale: str
                 {isZh
                   ? "第三方服务可能会出于提供服务、监控滥用或改进质量等目的处理相关数据。"
                   : "Third-party providers may process data for service delivery, abuse prevention, and quality improvements."}
+              </p>
+              <p>
+                {isZh
+                  ? "我们会尽量只向这些服务提供完成生成任务所需的信息，不会主动把你的图片用于与本服务无关的公开展示。"
+                  : "We aim to send only the information required to complete the generation task and do not intentionally use your images for unrelated public display."}
               </p>
             </CardContent>
           </Card>
@@ -117,6 +122,11 @@ export default async function PrivacyPage(props: { params: Promise<{ locale: str
                   ? "默认情况下，我们只保留运行服务所需的最少信息，并会根据安全、计费、故障排查需要设置有限保留周期。"
                   : "By default, we keep the minimum information needed to operate the service, with limited retention windows for security, billing, and troubleshooting."}
               </p>
+              <p>
+                {isZh
+                  ? "这通常包括账号标识、积分与支付状态、生成任务参数、失败日志以及必要的反滥用记录。"
+                  : "This may include account identifiers, credit and billing status, generation parameters, failure logs, and necessary anti-abuse records."}
+              </p>
             </CardContent>
           </Card>
 
@@ -142,6 +152,11 @@ export default async function PrivacyPage(props: { params: Promise<{ locale: str
                 {isZh
                   ? `联系邮箱：${site.supportEmail}`
                   : `Support email: ${site.supportEmail}`}
+              </p>
+              <p>
+                {isZh
+                  ? "如果政策发生重大变化，我们会在站内更新本页内容。继续使用服务即表示你理解更新后的政策。"
+                  : "If this policy changes materially, we will update this page. Continued use of the service means you understand the revised policy."}
               </p>
             </CardContent>
           </Card>
