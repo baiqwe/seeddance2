@@ -17,3 +17,17 @@ export const routing = defineRouting({
 // that will consider the routing configuration
 export const { Link, redirect, usePathname, useRouter, getPathname } =
   createNavigation(routing);
+
+const localePrefixPattern = new RegExp(`^/(${locales.join('|')})(?=/|$)`);
+
+export function getLocaleFromPathname(pathname?: string | null): Locale {
+  const firstSegment = pathname?.split('/')[1];
+  return locales.find((locale) => locale === firstSegment) ?? routing.defaultLocale;
+}
+
+export function stripLocalePrefix(pathname?: string | null): string {
+  if (!pathname) return '/';
+
+  const withoutLocale = pathname.replace(localePrefixPattern, '');
+  return withoutLocale || '/';
+}

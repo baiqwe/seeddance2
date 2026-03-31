@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import { MobileNav } from "./mobile-nav";
 import { useTranslations } from "next-intl";
 import { useUser } from "@/hooks/use-user";
-import { Link } from "@/i18n/routing";
+import { getLocaleFromPathname, Link, stripLocalePrefix } from "@/i18n/routing";
 import { Skeleton } from "./ui/skeleton";
 
 interface NavItem {
@@ -21,28 +21,15 @@ export default function Header() {
   const t = useTranslations('nav');
   const isDashboard = /^\/(?:en|zh)?\/?dashboard(?:\/|$)/.test(pathname || "");
   const { user, loading } = useUser();
-
-  // 更可靠地检测当前 locale
-  const pathParts = pathname?.split('/') || [];
-  const currentLocale = (pathParts[1] === 'en' || pathParts[1] === 'zh') ? pathParts[1] : 'en';
-  const localePrefix = `/${currentLocale}`;
-
-  // 获取不带 locale 前缀的路径（用于语言切换）
-  const getPathWithoutLocale = () => {
-    if (!pathname) return '/';
-    // 如果路径以 /en 或 /zh 开头，移除它
-    const withoutLocale = pathname.replace(/^\/(en|zh)/, '');
-    return withoutLocale || '/';
-  };
-
-  const pathWithoutLocale = getPathWithoutLocale();
+  const currentLocale = getLocaleFromPathname(pathname);
+  const pathWithoutLocale = stripLocalePrefix(pathname);
 
   // Main navigation items
   const mainNavItems: NavItem[] = [
-    { label: t('home'), href: localePrefix },
-    { label: t('tools'), href: localePrefix },
-    { label: t('pricing'), href: `${localePrefix}/pricing` },
-    { label: t('about'), href: `${localePrefix}/about` },
+    { label: t('home'), href: '/' },
+    { label: t('tools'), href: '/' },
+    { label: t('pricing'), href: '/pricing' },
+    { label: t('about'), href: '/about' },
   ];
 
   // Dashboard items
@@ -70,7 +57,7 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          {/* Language Switcher - 修复后的版本 */}
+          {/* Pass locale-free href to the locale-aware Link component. */}
           <div className="hidden md:flex items-center gap-1 mr-2">
             <Link
               href={pathWithoutLocale}
@@ -103,7 +90,7 @@ export default function Header() {
           ) : user ? (
             <div className="hidden md:flex items-center gap-2">
               <Button asChild size="sm" variant="ghost">
-                <Link href={`${localePrefix}/dashboard`}>
+                <Link href="/dashboard">
                   {currentLocale === 'zh' ? '控制台' : 'Dashboard'}
                 </Link>
               </Button>
@@ -116,10 +103,10 @@ export default function Header() {
           ) : (
             <div className="hidden md:flex gap-2">
               <Button asChild size="sm" variant="outline">
-                <Link href={`${localePrefix}/sign-in`}>{t('sign_in')}</Link>
+                <Link href="/sign-in">{t('sign_in')}</Link>
               </Button>
               <Button asChild size="sm">
-                <Link href={`${localePrefix}/sign-up`}>{t('sign_up')}</Link>
+                <Link href="/sign-up">{t('sign_up')}</Link>
               </Button>
             </div>
           )}

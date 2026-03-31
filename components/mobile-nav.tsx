@@ -12,7 +12,7 @@ import {
 import { Menu } from "lucide-react";
 import { signOutAction } from "@/app/actions";
 import { usePathname } from "next/navigation";
-import { Link } from "@/i18n/routing";
+import { Link, stripLocalePrefix } from "@/i18n/routing";
 
 interface MobileNavProps {
   items: { label: string; href: string }[];
@@ -24,16 +24,7 @@ interface MobileNavProps {
 
 export function MobileNav({ items, user, loading = false, isDashboard, currentLocale = 'en' }: MobileNavProps) {
   const pathname = usePathname();
-  const localePrefix = `/${currentLocale}`;
-
-  // 获取不带 locale 前缀的路径
-  const getPathWithoutLocale = () => {
-    if (!pathname) return '/';
-    const withoutLocale = pathname.replace(/^\/(en|zh)/, '');
-    return withoutLocale || '/';
-  };
-
-  const pathWithoutLocale = getPathWithoutLocale();
+  const pathWithoutLocale = stripLocalePrefix(pathname);
 
   return (
     <Sheet>
@@ -95,7 +86,7 @@ export function MobileNav({ items, user, loading = false, isDashboard, currentLo
           ) : user ? (
             <div className="flex flex-col gap-2">
               <Button asChild variant="default" className="w-full">
-                <Link href={`${localePrefix}/dashboard`}>
+                <Link href="/dashboard">
                   {currentLocale === 'zh' ? '控制台' : 'Dashboard'}
                 </Link>
               </Button>
@@ -108,12 +99,12 @@ export function MobileNav({ items, user, loading = false, isDashboard, currentLo
           ) : (
             <div className="flex flex-col gap-2">
               <Button asChild variant="outline" className="w-full">
-                <Link href={`${localePrefix}/sign-in`}>
+                <Link href="/sign-in">
                   {currentLocale === 'zh' ? '登录' : 'Sign in'}
                 </Link>
               </Button>
               <Button asChild variant="default" className="w-full">
-                <Link href={`${localePrefix}/sign-up`}>
+                <Link href="/sign-up">
                   {currentLocale === 'zh' ? '注册' : 'Sign up'}
                 </Link>
               </Button>
