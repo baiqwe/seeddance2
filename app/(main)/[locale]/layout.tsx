@@ -10,7 +10,6 @@ import { SoftwareApplicationSchema } from "@/components/json-ld-schema";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { ClarityAnalytics } from "@/components/clarity-analytics";
 import { site } from "@/config/site";
-import "../../globals.css";
 
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({ locale }));
@@ -126,27 +125,25 @@ export default async function LocaleLayout(props: {
     const messages = await getMessages({ locale });
 
     return (
-        <html lang={locale} suppressHydrationWarning>
-            <body className="bg-background text-foreground antialiased" suppressHydrationWarning>
-                <GoogleAnalytics />
-                <ClarityAnalytics />
-                <SoftwareApplicationSchema locale={locale} />
-                <NextIntlClientProvider messages={messages} locale={locale}>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                        disableTransitionOnChange
-                    >
-                        <div className="relative min-h-screen flex flex-col">
-                            <Header />
-                            <main className="flex-1">{children}</main>
-                            <Footer />
-                        </div>
-                        <Toaster />
-                    </ThemeProvider>
-                </NextIntlClientProvider>
-            </body>
-        </html>
+        <>
+            <GoogleAnalytics />
+            <ClarityAnalytics />
+            <SoftwareApplicationSchema locale={locale} />
+            <NextIntlClientProvider messages={messages} locale={locale}>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <div className="relative min-h-screen flex flex-col">
+                        <Header />
+                        <main className="flex-1">{children}</main>
+                        <Footer />
+                    </div>
+                    <Toaster />
+                </ThemeProvider>
+            </NextIntlClientProvider>
+        </>
     );
 }
