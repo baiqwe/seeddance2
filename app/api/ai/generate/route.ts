@@ -113,15 +113,24 @@ function buildPromptParts(opts: {
 }
 
 function normalizeImageInput(image: string) {
+    if (image.startsWith("blob:")) {
+        throw new Error("Temporary browser image URLs are not supported. Please re-upload the image.");
+    }
+
     if (image.startsWith("data:")) {
-        return image;
+        const matches = image.match(/^data:([^;]+);base64,(.+)$/);
+        if (!matches) {
+            throw new Error("Invalid image data URL");
+        }
+
+        return Buffer.from(matches[2], "base64");
     }
 
     if (/^https?:\/\//.test(image)) {
         return image;
     }
 
-    return `data:image/png;base64,${image}`;
+    return Buffer.from(image, "base64");
 }
 
 function extractReplicateOutputUrl(output: unknown) {

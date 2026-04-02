@@ -58,7 +58,13 @@ async function convertHeic(file: File): Promise<string> {
   const heic2any = (await import("heic2any")).default;
   const convertedBlob = await heic2any({ blob: file, toType: "image/png" });
   const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
-  return URL.createObjectURL(blob);
+
+  return await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(new Error("Failed to convert HEIC image"));
+    reader.readAsDataURL(blob);
+  });
 }
 
 export function AnimeImageEditor({
