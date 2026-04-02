@@ -1,27 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
+import Replicate from "replicate";
 import { createClient } from "@/utils/supabase/server";
 import { getProjectId } from "@/utils/supabase/project";
 import { CREDITS_PER_GENERATION } from "@/config/credit-packs";
 import type { AnimeStyleId } from "@/config/landing-pages";
 
-// Required for Cloudflare Pages deployment
-export const runtime = 'edge';
+export const runtime = "nodejs";
 export const maxDuration = 60; // 1 minute timeout
 
-// OpenRouter Nano Banana Model
-const NANO_BANANA_MODEL = "google/gemini-2.5-flash-image";
+// Replicate official Stable Diffusion img2img.
+// We keep the current product flow (photo -> anime redraw) and reuse the
+// Animagine/Pony-style prompt matrix against an img2img-capable backend.
+const REPLICATE_MODEL =
+    "stability-ai/stable-diffusion-img2img:15a3689ee13b0d2616e98820eca31d4c3abcd36672df6afce5cb6feb1d66087d";
 
 type Intensity = "low" | "medium" | "high";
 
 const PONY_PREFIX =
-    "score_9, score_8_up, score_7_up, source_anime, masterpiece, best quality";
+    "score_9, score_8_up, score_7_up, source_anime, masterpiece, best quality, very aesthetic";
 const PONY_NEGATIVE_PREFIX =
-    "score_6, score_5, score_4, worst quality, low quality, 3d, realistic, photorealistic";
+    "score_6, score_5, score_4, worst quality, low quality, 3d, realistic, photorealistic, lowres";
 
-const STYLE_PRESETS: Record<
-    AnimeStyleId,
-    { prompt: string; negative: string; denoising: number }
-> = {
+const STYLE_PRESETS: Record<AnimeStyleId, { prompt: string; negative: string; denoising: number }> = {
     standard: {
         prompt:
             "anime artwork, 2d illustration, flat shading, high contrast, vibrant colors, clean lines, stunning visual, highly detailed face, official anime art",
@@ -60,7 +60,17 @@ const STYLE_PRESETS: Record<
     },
 };
 
-function buildPrompt(opts: {
+function clamp(value: number, min: number, max: number) {
+    return Math.min(max, Math.max(min, value));
+}
+
+function resolvePromptStrength(base: number, intensity: Intensity) {
+    if (intensity === "low") return clamp(base - 0.08, 0.35, 0.8);
+    if (intensity === "high") return clamp(base + 0.08, 0.35, 0.8);
+    return clamp(base, 0.35, 0.8);
+}
+
+function buildPromptParts(opts: {
     style: AnimeStyleId;
     intensity: Intensity;
     keepEyeColor: boolean;
@@ -68,31 +78,75 @@ function buildPrompt(opts: {
     userPrompt?: string;
 }) {
     const stylePreset = STYLE_PRESETS[opts.style] ?? STYLE_PRESETS.standard;
-    const intensityLine =
+    const intensityTags =
         opts.intensity === "low"
-            ? "Low anime intensity: keep more of the original facial structure and proportions."
+            ? "subtle stylization, preserve original facial structure, preserve original proportions"
             : opts.intensity === "high"
-                ? "High anime intensity: strongly stylize into a clear 2D anime look while keeping identity recognizable."
-                : "Medium anime intensity: balanced stylization with recognizable identity.";
+                ? "strong anime stylization, expressive 2d redraw, bold lineart, stylized features while keeping identity recognizable"
+                : "balanced stylization, recognizable identity, clean anime redraw";
 
-    const keepLines: string[] = [];
-    if (opts.keepEyeColor) keepLines.push("Try to preserve the original eye color.");
-    if (opts.keepHairColor) keepLines.push("Try to preserve the original hair color.");
+    const keepTags: string[] = [];
+    if (opts.keepEyeColor) keepTags.push("preserve eye color");
+    if (opts.keepHairColor) keepTags.push("preserve hair color");
 
-    const userLine = opts.userPrompt?.trim() ? `Extra notes: ${opts.userPrompt.trim()}` : "";
+    const userTags = opts.userPrompt?.trim() ? opts.userPrompt.trim() : "";
 
-    return [
-        "Task: Transform the provided photo into anime-style artwork.",
-        "Output: One single image, no text, no watermark.",
-        `Base quality tags: ${PONY_PREFIX}.`,
-        `Style preset: ${stylePreset.prompt}.`,
-        intensityLine,
-        ...keepLines,
-        userLine,
-        `Negative prompt: ${PONY_NEGATIVE_PREFIX}, ${stylePreset.negative}, text, watermark, logo, caption, signature.`,
-    ]
-        .filter(Boolean)
-        .join("\n");
+    return {
+        positive: [
+            PONY_PREFIX,
+            stylePreset.prompt,
+            intensityTags,
+            keepTags.join(", "),
+            userTags,
+        ]
+            .filter(Boolean)
+            .join(", "),
+        negative: [
+            PONY_NEGATIVE_PREFIX,
+            stylePreset.negative,
+            "text, watermark, logo, caption, signature, jpeg artifacts, extra fingers, extra digits, bad hands, bad anatomy, blurry",
+        ]
+            .filter(Boolean)
+            .join(", "),
+        promptStrength: resolvePromptStrength(stylePreset.denoising, opts.intensity),
+    };
+}
+
+function normalizeImageInput(image: string) {
+    if (image.startsWith("data:")) {
+        return image;
+    }
+
+    if (/^https?:\/\//.test(image)) {
+        return image;
+    }
+
+    return `data:image/png;base64,${image}`;
+}
+
+function extractReplicateOutputUrl(output: unknown) {
+    if (typeof output === "string") {
+        return output;
+    }
+
+    if (Array.isArray(output) && output.length > 0) {
+        const first = output[0];
+        if (typeof first === "string") {
+            return first;
+        }
+        if (first && typeof first === "object" && typeof (first as { url?: () => URL }).url === "function") {
+            return (first as { url: () => URL }).url().toString();
+        }
+        if (first && typeof first === "object" && typeof (first as { toString?: () => string }).toString === "function") {
+            return (first as { toString: () => string }).toString();
+        }
+    }
+
+    if (output && typeof output === "object" && typeof (output as { url?: () => URL }).url === "function") {
+        return (output as { url: () => URL }).url().toString();
+    }
+
+    return null;
 }
 
 export async function POST(request: NextRequest) {
@@ -120,8 +174,8 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Missing image", code: "MISSING_IMAGE" }, { status: 400 });
         }
 
-        if (!process.env.OPENROUTER_API_KEY) {
-            console.error("OPENROUTER_API_KEY is not set");
+        if (!process.env.REPLICATE_API_TOKEN) {
+            console.error("REPLICATE_API_TOKEN is not set");
             return NextResponse.json({ error: "Service configuration error", code: "CONFIG_ERROR" }, { status: 500 });
         }
 
@@ -145,9 +199,9 @@ export async function POST(request: NextRequest) {
             }, { status: 402 });
         }
 
-        // 4. Call OpenRouter Nano Banana API
+        // 4. Call Replicate img2img API
         try {
-            const finalPrompt = buildPrompt({
+            const { positive, negative, promptStrength } = buildPromptParts({
                 style,
                 intensity,
                 keepEyeColor,
@@ -155,104 +209,37 @@ export async function POST(request: NextRequest) {
                 userPrompt: prompt,
             });
 
-            console.log("=== Calling OpenRouter Nano Banana ===");
-            console.log("Model:", NANO_BANANA_MODEL);
+            console.log("=== Calling Replicate img2img ===");
+            console.log("Model:", REPLICATE_MODEL);
             console.log("Style:", style);
-            console.log("Prompt:", finalPrompt);
+            console.log("Prompt:", positive);
+            console.log("Negative:", negative);
+            console.log("Prompt strength:", promptStrength);
 
-            // Prepare image data - ensure it's in the correct format
-            let imageData = image;
-            let mimeType = "image/png";
-
-            // Handle base64 data URL format
-            if (image.startsWith('data:')) {
-                const matches = image.match(/^data:([^;]+);base64,(.+)$/);
-                if (matches) {
-                    mimeType = matches[1];
-                    imageData = image; // Keep full data URL for OpenRouter
-                }
-            } else {
-                // If it's raw base64, add the data URL prefix
-                imageData = `data:image/png;base64,${image}`;
-            }
-
-            // Call OpenRouter API
-            const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-                    "X-Title": "Photo to Anime AI"
-                },
-                body: JSON.stringify({
-                    model: NANO_BANANA_MODEL,
-                    response_modalities: ["image", "text"],
-                    messages: [
-                        {
-                            role: "user",
-                            content: [
-                                {
-                                    type: "text",
-                                    text: finalPrompt
-                                },
-                                {
-                                    type: "image_url",
-                                    image_url: {
-                                        url: imageData
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                })
+            const replicate = new Replicate({
+                auth: process.env.REPLICATE_API_TOKEN,
+                fileEncodingStrategy: "data-uri",
             });
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("OpenRouter API Error:", response.status, errorText);
-                throw new Error(`OpenRouter API failed: ${response.status} - ${errorText}`);
-            }
+            const output = await replicate.run(REPLICATE_MODEL, {
+                input: {
+                    image: normalizeImageInput(image),
+                    prompt: positive,
+                    negative_prompt: negative,
+                    prompt_strength: promptStrength,
+                    num_outputs: 1,
+                    num_inference_steps: 30,
+                    guidance_scale: 6,
+                    scheduler: "K_EULER_ANCESTRAL",
+                },
+                wait: { mode: "poll", interval: 1000 },
+            });
 
-            const result = await response.json();
-            console.log("OpenRouter Response structure:", JSON.stringify({
-                hasChoices: !!result.choices,
-                messageKeys: result.choices?.[0]?.message ? Object.keys(result.choices[0].message) : [],
-                contentType: typeof result.choices?.[0]?.message?.content,
-                hasImages: !!result.choices?.[0]?.message?.images
-            }, null, 2));
-
-            // Extract the generated image from the response
-            let resultImageUrl: string | null = null;
-
-            const message = result.choices?.[0]?.message;
-            if (message) {
-                // Check for images array (OpenRouter Nano Banana format)
-                if (message.images && Array.isArray(message.images) && message.images.length > 0) {
-                    const img = message.images[0];
-                    if (img.type === "image_url" && img.image_url?.url) {
-                        resultImageUrl = img.image_url.url;
-                    }
-                }
-
-                // Fallback: check content if it's an array
-                if (!resultImageUrl && Array.isArray(message.content)) {
-                    for (const part of message.content) {
-                        if (part.type === "image_url" && part.image_url?.url) {
-                            resultImageUrl = part.image_url.url;
-                            break;
-                        }
-                        if (part.type === "image" && part.data) {
-                            resultImageUrl = `data:image/png;base64,${part.data}`;
-                            break;
-                        }
-                    }
-                }
-            }
+            const resultImageUrl = extractReplicateOutputUrl(output);
 
             if (!resultImageUrl) {
-                console.error("Failed to extract image from response:", JSON.stringify(result, null, 2));
-                throw new Error("Nano Banana returned no image");
+                console.error("Failed to extract image from Replicate output:", output);
+                throw new Error("Replicate returned no image");
             }
 
             console.log("Generated image URL/data length:", resultImageUrl.substring(0, 100) + "...");
@@ -261,10 +248,10 @@ export async function POST(request: NextRequest) {
             await supabase.from("generations").insert({
                 project_id: projectId,
                 user_id: user.id,
-                prompt: finalPrompt,
-                model_id: "nano-banana",
-                image_url: resultImageUrl.startsWith("data:") ? "base64_image" : resultImageUrl,
-                input_image_url: "user_upload",
+                prompt: positive,
+                model_id: "replicate-stable-diffusion-img2img",
+                image_url: resultImageUrl,
+                input_image_url: image.startsWith("http") ? image : "user_upload",
                 status: "succeeded",
                 credits_cost: CREDITS_PER_GENERATION,
                 metadata: {
@@ -272,11 +259,12 @@ export async function POST(request: NextRequest) {
                     intensity,
                     keepEyeColor,
                     keepHairColor,
-                    model: NANO_BANANA_MODEL,
+                    model: REPLICATE_MODEL,
                     stylePrompt: stylePreset.prompt,
-                    styleNegativePrompt: `${PONY_NEGATIVE_PREFIX}, ${stylePreset.negative}`,
-                    denoisingStrength: stylePreset.denoising,
+                    styleNegativePrompt: negative,
+                    denoisingStrength: promptStrength,
                     promptFramework: "pony-style-preset-matrix",
+                    provider: "replicate",
                 }
             });
 
