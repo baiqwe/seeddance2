@@ -41,7 +41,7 @@ export const PLAN_MINI: PricingPlan = {
 // 2. Subscription: Pro Monthly
 export const PLAN_PRO_MONTHLY: PricingPlan = {
     id: "pro_monthly",
-    productId: "prod_4pBVe6NzowRcuNB77DECWu",
+    productId: "prod_1ldaOfNHXcsVYr3Fq7Dsda",
     name: "Pro Monthly",
     nameZh: "Pro 月订阅",
     price: 29.99,
