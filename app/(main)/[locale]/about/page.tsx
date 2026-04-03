@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Sparkles, Shield, Zap } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { buildLocaleAlternates } from "@/utils/seo/metadata";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const params = await props.params;
@@ -21,14 +22,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
   return {
     title,
     description,
-    alternates: {
-      canonical: `/${locale}/about`,
-      languages: {
-        en: "/en/about",
-        zh: "/zh/about",
-        "x-default": "/en/about",
-      },
-    },
+    alternates: buildLocaleAlternates(`/${locale}/about`),
     openGraph: {
       title,
       description,

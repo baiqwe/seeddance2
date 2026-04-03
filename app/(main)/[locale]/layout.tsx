@@ -62,16 +62,6 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             images: [new URL(site.ogImagePath, site.siteUrl).toString()],
         },
 
-        // ✅ Canonical & 多语言 alternates
-        alternates: {
-            canonical: `/${locale}`,
-            languages: {
-                'en': '/en',
-                'zh': '/zh',
-                'x-default': '/en',
-            },
-        },
-
         // ✅ Robots 配置 - 允许索引
         robots: {
             index: true,

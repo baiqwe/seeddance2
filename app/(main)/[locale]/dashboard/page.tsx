@@ -4,8 +4,15 @@ import { ensureProjectCustomer } from "@/utils/supabase/provision";
 import { redirect } from "next/navigation";
 import { SubscriptionStatusCard } from "@/components/dashboard/subscription-status-card";
 import { CreditsBalanceCard } from "@/components/dashboard/credits-balance-card";
+import type { Metadata } from "next";
 
 export const runtime = 'edge';
+export const metadata: Metadata = {
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
 
 export default async function DashboardPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;

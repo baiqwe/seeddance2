@@ -1,11 +1,21 @@
 import { PricingSection } from "@/components/marketing/pricing-section";
 import { setRequestLocale } from 'next-intl/server';
 import { Metadata } from "next";
+import { site } from "@/config/site";
+import { buildLocaleAlternates } from "@/utils/seo/metadata";
 
-export const metadata: Metadata = {
-    title: "Pricing",
-    description: "Pricing plans for Photo to Anime AI credits and subscriptions."
-};
+export async function generateMetadata(props: Props): Promise<Metadata> {
+    const { locale } = await props.params;
+
+    return {
+        title: "Pricing",
+        description: "Pricing plans for Photo to Anime AI credits and subscriptions.",
+        alternates: buildLocaleAlternates(`/${locale}/pricing`),
+        openGraph: {
+            url: new URL(`/${locale}/pricing`, site.siteUrl).toString(),
+        },
+    };
+}
 
 type Props = {
     params: Promise<{ locale: string }>;

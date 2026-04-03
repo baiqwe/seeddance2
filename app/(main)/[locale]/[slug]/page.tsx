@@ -8,6 +8,7 @@ import { locales } from "@/i18n/routing";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { FAQSchema, HowToSchema } from "@/components/breadcrumb-schema";
+import { buildLocaleAlternates } from "@/utils/seo/metadata";
 
 export async function generateStaticParams() {
   return locales.flatMap((locale) =>
@@ -33,14 +34,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     title: page.title,
     description: page.description,
     keywords: [page.targetKeyword, "photo to anime", "anime filter", "ai anime converter"],
-    alternates: {
-      canonical,
-      languages: {
-        en: `/en/${page.slug}`,
-        zh: `/zh/${page.slug}`,
-        "x-default": `/en/${page.slug}`,
-      },
-    },
+    alternates: buildLocaleAlternates(canonical),
     openGraph: {
       title: page.title,
       description: page.description,
