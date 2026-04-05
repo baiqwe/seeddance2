@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Free Photo to Anime AI Converter (Login Required)",
-    "description": "Turn any photo into stunning anime-style art with AI. Choose styles like Ghibli-inspired, cyberpunk, 90s retro, and webtoon. Fast, high quality results.",
-    "keywords": "photo to anime ai, photo to anime converter, anime filter, ghibli filter ai, anime pfp generator"
+    "title": "Photo to Anime AI Converter Online",
+    "description": "Convert any photo to anime online with AI. Turn selfies and portraits into anime art with styles like Ghibli-inspired, cyberpunk, 90s retro, and webtoon.",
+    "keywords": "photo to anime, photo to anime ai, photo to anime converter, anime filter, ai anime converter, ghibli filter ai, anime pfp generator"
   },
   "nav": {
     "home": "Home",
@@ -16,9 +16,9 @@
   },
   "hero": {
     "badge": "Anime-First • Style Presets • High Quality",
-    "title": "Turn Your Photo into",
-    "title_highlight": "Anime Art",
-    "subtitle": "Upload a photo, pick a style, adjust anime intensity, and generate a beautiful 2D anime look.",
+    "title": "Photo to Anime",
+    "title_highlight": "AI Converter",
+    "subtitle": "Upload a photo and turn it into anime art online. Pick a style, adjust intensity, and generate a clean 2D anime look in seconds.",
     "feature_1": "Multiple styles",
     "feature_2": "Intensity control",
     "feature_3": "Download ready",
@@ -68,8 +68,8 @@
     "f2_desc": "Upload → choose style → adjust intensity → generate.",
     "f3_title": "Creator-Friendly",
     "f3_desc": "Great for PFPs, cosplay edits, and sharing.",
-    "styles_title": "Popular Anime Tools",
-    "styles_subtitle": "Explore focused landing pages for specific anime looks.",
+    "styles_title": "Popular Photo to Anime Styles",
+    "styles_subtitle": "Explore focused landing pages for specific anime filter looks.",
     "styles_more": "See all styles",
     "use_title": "Made for anime fans",
     "use_subtitle": "For avatars, cosplay redraws, and creative edits.",

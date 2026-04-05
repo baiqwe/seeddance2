@@ -55,6 +55,11 @@ export default async function HomeStaticContent({ locale }: Props) {
             <div className="text-center space-y-3">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{t("styles_title")}</h2>
               <p className="text-muted-foreground text-lg max-w-3xl mx-auto">{t("styles_subtitle")}</p>
+              <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+                {isZh
+                  ? "如果你想找更具体的动漫滤镜，可以从这些细分风格页进入；如果你要的是通用的照片转二次元工具，首页就是主入口。"
+                  : "If you want a broad photo to anime converter, the homepage is the main entry point. Use the style pages when you want a more specific anime filter."}
+              </p>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

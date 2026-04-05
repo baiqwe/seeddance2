@@ -132,6 +132,17 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
             </div>
 
             <div className="space-y-4">
+              <div className="rounded-xl border border-border bg-muted/10 p-5">
+                <p className="text-sm text-muted-foreground">
+                  {locale === "zh" ? "想先试通用模式？" : "Want to start with the general converter?"}{" "}
+                  <Link href={`${localePrefix}`} className="font-medium text-primary hover:underline">
+                    {locale === "zh" ? "返回照片转二次元 AI 生成器首页" : "Go back to the Photo to Anime AI Converter home page"}
+                  </Link>
+                  {locale === "zh"
+                    ? "，再根据结果切换到这个风格页做更强的定向生成。"
+                    : " and then switch back to this style page when you want a more targeted look."}
+                </p>
+              </div>
               <h2 className="text-3xl font-bold tracking-tight">
                 {locale === "zh" ? "相关动漫风格" : "Related Anime Styles"}
               </h2>
