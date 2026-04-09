@@ -9,6 +9,8 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { FAQSchema, HowToSchema } from "@/components/breadcrumb-schema";
 import { buildLocaleAlternates } from "@/utils/seo/metadata";
+import { InspirationGallery } from "@/components/gallery/InspirationGallery";
+import { ImageGallerySchema } from "@/components/gallery/ImageGallerySchema";
 
 export async function generateStaticParams() {
   return locales.flatMap((locale) =>
@@ -80,11 +82,12 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
 
   return (
     <div className="bg-background">
-      <section className="py-10 lg:py-16 bg-gradient-to-b from-muted/20 to-background">
+      <section id="anime-uploader" className="py-10 lg:py-16 bg-gradient-to-b from-muted/20 to-background">
         <div className="container px-4 md:px-6">
           <Breadcrumbs items={breadcrumbItems} className="mb-6" />
           <FAQSchema items={page.faqs} />
           <HowToSchema name={page.h1} description={page.description} steps={howToSteps} />
+          <ImageGallerySchema locale={locale} style={page.defaultStyle} />
           <AnimeImageEditor
             locale={locale}
             title={page.h1}
@@ -94,6 +97,8 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
           />
         </div>
       </section>
+
+      <InspirationGallery locale={locale} style={page.defaultStyle} anchorHrefPrefix={`/${locale}/${page.slug}`} maxItems={3} />
 
       <section className="py-14 border-t bg-background">
         <div className="container px-4 md:px-6">

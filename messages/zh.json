@@ -59,7 +59,10 @@
     "cta_signin": "登录继续生成",
     "error_signin_required": "免费体验名额已准备就绪，花3秒钟注册即可立即生成！",
     "error_failed": "生成失败，请重试。",
-    "disclaimer": "效果取决于图片质量与风格选择。"
+    "disclaimer": "效果取决于图片质量与风格选择。",
+    "preview_before": "原图",
+    "preview_after": "生成后",
+    "processing": "处理中..."
   },
   "home_static": {
     "f1_title": "动漫优先",

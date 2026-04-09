@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import ImageUploader from "@/components/feature/image-uploader";
-import CompareSlider from "@/components/feature/compare-slider";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -26,6 +26,7 @@ type AnimeImageEditorProps = {
   hideStyleSelector?: boolean;
   compact?: boolean;
   onImageUploaded?: (uploaded: boolean, imageSrc?: string) => void;
+  emptyAside?: ReactNode;
 };
 
 const STYLE_OPTIONS: Array<{ id: AnimeStyleId; label: string; desc: string }> = [
@@ -76,6 +77,7 @@ export function AnimeImageEditor({
   hideStyleSelector = false,
   compact = false,
   onImageUploaded,
+  emptyAside,
 }: AnimeImageEditorProps) {
   const t = useTranslations("anime_editor");
   const { user: hookUser } = useUser();
@@ -167,17 +169,28 @@ export function AnimeImageEditor({
   };
 
   if (!originalImage) {
+    const uploadCard = (
+      <div className="space-y-6">
+        <div className="space-y-2 text-center">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{title}</h1>
+          {subtitle ? <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{subtitle}</p> : null}
+        </div>
+        <Card className="p-6 md:p-8">
+          <ImageUploader onImageSelect={handleImageSelect} onHeicConvert={convertHeic} />
+        </Card>
+      </div>
+    );
+
     return (
       <div className={compact ? "w-full" : "max-w-5xl mx-auto"}>
-        <div className="space-y-6">
-          <div className="space-y-2 text-center">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{title}</h1>
-            {subtitle ? <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{subtitle}</p> : null}
+        {emptyAside ? (
+          <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+            {uploadCard}
+            {emptyAside}
           </div>
-          <Card className="p-6 md:p-8">
-            <ImageUploader onImageSelect={handleImageSelect} onHeicConvert={convertHeic} />
-          </Card>
-        </div>
+        ) : (
+          uploadCard
+        )}
       </div>
     );
   }
@@ -318,14 +331,42 @@ export function AnimeImageEditor({
         </div>
 
         <div className="space-y-4">
-          <CompareSlider
-            beforeImage={originalImage}
-            afterImage={resultImage || originalImage}
-            isLoading={isGenerating}
-            autoSlide={!!resultImage && !isGenerating}
-            autoSlideDelay={250}
-            className="w-full"
-          />
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="overflow-hidden rounded-xl border border-border bg-card">
+              <div className="border-b border-border bg-muted/20 px-4 py-3 text-sm font-medium">
+                {t("preview_before")}
+              </div>
+              <div className="aspect-[4/5] bg-muted/10">
+                <img src={originalImage} alt={t("preview_before")} className="h-full w-full object-cover" />
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-xl border border-border bg-card">
+              <div className="border-b border-border bg-muted/20 px-4 py-3 text-sm font-medium">
+                {resultImage ? t("preview_after") : (locale === "zh" ? "风格结果预览区" : "Generated result preview")}
+              </div>
+              <div className="relative aspect-[4/5] bg-muted/10">
+                {isGenerating ? (
+                  <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+                    <div className="text-center space-y-3">
+                      <Loader2 className="mx-auto h-10 w-10 animate-spin text-primary" />
+                      <div className="text-sm text-muted-foreground">{t("processing")}</div>
+                    </div>
+                  </div>
+                ) : null}
+
+                {resultImage ? (
+                  <img src={resultImage} alt={t("preview_after")} className="h-full w-full object-cover" />
+                ) : (
+                  <div className="flex h-full items-center justify-center p-6 text-center text-sm leading-7 text-muted-foreground">
+                    {locale === "zh"
+                      ? "生成完成后，这里会显示最终动漫结果。你可以继续换风格、调浓度，直到挑到最喜欢的版本。"
+                      : "Your final anime result will appear here after generation. You can keep switching styles and intensity until you land on the version you like most."}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
           <div className="text-xs text-muted-foreground text-center">
             {t("disclaimer")}
           </div>

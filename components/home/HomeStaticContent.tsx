@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { Sparkles, Shield, Zap, Users, ArrowRight, Palette, Camera } from "lucide-react";
 import { getLocalizedLandingPage, landingPages } from "@/config/landing-pages";
 import type { ReactNode } from "react";
+import { InspirationGallery } from "@/components/gallery/InspirationGallery";
 
 type Props = { locale: string };
 
@@ -48,6 +49,8 @@ export default async function HomeStaticContent({ locale }: Props) {
           </div>
         </div>
       </section>
+
+      <InspirationGallery locale={locale} maxItems={4} />
 
       <section className="py-16 bg-muted/20">
         <div className="container px-4 md:px-6">

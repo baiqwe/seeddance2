@@ -22,7 +22,7 @@ export default function CompareSlider({
     autoSlide = false,
     autoSlideDelay = 500
 }: CompareSliderProps) {
-    const t = useTranslations('editor');
+    const t = useTranslations('anime_editor');
     const [isAutoSliding, setIsAutoSliding] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 

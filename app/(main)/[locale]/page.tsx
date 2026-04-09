@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { getMessages } from "next-intl/server";
 import { site } from "@/config/site";
 import { buildLocaleAlternates } from "@/utils/seo/metadata";
+import { ImageGallerySchema } from "@/components/gallery/ImageGallerySchema";
 
 // ✅ This is now a Server Component (no 'use client')
 // Hero/Interactive content is client-side, static content is server-rendered for SEO
@@ -45,6 +46,9 @@ export default async function HomePage(props: { params: Promise<{ locale: string
     const staticContent = await HomeStaticContent({ locale });
 
     return (
-        <HomeClientWrapper staticContent={staticContent} />
+        <>
+            <ImageGallerySchema locale={locale} />
+            <HomeClientWrapper staticContent={staticContent} />
+        </>
     );
 }

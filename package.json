@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "pages:build": "npx @cloudflare/next-on-pages",
-    "start": "next start"
+    "start": "next start",
+    "gallery:generate": "node scripts/generate-gallery-samples.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",

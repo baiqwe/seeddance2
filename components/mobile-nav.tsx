@@ -15,7 +15,7 @@ import { usePathname } from "next/navigation";
 import { Link, stripLocalePrefix } from "@/i18n/routing";
 
 interface MobileNavProps {
-  items: { label: string; href: string }[];
+  items: { id: string; label: string; href: string }[];
   user: any;
   loading?: boolean;
   isDashboard: boolean;
@@ -69,7 +69,7 @@ export function MobileNav({ items, user, loading = false, isDashboard, currentLo
         <nav className="flex flex-col gap-4 mt-4">
           {items.map((item) => (
             <Link
-              key={item.href}
+              key={item.id}
               href={item.href}
               className="text-lg font-semibold text-muted-foreground transition-colors hover:text-primary"
             >

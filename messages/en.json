@@ -59,7 +59,10 @@
     "cta_signin": "Sign in to continue",
     "error_signin_required": "Your free try is ready. Create an account in seconds to generate now.",
     "error_failed": "Generation failed. Please try again.",
-    "disclaimer": "Results vary by photo quality and chosen style."
+    "disclaimer": "Results vary by photo quality and chosen style.",
+    "preview_before": "Before",
+    "preview_after": "After",
+    "processing": "Processing..."
   },
   "home_static": {
     "f1_title": "Anime-First Styles",

@@ -12,6 +12,7 @@ import { getLocaleFromPathname, Link, stripLocalePrefix } from "@/i18n/routing";
 import { Skeleton } from "./ui/skeleton";
 
 interface NavItem {
+  id: string;
   label: string;
   href: string;
 }
@@ -26,10 +27,10 @@ export default function Header() {
 
   // Main navigation items
   const mainNavItems: NavItem[] = [
-    { label: t('home'), href: '/' },
-    { label: t('tools'), href: '/' },
-    { label: t('pricing'), href: '/pricing' },
-    { label: t('about'), href: '/about' },
+    { id: "home", label: t('home'), href: '/' },
+    { id: "tools", label: t('tools'), href: '/' },
+    { id: "pricing", label: t('pricing'), href: '/pricing' },
+    { id: "about", label: t('about'), href: '/about' },
   ];
 
   // Dashboard items
@@ -47,7 +48,7 @@ export default function Header() {
         <nav className="hidden md:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
           {navItems.map((item) => (
             <Link
-              key={item.href}
+              key={item.id}
               href={item.href}
               className="text-lg font-semibold text-muted-foreground transition-colors hover:text-primary"
             >

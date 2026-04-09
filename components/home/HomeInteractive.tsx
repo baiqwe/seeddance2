@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { AnimeImageEditor } from '@/components/feature/anime-image-editor';
 import type { AnimeStyleId } from '@/config/landing-pages';
+import { HeroStylePreview } from '@/components/gallery/HeroStylePreview';
 
 interface HomeInteractiveProps {
     onShowStaticContent: (show: boolean) => void;
@@ -30,7 +30,7 @@ function HeroWithUploadSection({
     const locale = (pathParts[1] === 'en' || pathParts[1] === 'zh') ? pathParts[1] : 'en';
 
     return (
-        <section className="relative py-10 lg:py-16 bg-gradient-to-b from-muted/20 to-background">
+        <section id="anime-uploader" className="relative py-10 lg:py-16 bg-gradient-to-b from-muted/20 to-background">
             <div className="container px-4 md:px-6">
                 <div className="max-w-6xl mx-auto space-y-8">
                     <div className="text-center space-y-4">
@@ -69,6 +69,7 @@ function HeroWithUploadSection({
                         hideStyleSelector={false}
                         onImageUploaded={(uploaded) => onShowStaticContent(!uploaded)}
                         compact={false}
+                        emptyAside={<HeroStylePreview locale={locale} />}
                     />
                 </div>
             </div>
@@ -78,6 +79,5 @@ function HeroWithUploadSection({
 
 // Export visibility control hook for parent component
 export function useHomeInteractive() {
-    const [showStaticContent, setShowStaticContent] = useState(true);
-    return { showStaticContent, setShowStaticContent };
+    return { showStaticContent: true, setShowStaticContent: () => {} };
 }
