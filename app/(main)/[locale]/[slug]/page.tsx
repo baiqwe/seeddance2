@@ -31,11 +31,15 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
   const isPrimaryAlias = page.slug === "photo-to-anime";
   const canonical = isPrimaryAlias ? `/${locale}` : `/${locale}/${page.slug}`;
   const ogImage = new URL(site.ogImagePath, site.siteUrl).toString();
+  const commonKeywords =
+    locale === "zh"
+      ? ["照片转二次元", "动漫滤镜", "AI 动漫生成器"]
+      : ["photo to anime", "anime filter", "ai anime converter"];
 
   return {
     title: page.title,
     description: page.description,
-    keywords: [page.targetKeyword, "photo to anime", "anime filter", "ai anime converter"],
+    keywords: [page.targetKeyword, ...commonKeywords],
     alternates: buildLocaleAlternates(canonical),
     openGraph: {
       title: page.title,

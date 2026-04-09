@@ -61,12 +61,13 @@ export function HeroStylePreview({ locale, className = "" }: HeroStylePreviewPro
               >
                 <div className="relative aspect-[1.08/1]">
                   <Image
-                    src={item.image}
-                    alt={locale === "zh" ? `${item.labelZh} 预览` : `${item.labelEn} preview`}
-                    fill
-                    sizes="(max-width: 1024px) 50vw, 280px"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
+                  src={item.image}
+                  alt={locale === "zh" ? `${item.labelZh} 预览` : `${item.labelEn} preview`}
+                  fill
+                  sizes="(max-width: 1024px) 50vw, 280px"
+                  priority={item.id === previewItems[0].id}
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                />
                 </div>
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-4 pb-4 pt-10 text-sm font-semibold text-white">
                   {locale === "zh" ? item.labelZh : item.labelEn}
@@ -78,12 +79,13 @@ export function HeroStylePreview({ locale, className = "" }: HeroStylePreviewPro
           <div className="pointer-events-none absolute left-1/2 top-1/2 w-[120px] -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-background bg-background/90 p-1 shadow-2xl md:w-[148px]">
             <div className="relative aspect-square overflow-hidden rounded-full">
               <Image
-                src="/images/gallery/hero-before.jpg"
-                alt={locale === "zh" ? "原图示例" : "Original sample image"}
-                fill
-                sizes="148px"
-                className="object-cover"
-              />
+              src="/images/gallery/hero-before.jpg"
+              alt={locale === "zh" ? "原图示例" : "Original sample image"}
+              fill
+              sizes="148px"
+              priority
+              className="object-cover"
+            />
             </div>
             <div className="absolute inset-x-3 bottom-2 rounded-full bg-black/55 px-3 py-1 text-center text-xs font-medium text-white backdrop-blur-sm">
               {locale === "zh" ? "原图" : "Original"}
