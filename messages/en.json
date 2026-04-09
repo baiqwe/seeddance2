@@ -33,7 +33,7 @@
     "browse": "Browse Files",
     "processing": "Processing...",
     "error_invalid": "Invalid file type. Please upload an image.",
-    "error_size": "File too large. Maximum size is 10MB."
+    "error_size": "File too large. Maximum size is 15MB."
   },
   "anime_editor": {
     "panel_title": "Anime Settings",

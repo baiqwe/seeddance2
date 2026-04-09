@@ -135,7 +135,10 @@ export function AnimeImageEditor({
     try {
       const response = await fetch("/api/ai/generate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: JSON.stringify({
           image: originalImage,
           style,
@@ -151,13 +154,27 @@ export function AnimeImageEditor({
         return;
       }
 
-      const data = await response.json();
+      const rawResponse = await response.text();
+      let data: any = null;
+
+      if (rawResponse) {
+        try {
+          data = JSON.parse(rawResponse);
+        } catch {
+          data = { error: rawResponse };
+        }
+      }
+
       if (!response.ok) {
-        throw new Error(data?.error || t("error_failed"));
+        const fallbackMessage =
+          typeof data?.error === "string" && data.error.trim()
+            ? data.error
+            : rawResponse?.trim() || t("error_failed");
+        throw new Error(fallbackMessage);
       }
 
       if (!data?.url) {
-        throw new Error(t("error_failed"));
+        throw new Error(typeof data?.error === "string" ? data.error : t("error_failed"));
       }
 
       setResultImage(data.url);

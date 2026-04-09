@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useDropzone, type FileRejection } from 'react-dropzone';
 import { useTranslations } from 'next-intl';
 import { Upload } from 'lucide-react';
 
@@ -13,6 +13,25 @@ interface ImageUploaderProps {
 export default function ImageUploader({ onImageSelect, onHeicConvert }: ImageUploaderProps) {
     const t = useTranslations('uploader');
     const [error, setError] = useState<string>('');
+    const maxSize = 15 * 1024 * 1024; // 15MB
+
+    const getRejectionMessage = useCallback((rejections: FileRejection[]) => {
+        const firstError = rejections[0]?.errors[0];
+
+        if (!firstError) {
+            return t('error_invalid');
+        }
+
+        if (firstError.code === 'file-too-large') {
+            return t('error_size');
+        }
+
+        if (firstError.code === 'file-invalid-type') {
+            return t('error_invalid');
+        }
+
+        return firstError.message || t('error_invalid');
+    }, [t]);
 
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         setError('');
@@ -20,7 +39,6 @@ export default function ImageUploader({ onImageSelect, onHeicConvert }: ImageUpl
         if (acceptedFiles.length === 0) return;
 
         const file = acceptedFiles[0];
-        const maxSize = 10 * 1024 * 1024; // 10MB
 
         if (file.size > maxSize) {
             setError(t('error_size'));
@@ -57,13 +75,18 @@ export default function ImageUploader({ onImageSelect, onHeicConvert }: ImageUpl
         }
     }, [onImageSelect, onHeicConvert, t]);
 
+    const onDropRejected = useCallback((fileRejections: FileRejection[]) => {
+        setError(getRejectionMessage(fileRejections));
+    }, [getRejectionMessage]);
+
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
+        onDropRejected,
         accept: {
             'image/*': ['.png', '.jpg', '.jpeg', '.webp', '.heic']
         },
         multiple: false,
-        maxSize: 10 * 1024 * 1024
+        maxSize
     });
 
     return (

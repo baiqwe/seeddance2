@@ -33,7 +33,7 @@
     "browse": "选择文件",
     "processing": "处理中...",
     "error_invalid": "文件类型无效，请上传图片。",
-    "error_size": "文件太大，最大 10MB。"
+    "error_size": "文件太大，最大 15MB。"
   },
   "anime_editor": {
     "panel_title": "二次元设置",
