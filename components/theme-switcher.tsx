@@ -9,12 +9,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Laptop, Moon, Sun } from "lucide-react";
+import { useLocale } from "next-intl";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 const ThemeSwitcher = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const locale = useLocale();
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
@@ -26,6 +28,7 @@ const ThemeSwitcher = () => {
   }
 
   const ICON_SIZE = 16;
+  const triggerLabel = locale === "zh" ? "切换主题" : "Change theme";
 
   return (
     <DropdownMenu>
@@ -34,6 +37,9 @@ const ThemeSwitcher = () => {
           variant="ghost" 
           size={"sm"} 
           className="focus-visible:ring-0 focus-visible:ring-offset-0"
+          type="button"
+          aria-label={triggerLabel}
+          title={triggerLabel}
         >
           {theme === "light" ? (
             <Sun
@@ -54,6 +60,7 @@ const ThemeSwitcher = () => {
               className={"text-muted-foreground"}
             />
           )}
+          <span className="sr-only">{triggerLabel}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-content" align="start">

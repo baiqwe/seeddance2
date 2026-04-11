@@ -82,6 +82,11 @@ export function InspirationGallery({
                     </div>
                     <Link
                       href={href}
+                      aria-label={
+                        locale === "zh"
+                          ? `试试${item.titleLabel}风格`
+                          : `Try the ${item.titleLabel} style`
+                      }
                       className="inline-flex shrink-0 items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-[0_18px_30px_-18px_hsl(var(--primary))] transition-colors hover:bg-primary/90"
                     >
                       {locale === "zh" ? "制作同款" : "Try this style"}

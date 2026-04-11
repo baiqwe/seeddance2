@@ -25,13 +25,14 @@ interface MobileNavProps {
 export function MobileNav({ items, user, loading = false, isDashboard, currentLocale = 'en' }: MobileNavProps) {
   const pathname = usePathname();
   const pathWithoutLocale = stripLocalePrefix(pathname);
+  const menuLabel = currentLocale === "zh" ? "打开导航菜单" : "Open navigation menu";
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden">
-          <Menu className="h-5 w-5" />
-          <span className="sr-only">Toggle menu</span>
+        <Button variant="ghost" size="icon" className="md:hidden" aria-label={menuLabel} title={menuLabel}>
+          <Menu className="h-5 w-5" aria-hidden="true" />
+          <span className="sr-only">{menuLabel}</span>
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col">

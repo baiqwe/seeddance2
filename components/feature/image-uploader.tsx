@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from 'react';
+import { useCallback, useId, useState } from 'react';
 import { useDropzone, type FileRejection } from 'react-dropzone';
 import { useTranslations } from 'next-intl';
 import { Upload } from 'lucide-react';
@@ -14,6 +14,10 @@ export default function ImageUploader({ onImageSelect, onHeicConvert }: ImageUpl
     const t = useTranslations('uploader');
     const [error, setError] = useState<string>('');
     const maxSize = 15 * 1024 * 1024; // 15MB
+    const titleId = useId();
+    const helperId = useId();
+    const errorId = useId();
+    const fileInputId = useId();
 
     const getRejectionMessage = useCallback((rejections: FileRejection[]) => {
         const firstError = rejections[0]?.errors[0];
@@ -89,10 +93,15 @@ export default function ImageUploader({ onImageSelect, onHeicConvert }: ImageUpl
         maxSize
     });
 
+    const describedBy = error ? `${helperId} ${errorId}` : helperId;
+
     return (
         <div className="w-full">
             <div
-                {...getRootProps()}
+                {...getRootProps({
+                    'aria-labelledby': titleId,
+                    'aria-describedby': describedBy,
+                })}
                 className={`
           relative overflow-hidden rounded-[28px] border-2 border-dashed p-12 text-center cursor-pointer
           transition-colors duration-200
@@ -103,37 +112,44 @@ export default function ImageUploader({ onImageSelect, onHeicConvert }: ImageUpl
         `}
             >
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(227,104,74,0.08),transparent_24%),radial-gradient(circle_at_100%_0%,rgba(27,163,147,0.1),transparent_20%)]" />
-                <input {...getInputProps()} />
+                <input
+                    {...getInputProps({
+                        id: fileInputId,
+                        'aria-label': t('title'),
+                        'aria-describedby': describedBy,
+                        'aria-invalid': error ? true : undefined,
+                    })}
+                />
 
                 <div className="relative flex flex-col items-center gap-4">
                     <div className={`
             rounded-full p-4 transition-colors
             ${isDragActive ? 'bg-primary/20' : 'bg-background/90 shadow-sm'}
           `}>
-                        <Upload className={`w-8 h-8 ${isDragActive ? 'text-primary' : 'text-muted-foreground'}`} />
+                        <Upload className={`w-8 h-8 ${isDragActive ? 'text-primary' : 'text-muted-foreground'}`} aria-hidden="true" />
                     </div>
 
                     <div className="space-y-2">
-                        <p className="text-lg font-medium">
+                        <p id={titleId} className="text-lg font-medium">
                             {isDragActive ? t('drop_zone').split(',')[0] : t('drop_zone')}
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p id={helperId} className="text-sm text-muted-foreground">
                             {t('supported_formats')}
                         </p>
                     </div>
 
-                    <button
-                        type="button"
+                    <span
+                        aria-hidden="true"
                         className="rounded-full bg-primary px-6 py-2 text-primary-foreground shadow-[0_18px_30px_-18px_hsl(var(--primary))] transition-colors hover:bg-primary/90"
                     >
                         {t('browse')}
-                    </button>
+                    </span>
                 </div>
             </div>
 
             {error && (
                 <div className="mt-4 p-4 bg-destructive/10 border border-destructive/20 rounded-md">
-                    <p className="text-sm text-destructive">{error}</p>
+                    <p id={errorId} role="alert" className="text-sm text-destructive">{error}</p>
                 </div>
             )}
         </div>

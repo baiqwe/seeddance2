@@ -15,7 +15,7 @@ html {
   --card-foreground: 220 26% 14%;
   --popover: 0 0% 100%;
   --popover-foreground: 220 26% 14%;
-  --primary: 344 78% 52%;
+  --primary: 348 72% 44%;
   --primary-foreground: 0 0% 100%;
   --secondary: 36 36% 91%;
   --secondary-foreground: 220 26% 14%;
@@ -27,7 +27,7 @@ html {
   --destructive-foreground: 0 0% 100%;
   --border: 25 24% 76%;
   --input: 25 18% 68%;
-  --ring: 344 78% 52%;
+  --ring: 348 72% 44%;
   --radius: 1.35rem;
 }
 .dark  {
@@ -37,8 +37,8 @@ html {
   --card-foreground: 32 36% 96%;
   --popover: 220 24% 10%;
   --popover-foreground: 32 36% 96%;
-  --primary: 344 84% 66%;
-  --primary-foreground: 0 0% 100%;
+  --primary: 348 86% 72%;
+  --primary-foreground: 220 26% 14%;
   --secondary: 220 18% 18%;
   --secondary-foreground: 32 36% 96%;
   --muted: 220 18% 16%;
@@ -49,7 +49,7 @@ html {
   --destructive-foreground: 0 0% 100%;
   --border: 220 16% 24%;
   --input: 220 12% 28%;
-  --ring: 344 84% 66%;
+  --ring: 348 86% 72%;
   --radius: 1.35rem;
 }
 
@@ -111,9 +111,9 @@ html {
   }
 
   .section-kicker {
-    @apply inline-flex items-center rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] shadow-sm;
-    border-color: hsl(var(--primary) / 0.24);
-    background-color: hsl(var(--background) / 0.94);
+    @apply inline-flex items-center rounded-full border px-4 py-2 text-[0.78rem] font-bold uppercase tracking-[0.18em] shadow-sm;
+    border-color: hsl(var(--primary) / 0.32);
+    background: linear-gradient(180deg, hsl(var(--background) / 0.98), hsl(var(--primary) / 0.08));
     color: hsl(var(--primary));
   }
 
