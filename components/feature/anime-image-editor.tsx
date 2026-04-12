@@ -38,17 +38,6 @@ const STYLE_OPTIONS: Array<{ id: AnimeStyleId; label: string; desc: string }> = 
   { id: "cosplay", label: "Cosplay Enhancer", desc: "Polished anime redraw for cosplay shots." },
 ];
 
-function intensityToSliderValue(intensity: Intensity): number {
-  switch (intensity) {
-    case "low":
-      return 0;
-    case "medium":
-      return 50;
-    case "high":
-      return 100;
-  }
-}
-
 function sliderValueToIntensity(value: number): Intensity {
   if (value <= 20) return "low";
   if (value <= 80) return "medium";
@@ -87,7 +76,7 @@ export function AnimeImageEditor({
   const [fileName, setFileName] = useState("image");
 
   const [style, setStyle] = useState<AnimeStyleId>(defaultStyle);
-  const [intensity, setIntensity] = useState<Intensity>("medium");
+  const [intensityValue, setIntensityValue] = useState(50);
   const [keepEyeColor, setKeepEyeColor] = useState(true);
   const [keepHairColor, setKeepHairColor] = useState(true);
   const [extraPrompt, setExtraPrompt] = useState("");
@@ -101,6 +90,7 @@ export function AnimeImageEditor({
   }, [defaultStyle]);
 
   const localePrefix = useMemo(() => `/${locale}`, [locale]);
+  const intensity = useMemo(() => sliderValueToIntensity(intensityValue), [intensityValue]);
   const selectedStyle = useMemo(() => STYLE_OPTIONS.find((s) => s.id === style), [style]);
 
   const handleImageSelect = (imageSrc: string, file: File) => {
@@ -259,11 +249,17 @@ export function AnimeImageEditor({
               <span className="text-sm text-foreground/68">{t(`intensity_${intensity}`)}</span>
             </div>
             <Slider
-              value={[intensityToSliderValue(intensity)]}
-              onValueChange={(v) => setIntensity(sliderValueToIntensity(v[0]))}
+              value={[intensityValue]}
+              onValueChange={(value) => {
+                const nextValue = value[0];
+                if (typeof nextValue === "number") {
+                  setIntensityValue(nextValue);
+                }
+              }}
               min={0}
               max={100}
               step={1}
+              aria-label={t("intensity_label")}
             />
             <div className="flex justify-between text-xs text-foreground/62">
               <span>{t("intensity_low")}</span>
