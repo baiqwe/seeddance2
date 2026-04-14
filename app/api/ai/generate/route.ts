@@ -1,17 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import Replicate from "replicate";
 import { createClient } from "@/utils/supabase/server";
+import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { getProjectId } from "@/utils/supabase/project";
 import { CREDITS_PER_GENERATION } from "@/config/credit-packs";
 import type { AnimeStyleId } from "@/config/landing-pages";
 
 export const runtime = "nodejs";
-export const maxDuration = 60; // 1 minute timeout
+export const maxDuration = 120;
 
 // Replicate official Nano Banana Pro image editing model.
 // Verified input schema uses `prompt` + `image_input[]`.
 const REPLICATE_MODEL =
     "google/nano-banana-pro:d71e2df08d6ef4c4fb6d3773e9e557de6312e04444940dbb81fd73366ed83941";
+const REPLICATE_WAIT_SECONDS = 45;
+const REPLICATE_POLL_INTERVAL_MS = 2500;
+const REPLICATE_POLL_ATTEMPTS = 18;
 
 type Intensity = "low" | "medium" | "high";
 
@@ -134,11 +138,69 @@ function extractReplicateOutputUrl(output: unknown) {
     return null;
 }
 
+async function fetchReplicatePrediction(predictionId: string) {
+    const response = await fetch(`https://api.replicate.com/v1/predictions/${predictionId}`, {
+        method: "GET",
+        headers: {
+            Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
+            "Content-Type": "application/json",
+        },
+        cache: "no-store",
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Replicate poll failed: ${response.status} - ${errorText}`);
+    }
+
+    return response.json();
+}
+
+async function waitForReplicateOutput(initialPrediction: any) {
+    let prediction = initialPrediction;
+
+    for (let attempt = 0; attempt < REPLICATE_POLL_ATTEMPTS; attempt += 1) {
+        const resultImageUrl = extractReplicateOutputUrl(prediction?.output);
+        if (resultImageUrl) {
+            return { prediction, resultImageUrl };
+        }
+
+        if (prediction?.status === "failed" || prediction?.status === "canceled") {
+            throw new Error(prediction?.error || `Replicate ${prediction?.status}`);
+        }
+
+        if (!prediction?.id) {
+            break;
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, REPLICATE_POLL_INTERVAL_MS));
+        prediction = await fetchReplicatePrediction(prediction.id);
+    }
+
+    const finalImageUrl = extractReplicateOutputUrl(prediction?.output);
+    if (finalImageUrl) {
+        return { prediction, resultImageUrl: finalImageUrl };
+    }
+
+    throw new Error(
+        prediction?.status === "processing"
+            ? "Generation timed out while waiting for the AI provider."
+            : prediction?.error || "Replicate returned no image"
+    );
+}
+
 export async function POST(request: NextRequest) {
     const supabase = await createClient();
-    const projectId = await getProjectId(supabase);
+    const serviceSupabase = createServiceRoleClient();
+
+    let creditsDeducted = false;
+    let generationId: string | null = null;
+    let projectId: string | null = null;
+    let userId: string | null = null;
+    let logContext: Record<string, unknown> = {};
 
     try {
+        projectId = await getProjectId(serviceSupabase);
         const body = await request.json();
         const image: string | undefined = body?.image;
         const style: AnimeStyleId = (body?.style as AnimeStyleId) || "standard";
@@ -147,12 +209,20 @@ export async function POST(request: NextRequest) {
         const keepHairColor: boolean = body?.keepHairColor !== false;
         const prompt: string | undefined = body?.prompt;
         const stylePreset = STYLE_PRESETS[style] ?? STYLE_PRESETS.standard;
+        const { positive } = buildPromptParts({
+            style,
+            intensity,
+            keepEyeColor,
+            keepHairColor,
+            userPrompt: prompt,
+        });
 
         // 1. Authentication
         const { data: { user }, error: authError } = await supabase.auth.getUser();
         if (authError || !user) {
             return NextResponse.json({ error: "Please sign in to generate.", code: "UNAUTHORIZED" }, { status: 401 });
         }
+        userId = user.id;
 
         // 2. Input Validation
         if (!image) {
@@ -164,7 +234,46 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Service configuration error", code: "CONFIG_ERROR" }, { status: 500 });
         }
 
-        // 3. Deduct Credits
+        logContext = {
+            style,
+            intensity,
+            keepEyeColor,
+            keepHairColor,
+            model: REPLICATE_MODEL,
+            stylePrompt: stylePreset.prompt,
+            promptFramework: "nano-banana-style-matrix",
+            provider: "replicate",
+            inputImageSource: image.startsWith("http") ? "remote_url" : "user_upload",
+        };
+
+        // 3. Create pending generation log before billing and inference.
+        const { data: generationRow, error: generationInsertError } = await serviceSupabase
+            .from("generations")
+            .insert({
+                project_id: projectId,
+                user_id: user.id,
+                prompt: positive,
+                model_id: "replicate-nano-banana-pro",
+                image_url: null,
+                input_image_url: image.startsWith("http") ? image : "user_upload",
+                status: "pending",
+                credits_cost: CREDITS_PER_GENERATION,
+                metadata: {
+                    ...logContext,
+                    creditsDeducted: false,
+                },
+            })
+            .select("id")
+            .single();
+
+        if (generationInsertError || !generationRow?.id) {
+            console.error("Failed to create pending generation log:", generationInsertError);
+            return NextResponse.json({ error: "Could not initialize generation", code: "GENERATION_LOG_FAILED" }, { status: 500 });
+        }
+
+        generationId = generationRow.id;
+
+        // 4. Deduct Credits
         const { data: deductSuccess, error: rpcError } = await supabase.rpc('decrease_credits', {
             p_user_id: user.id,
             p_amount: CREDITS_PER_GENERATION,
@@ -177,6 +286,19 @@ export async function POST(request: NextRequest) {
         }
 
         if (!deductSuccess) {
+            await serviceSupabase
+                .from("generations")
+                .update({
+                    status: "failed",
+                    metadata: {
+                        ...logContext,
+                        creditsDeducted: false,
+                        failureCode: "INSUFFICIENT_CREDITS",
+                    },
+                })
+                .eq("id", generationId)
+                .eq("project_id", projectId);
+
             return NextResponse.json({
                 error: "Insufficient credits",
                 code: "INSUFFICIENT_CREDITS",
@@ -184,129 +306,149 @@ export async function POST(request: NextRequest) {
             }, { status: 402 });
         }
 
-        // 4. Call Replicate img2img API
-        try {
-            const { positive } = buildPromptParts({
-                style,
-                intensity,
-                keepEyeColor,
-                keepHairColor,
-                userPrompt: prompt,
-            });
-
-            console.log("=== Calling Replicate Nano Banana Pro ===");
-            console.log("Model:", REPLICATE_MODEL);
-            console.log("Style:", style);
-            console.log("Prompt:", positive);
-
-            const replicate = new Replicate({
-                auth: process.env.REPLICATE_API_TOKEN,
-                fileEncodingStrategy: "data-uri",
-            });
-
-            const normalizedImage = normalizeImageInput(image);
-            const replicateImage =
-                typeof normalizedImage === "string"
-                    ? normalizedImage
-                    : (
-                        await replicate.files.create(
-                            new Blob([normalizedImage.buffer], { type: normalizedImage.mimeType })
-                        )
-                    ).urls.get;
-            console.log("Replicate uploaded image:", replicateImage);
-
-            const predictionResponse = await fetch("https://api.replicate.com/v1/predictions", {
-                method: "POST",
-                headers: {
-                    Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
-                    "Content-Type": "application/json",
-                    Prefer: "wait=60",
-                },
-                body: JSON.stringify({
-                    version: REPLICATE_MODEL.split(":")[1],
-                    input: {
-                        image_input: [replicateImage],
-                        prompt: positive,
-                        aspect_ratio: "match_input_image",
-                        resolution: "2K",
-                        output_format: "jpg",
-                        safety_filter_level: "block_only_high",
-                    },
-                }),
-            });
-
-            if (!predictionResponse.ok) {
-                const predictionErrorText = await predictionResponse.text();
-                console.error("Replicate prediction error:", predictionResponse.status, predictionErrorText);
-                throw new Error(
-                    `Replicate prediction failed: ${predictionResponse.status} - ${predictionErrorText}`
-                );
-            }
-
-            const prediction = await predictionResponse.json();
-            const output = prediction.output;
-
-            const resultImageUrl = extractReplicateOutputUrl(output);
-
-            if (!resultImageUrl) {
-                console.error("Failed to extract image from Replicate output:", output);
-                throw new Error("Replicate returned no image");
-            }
-
-            console.log("Generated image URL/data length:", resultImageUrl.substring(0, 100) + "...");
-
-            // 5. Log Generation
-            await supabase.from("generations").insert({
-                project_id: projectId,
-                user_id: user.id,
-                prompt: positive,
-                model_id: "replicate-nano-banana-pro",
-                image_url: resultImageUrl,
-                input_image_url: image.startsWith("http") ? image : "user_upload",
-                status: "succeeded",
-                credits_cost: CREDITS_PER_GENERATION,
+        creditsDeducted = true;
+        await serviceSupabase
+            .from("generations")
+            .update({
                 metadata: {
-                    style,
-                    intensity,
-                    keepEyeColor,
-                    keepHairColor,
-                    model: REPLICATE_MODEL,
-                    stylePrompt: stylePreset.prompt,
-                    promptFramework: "nano-banana-style-matrix",
-                    provider: "replicate",
-                }
-            });
+                    ...logContext,
+                    creditsDeducted: true,
+                },
+            })
+            .eq("id", generationId)
+            .eq("project_id", projectId);
 
-            return NextResponse.json({ url: resultImageUrl, success: true });
+        // 5. Call Replicate img2img API
+        console.log("=== Calling Replicate Nano Banana Pro ===");
+        console.log("Model:", REPLICATE_MODEL);
+        console.log("Style:", style);
+        console.log("Prompt:", positive);
 
-        } catch (aiError: any) {
-            console.error("AI Service Error:", aiError);
-            console.error("AI Error Details:", JSON.stringify({
-                message: aiError?.message,
-                status: aiError?.status,
-                response: aiError?.response,
-                name: aiError?.name
-            }, null, 2));
+        const replicate = new Replicate({
+            auth: process.env.REPLICATE_API_TOKEN,
+            fileEncodingStrategy: "data-uri",
+        });
 
-            // Refund credits on failure
-            await supabase.rpc('decrease_credits', {
-                p_user_id: user.id,
+        const normalizedImage = normalizeImageInput(image);
+        const replicateImage =
+            typeof normalizedImage === "string"
+                ? normalizedImage
+                : (
+                    await replicate.files.create(
+                        new Blob([normalizedImage.buffer], { type: normalizedImage.mimeType })
+                    )
+                ).urls.get;
+        console.log("Replicate uploaded image:", replicateImage);
+
+        const predictionResponse = await fetch("https://api.replicate.com/v1/predictions", {
+            method: "POST",
+            headers: {
+                Authorization: `Token ${process.env.REPLICATE_API_TOKEN}`,
+                "Content-Type": "application/json",
+                Prefer: `wait=${REPLICATE_WAIT_SECONDS}`,
+            },
+            body: JSON.stringify({
+                version: REPLICATE_MODEL.split(":")[1],
+                input: {
+                    image_input: [replicateImage],
+                    prompt: positive,
+                    aspect_ratio: "match_input_image",
+                    resolution: "2K",
+                    output_format: "jpg",
+                    safety_filter_level: "block_only_high",
+                },
+            }),
+        });
+
+        if (!predictionResponse.ok) {
+            const predictionErrorText = await predictionResponse.text();
+            console.error("Replicate prediction error:", predictionResponse.status, predictionErrorText);
+            throw new Error(
+                `Replicate prediction failed: ${predictionResponse.status} - ${predictionErrorText}`
+            );
+        }
+
+        const initialPrediction = await predictionResponse.json();
+        const { prediction, resultImageUrl } = await waitForReplicateOutput(initialPrediction);
+
+        console.log("Generated image URL/data length:", resultImageUrl.substring(0, 100) + "...");
+
+        const { error: generationUpdateError } = await serviceSupabase
+            .from("generations")
+            .update({
+                image_url: resultImageUrl,
+                status: "succeeded",
+                metadata: {
+                    ...logContext,
+                    creditsDeducted: true,
+                    predictionId: prediction?.id || initialPrediction?.id || null,
+                    predictionStatus: prediction?.status || initialPrediction?.status || "succeeded",
+                },
+            })
+            .eq("id", generationId)
+            .eq("project_id", projectId);
+
+        if (generationUpdateError) {
+            console.error("Failed to update generation log to succeeded:", generationUpdateError);
+        }
+
+        return NextResponse.json({ url: resultImageUrl, success: true });
+
+    } catch (error: any) {
+        console.error("Route Error:", error);
+
+        let refunded = false;
+        let refundErrorMessage: string | null = null;
+
+        if (creditsDeducted && userId) {
+            const { error: refundError } = await supabase.rpc('decrease_credits', {
+                p_user_id: userId,
                 p_amount: -CREDITS_PER_GENERATION,
                 p_description: 'Refund: AI Generation Failed'
             });
 
-            return NextResponse.json({
-                error: "Generation failed. Credits refunded.",
-                code: "AI_FAILED",
-                refunded: true,
-                details: aiError?.message || "Unknown error"
-            }, { status: 500 });
+            if (refundError) {
+                refundErrorMessage = refundError.message;
+                console.error("Refund RPC Error:", refundError);
+            } else {
+                refunded = true;
+            }
         }
 
-    } catch (error: any) {
-        console.error("Route Error:", error);
+        if (generationId && projectId) {
+            const { error: generationError } = await serviceSupabase
+                .from("generations")
+                .update({
+                    status: "failed",
+                    metadata: {
+                        ...logContext,
+                        creditsDeducted,
+                        refunded,
+                        refundError: refundErrorMessage,
+                        failureCode: error?.code || "UNKNOWN_ERROR",
+                        failureMessage: error?.message || "Server error",
+                    },
+                })
+                .eq("id", generationId)
+                .eq("project_id", projectId);
+
+            if (generationError) {
+                console.error("Failed to update generation log to failed:", generationError);
+            }
+        }
+
         return NextResponse.json(
-            { error: error.message || "Server error", code: "UNKNOWN_ERROR" },
+            {
+                error: creditsDeducted
+                    ? refunded
+                        ? "Generation failed. Credits refunded."
+                        : "Generation failed. We could not confirm the refund automatically."
+                    : error.message || "Server error",
+                code: error.code || "UNKNOWN_ERROR",
+                refunded,
+                refundError: refundErrorMessage,
+                details: error.message || "Server error",
+            },
             { status: 500 }
         );
     }
