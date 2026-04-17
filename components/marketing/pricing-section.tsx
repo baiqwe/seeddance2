@@ -18,6 +18,7 @@ import {
 
 interface PricingSectionProps {
     locale: string;
+    hideIntro?: boolean;
 }
 
 type LocalizedPlan = PricingPlan & {
@@ -27,7 +28,7 @@ type LocalizedPlan = PricingPlan & {
     displayBadge?: string;
 };
 
-export function PricingSection({ locale }: PricingSectionProps) {
+export function PricingSection({ locale, hideIntro = false }: PricingSectionProps) {
     const t = useTranslations("Pricing");
     const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
 
@@ -314,15 +315,17 @@ export function PricingSection({ locale }: PricingSectionProps) {
             <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(15,23,42,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.035)_1px,transparent_1px)] bg-[size:34px_34px] [mask-image:radial-gradient(circle_at_center,black,transparent_85%)]" />
 
             <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-                <div className="mx-auto max-w-4xl text-center">
-                    <span className="section-kicker">
-                        {t("eyebrow")}
-                    </span>
-                    <h2 className="mt-6 text-4xl font-black tracking-tight sm:text-5xl">{t("title")}</h2>
-                    <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-muted-foreground">{t("subtitle")}</p>
-                </div>
+                {!hideIntro ? (
+                    <div className="mx-auto max-w-4xl text-center">
+                        <span className="section-kicker">
+                            {t("eyebrow")}
+                        </span>
+                        <h2 className="mt-6 text-4xl font-black tracking-tight sm:text-5xl">{t("title")}</h2>
+                        <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-muted-foreground">{t("subtitle")}</p>
+                    </div>
+                ) : null}
 
-                <div className="mt-14 overflow-x-auto overflow-y-visible pb-6 pt-6 [scrollbar-width:none]">
+                <div className={cn("overflow-x-auto overflow-y-visible pb-6 pt-6 [scrollbar-width:none]", hideIntro ? "mt-4" : "mt-14")}>
                     <div className="grid min-w-[1180px] snap-x snap-mandatory grid-cols-4 items-stretch gap-6 px-1 lg:min-w-0">
                         {plans.map(renderCard)}
                     </div>
