@@ -5,6 +5,12 @@ import { NextResponse } from "next/server";
 
 export const runtime = 'edge';
 
+function jsonWithCache(body: unknown, init?: ResponseInit) {
+    const response = NextResponse.json(body, init);
+    response.headers.set("Cache-Control", "private, max-age=20, stale-while-revalidate=60");
+    return response;
+}
+
 export async function GET(request: Request) {
     try {
         const supabase = await createClient();
@@ -17,7 +23,7 @@ export async function GET(request: Request) {
 
         const { data: customer, error: fetchError } = await supabase
             .from("customers")
-            .select("*")
+            .select("id, user_id, credits, created_at, updated_at")
             .eq("project_id", projectId)
             .eq("user_id", user.id)
             .single();
@@ -37,7 +43,7 @@ export async function GET(request: Request) {
             updated_at: customer.updated_at
         };
 
-        return NextResponse.json({ credits: creditsData });
+        return jsonWithCache({ credits: creditsData });
 
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });

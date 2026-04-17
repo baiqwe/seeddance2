@@ -35,15 +35,28 @@ export default async function DashboardPage(props: { params: Promise<{ locale: s
     let credits = 0;
 
     try {
-        await ensureProjectCustomer(user);
         const projectId = await getProjectId(supabase);
 
-        const { data: customerData, error: customerError } = await supabase
+        let { data: customerData, error: customerError } = await supabase
             .from("customers")
             .select("id, credits")
             .eq("project_id", projectId)
             .eq("user_id", user.id)
             .maybeSingle();
+
+        if (!customerData && !customerError) {
+            await ensureProjectCustomer(user);
+
+            const customerResult = await supabase
+                .from("customers")
+                .select("id, credits")
+                .eq("project_id", projectId)
+                .eq("user_id", user.id)
+                .maybeSingle();
+
+            customerData = customerResult.data;
+            customerError = customerResult.error;
+        }
 
         if (customerError) {
             console.error("Failed to load dashboard customer data:", customerError);

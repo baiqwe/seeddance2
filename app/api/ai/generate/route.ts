@@ -5,6 +5,7 @@ import { createServiceRoleClient } from "@/utils/supabase/service-role";
 import { getProjectId } from "@/utils/supabase/project";
 import { CREDITS_PER_GENERATION } from "@/config/credit-packs";
 import type { AnimeStyleId } from "@/config/landing-pages";
+import { consumeRateLimit } from "@/utils/rate-limit";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
@@ -18,6 +19,7 @@ const REPLICATE_POLL_INTERVAL_MS = 2500;
 const REPLICATE_POLL_ATTEMPTS = 18;
 const ACTIVE_GENERATION_WINDOW_MS = 10 * 60 * 1000;
 const GENERATIONS_BUCKET = "generations";
+const MAX_IMAGE_REQUEST_BYTES = 22 * 1024 * 1024;
 
 type Intensity = "low" | "medium" | "high";
 
@@ -265,6 +267,14 @@ export async function POST(request: NextRequest) {
     let logContext: Record<string, unknown> = {};
 
     try {
+        const contentLength = Number(request.headers.get("content-length") || "0");
+        if (contentLength > MAX_IMAGE_REQUEST_BYTES) {
+            return NextResponse.json(
+                { error: "Uploaded image payload is too large.", code: "PAYLOAD_TOO_LARGE" },
+                { status: 413 }
+            );
+        }
+
         projectId = await getProjectId(serviceSupabase);
         const body = await request.json();
         const image: string | undefined = body?.image;
@@ -288,6 +298,30 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Please sign in to generate.", code: "UNAUTHORIZED" }, { status: 401 });
         }
         userId = user.id;
+
+        const forwardedFor = request.headers.get("x-forwarded-for");
+        const ip = forwardedFor?.split(",")[0]?.trim() || "unknown";
+        const rateLimit = consumeRateLimit({
+            scope: "ai-generate",
+            key: `${projectId}:${user.id}:${ip}`,
+            limit: 6,
+            windowMs: 5 * 60 * 1000,
+        });
+
+        if (!rateLimit.allowed) {
+            return NextResponse.json(
+                {
+                    error: "Too many generation attempts. Please wait a few minutes and try again.",
+                    code: "RATE_LIMITED",
+                },
+                {
+                    status: 429,
+                    headers: {
+                        "Retry-After": Math.max(Math.ceil((rateLimit.resetAt - Date.now()) / 1000), 1).toString(),
+                    },
+                }
+            );
+        }
 
         const { data: existingPendingGeneration, error: existingPendingError } = await serviceSupabase
             .from("generations")

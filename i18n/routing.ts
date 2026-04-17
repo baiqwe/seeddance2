@@ -10,7 +10,11 @@ export const routing = defineRouting({
   // Used when no locale matches
   defaultLocale: 'en',
   // Always use locale prefix for Cloudflare Pages compatibility
-  localePrefix: 'always'
+  localePrefix: 'always',
+  // Locale is fully encoded in the URL, so we disable locale cookies/detection
+  // to keep public pages cacheable on Vercel CDN.
+  localeDetection: false,
+  localeCookie: false
 });
 
 // Lightweight wrappers around Next.js' navigation APIs
