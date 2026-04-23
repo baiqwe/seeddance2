@@ -5,7 +5,7 @@ import { getProjectId } from "@/utils/supabase/project";
 
 export const runtime = "nodejs";
 
-const BUCKET = "generations";
+const BUCKET = "generation-inputs";
 
 const LIMITS = {
   image: {
