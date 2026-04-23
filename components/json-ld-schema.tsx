@@ -6,11 +6,12 @@
  */
 import { getTranslations } from 'next-intl/server';
 import { site } from '@/config/site';
+import { galleryItems } from '@/config/gallery';
 
 export async function SoftwareApplicationSchema({ locale }: { locale: string }) {
     const t = await getTranslations({ locale, namespace: 'metadata' });
 
-    const schema = {
+    const appSchema = {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": `${site.siteName} - Multi-Modal AI Video Workspace`,
@@ -36,6 +37,23 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
             "ratingCount": "1250"
         }
     };
+
+    const videoSchemas = galleryItems.slice(0, 3).map((item) => ({
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": locale === "zh" ? item.titleZh : item.title,
+        "description": locale === "zh" ? item.descriptionZh : item.description,
+        "thumbnailUrl": new URL(item.afterImage, site.siteUrl).toString(),
+        "embedUrl": new URL(`/en/${item.slug}#showcase`, site.siteUrl).toString(),
+        "duration": "PT5S",
+        "uploadDate": "2026-04-23",
+        "publisher": {
+            "@type": "Organization",
+            "name": site.siteName
+        }
+    }));
+
+    const schema = [appSchema, ...videoSchemas];
 
     return (
         <script
