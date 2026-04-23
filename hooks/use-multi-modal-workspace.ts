@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { estimateGenerationCredits, type VideoGenerationMode } from "@/utils/video-generation";
 
 export type WorkspaceAssetKind = "image" | "video" | "audio";
@@ -409,6 +409,32 @@ export const workspaceActions = {
 
 export function useMultiModalWorkspace() {
   const current = useSyncExternalStore(subscribe, snapshot, snapshot);
+  const knownPreviewUrlsRef = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    const nextUrls = new Set(
+      Object.values(current.assets)
+        .flat()
+        .map((asset) => asset.previewUrl)
+        .filter((value): value is string => Boolean(value))
+    );
+
+    knownPreviewUrlsRef.current.forEach((url) => {
+      if (!nextUrls.has(url)) {
+        URL.revokeObjectURL(url);
+        knownPreviewUrlsRef.current.delete(url);
+      }
+    });
+
+    nextUrls.forEach((url) => knownPreviewUrlsRef.current.add(url));
+  }, [current.assets]);
+
+  useEffect(() => {
+    return () => {
+      knownPreviewUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+      knownPreviewUrlsRef.current.clear();
+    };
+  }, []);
 
   return {
     ...current,
