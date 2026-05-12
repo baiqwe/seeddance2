@@ -24,7 +24,9 @@ function buildAuthConfig(): NextAuthConfig {
   return {
     adapter: hasD1 ? D1Adapter(env!.DB) : undefined,
     session: {
-      strategy: hasD1 ? "database" : "jwt",
+      // Credentials provider in Auth.js requires JWT sessions.
+      // We still keep the adapter for users/accounts persistence.
+      strategy: "jwt",
     },
     secret: authSecret || undefined,
     trustHost: authTrustHost,
@@ -70,9 +72,18 @@ function buildAuthConfig(): NextAuthConfig {
       }),
     ],
     callbacks: {
-      async session({ session, user }) {
-        if (session.user && user?.id) {
-          session.user.id = user.id;
+      async jwt({ token, user }) {
+        if (user?.id) {
+          token.id = user.id;
+        }
+        return token;
+      },
+      async session({ session, user, token }) {
+        if (session.user) {
+          session.user.id =
+            (typeof token?.id === "string" && token.id) ||
+            user?.id ||
+            session.user.id;
         }
         return session;
       },
