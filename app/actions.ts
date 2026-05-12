@@ -54,16 +54,35 @@ export const signUpAction = async (formData: FormData) => {
     );
   }
 
-  if (isCloudflareDataBackend()) {
-    const existingUser = await getAuthUserByEmail(email);
-    if (existingUser) {
-      return encodedRedirect("error", "/sign-up", "An account with this email already exists.", locale);
-    }
+  if (password.length < 8) {
+    return encodedRedirect(
+      "error",
+      "/sign-up",
+      "Password must be at least 8 characters.",
+      locale
+    );
+  }
 
-    await createCredentialsUser({
-      email,
-      password,
-    });
+  if (isCloudflareDataBackend()) {
+    try {
+      const existingUser = await getAuthUserByEmail(email);
+      if (existingUser) {
+        return encodedRedirect("error", "/sign-up", "An account with this email already exists.", locale);
+      }
+
+      await createCredentialsUser({
+        email,
+        password,
+      });
+    } catch (error) {
+      console.error("Cloudflare sign-up create user failed", error);
+      return encodedRedirect(
+        "error",
+        "/sign-up",
+        "We couldn't create your account right now. Please try again in a moment.",
+        locale
+      );
+    }
 
     try {
       await authSignIn("credentials", {
@@ -73,9 +92,21 @@ export const signUpAction = async (formData: FormData) => {
       });
     } catch (error) {
       if (error instanceof AuthError) {
-        return encodedRedirect("error", "/sign-in", "Account created, but automatic sign-in failed. Please sign in manually.", locale);
+        console.error("Cloudflare sign-up automatic sign-in failed", error);
+        return encodedRedirect(
+          "success",
+          "/sign-in",
+          "Account created successfully. Please sign in with your email and password.",
+          locale
+        );
       }
-      throw error;
+      console.error("Cloudflare sign-up unexpected automatic sign-in failure", error);
+      return encodedRedirect(
+        "success",
+        "/sign-in",
+        "Account created successfully. Please sign in with your email and password.",
+        locale
+      );
     }
 
     return;
@@ -221,6 +252,15 @@ export const resetPasswordAction = async (formData: FormData) => {
       "error",
       "/reset-password",
       "Passwords do not match",
+      locale
+    );
+  }
+
+  if (password.length < 8) {
+    return encodedRedirect(
+      "error",
+      "/reset-password",
+      "Password must be at least 8 characters.",
       locale
     );
   }

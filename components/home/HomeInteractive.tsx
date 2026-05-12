@@ -1,10 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ArrowRight, ChevronDown, Paperclip, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useRouter } from '@/i18n/routing';
 import {
     KIE_SEEDANCE_SUPPORTED_DURATIONS,
     KIE_SEEDANCE_SUPPORTED_RATIOS,

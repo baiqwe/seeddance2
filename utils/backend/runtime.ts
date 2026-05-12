@@ -8,7 +8,7 @@ export function getPreferredDataBackend(): DataBackend {
   if (explicit === "supabase") return "supabase";
 
   const env = getOptionalCloudflareEnv();
-  if (env?.DB && env?.MEDIA_BUCKET && env?.RATE_LIMIT_KV) {
+  if (env?.DB) {
     return "cloudflare";
   }
 

@@ -39,7 +39,10 @@ function getKieApiKey() {
 }
 
 function getKieBaseUrl() {
-  return (process.env.KIE_API_URL?.trim() || KIE_DEFAULT_BASE_URL).replace(/\/$/, "");
+  // Keep compatibility with an earlier typo key (KIE_API_UR) to avoid production misconfig breaks.
+  const configured =
+    process.env.KIE_API_URL?.trim() || process.env.KIE_API_UR?.trim() || KIE_DEFAULT_BASE_URL;
+  return configured.replace(/\/$/, "");
 }
 
 function normalizeResolution(resolution: VideoGenerationRequest["resolution"]) {

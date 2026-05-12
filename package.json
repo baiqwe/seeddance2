@@ -4,6 +4,8 @@
     "dev": "next dev",
     "next:build": "next build",
     "build": "next build && opennextjs-cloudflare build --skipBuild && node scripts/patch-opennext-cloudflare.mjs",
+    "d1:init": "wrangler d1 execute seedance2-prod --remote --config ./wrangler.jsonc --file ./migrations/d1/0000_bootstrap_all.sql",
+    "d1:tables": "wrangler d1 execute seedance2-prod --remote --command \"SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;\"",
     "preview": "npm run build && opennextjs-cloudflare preview",
     "deploy": "wrangler deploy",
     "upload": "wrangler versions upload",
