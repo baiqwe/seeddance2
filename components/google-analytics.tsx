@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 
+const GA_MEASUREMENT_ID = "G-RP27FTN7F6";
+
 declare global {
   interface Window {
     dataLayer: unknown[];
@@ -42,11 +44,7 @@ function GoogleAnalyticsPageTracker({ gaId }: { gaId: string }) {
 }
 
 export function GoogleAnalytics() {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
-
-  if (!gaId) {
-    return null;
-  }
+  const gaId = GA_MEASUREMENT_ID;
 
   return (
     <>
