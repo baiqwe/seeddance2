@@ -70,7 +70,7 @@ export default async function SignUp(props: {
           </div>
         </div>
         <Button asChild variant="outline" className="w-full flex items-center justify-center gap-2">
-          <Link href={`/auth/google?locale=${locale}&mode=sign-up`}>
+          <a href={`/auth/google?locale=${locale}&mode=sign-up`}>
             <svg viewBox="0 0 24 24" className="h-5 w-5">
               <path
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -90,7 +90,7 @@ export default async function SignUp(props: {
               />
             </svg>
             Sign up with Google
-          </Link>
+          </a>
         </Button>
         <div className="text-sm text-muted-foreground text-center">
           Already have an account?{" "}
