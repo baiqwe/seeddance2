@@ -22,9 +22,10 @@ export async function GET(request: Request) {
   const googleId = getRuntimeEnvValue("AUTH_GOOGLE_ID");
   const googleSecret = getRuntimeEnvValue("AUTH_GOOGLE_SECRET");
   const trustHost = getRuntimeEnvValue("AUTH_TRUST_HOST");
+  const effectiveTrustHost = trustHost === "true" || Boolean(env);
 
   return NextResponse.json({
-    ok: envPresent(authSecret) && envPresent(trustHost),
+    ok: envPresent(authSecret) && effectiveTrustHost,
     checkedAt: new Date().toISOString(),
     checks: {
       cloudflare_context: {
@@ -40,8 +41,13 @@ export async function GET(request: Request) {
         detail: envPresent(authSecret) ? "AUTH_SECRET available to auth runtime." : "AUTH_SECRET missing in auth runtime.",
       },
       auth_trust_host: {
-        ok: trustHost === "true",
-        detail: trustHost === "true" ? "AUTH_TRUST_HOST=true" : `AUTH_TRUST_HOST is "${trustHost || "(empty)"}".`,
+        ok: effectiveTrustHost,
+        detail:
+          trustHost === "true"
+            ? "AUTH_TRUST_HOST=true"
+            : env
+              ? 'AUTH_TRUST_HOST missing, but Cloudflare runtime host trust fallback is active.'
+              : `AUTH_TRUST_HOST is "${trustHost || "(empty)"}".`,
       },
       google_id: {
         ok: envPresent(googleId),
