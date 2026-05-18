@@ -1,4 +1,5 @@
 import type { VideoGenerationRequest, VideoModelId } from "@/utils/video-generation";
+import { site } from "@/config/site";
 
 export const KIE_DEFAULT_BASE_URL = "https://api.kie.ai/api/v1";
 export const KIE_VIDEO_MODELS: VideoModelId[] = ["bytedance/seedance-2", "bytedance/seedance-2-fast"];
@@ -215,7 +216,7 @@ export function mapKieStateToGenerationState(state: KieTaskState) {
 }
 
 export function buildKieCallbackUrl() {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim() || process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim() || process.env.NEXT_PUBLIC_SITE_URL?.trim() || site.siteUrl;
   const secret = process.env.KIE_CALLBACK_SECRET?.trim();
 
   if (!appUrl || !secret) {

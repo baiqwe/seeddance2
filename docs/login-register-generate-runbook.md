@@ -1,6 +1,6 @@
 # Seedance 2.0 Login / Register / Generate Runbook (Cloudflare + D1 + R2 + KV)
 
-This runbook is for `seedance2video.cc` with Cloudflare as the runtime.
+This runbook is for `www.seedance2video.cc` with Cloudflare as the runtime.
 It is written as a strict checklist so you can run each step and confirm the whole chain is healthy.
 
 ## 0. Goal
@@ -80,8 +80,8 @@ npx wrangler d1 execute seedance2-prod --remote --command "SELECT name FROM sqli
 ### Required plain variables
 
 - `DATA_BACKEND=cloudflare`
-- `NEXT_PUBLIC_SITE_URL=https://seedance2video.cc`
-- `NEXT_PUBLIC_APP_URL=https://seedance2video.cc`
+- `NEXT_PUBLIC_SITE_URL=https://www.seedance2video.cc`
+- `NEXT_PUBLIC_APP_URL=https://www.seedance2video.cc`
 - `AUTH_TRUST_HOST=true`
 - `HEALTHCHECK_TOKEN=<your-random-token>` (recommended)
 - `R2_BUCKET_NAME=seedance2-media`
@@ -111,21 +111,21 @@ npx wrangler d1 execute seedance2-prod --remote --command "SELECT name FROM sqli
 In Google Cloud Console:
 
 - Authorized redirect URI:
-  - `https://seedance2video.cc/api/auth/callback/google`
+  - `https://www.seedance2video.cc/api/auth/callback/google`
 - Authorized origin:
-  - `https://seedance2video.cc`
+  - `https://www.seedance2video.cc`
 
 ### Kie callback
 
 Set callback URL to:
 
-- `https://seedance2video.cc/api/webhooks/kie?token=<KIE_CALLBACK_SECRET>`
+- `https://www.seedance2video.cc/api/webhooks/kie?token=<KIE_CALLBACK_SECRET>`
 
 ### Creem webhook
 
 Set webhook URL to:
 
-- `https://seedance2video.cc/api/webhooks/creem`
+- `https://www.seedance2video.cc/api/webhooks/creem`
 
 Enable events:
 
@@ -152,9 +152,9 @@ npx wrangler deploy
 Open:
 
 - `/api/health/chain`
-- Example: `https://seedance2video.cc/api/health/chain`
+- Example: `https://www.seedance2video.cc/api/health/chain`
 If `HEALTHCHECK_TOKEN` is configured:
-- `https://seedance2video.cc/api/health/chain?token=<HEALTHCHECK_TOKEN>`
+- `https://www.seedance2video.cc/api/health/chain?token=<HEALTHCHECK_TOKEN>`
 
 Expected:
 

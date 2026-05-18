@@ -10,16 +10,23 @@ export type SiteConfig = {
   };
 };
 
-const PRODUCTION_SITE_URL = "https://seedance2video.cc";
+const PRODUCTION_SITE_URL = "https://www.seedance2video.cc";
 const SUPPORT_EMAIL_FALLBACK = "hello@seedance2video.cc";
 const LOCAL_HOSTNAMES = new Set(["localhost", "127.0.0.1", "0.0.0.0"]);
 const PLACEHOLDER_SUPPORT_EMAILS = new Set(["support@example.com", "hello@example.com"]);
+const APEX_HOSTNAME = "seedance2video.cc";
+const WWW_HOSTNAME = "www.seedance2video.cc";
 
 function normalizeSiteUrl(url: string): string {
   try {
     const u = new URL(url);
     if (LOCAL_HOSTNAMES.has(u.hostname)) {
       return PRODUCTION_SITE_URL;
+    }
+    if (u.hostname === APEX_HOSTNAME) {
+      u.hostname = WWW_HOSTNAME;
+      u.protocol = "https:";
+      u.port = "";
     }
     return u.origin;
   } catch {

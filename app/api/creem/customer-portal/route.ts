@@ -1,5 +1,6 @@
 import { requireSessionUser } from "@/utils/backend/auth";
 import { isCloudflareDataBackend } from "@/utils/backend/runtime";
+import { site } from "@/config/site";
 import { getCustomerByUserId } from "@/utils/d1/customers";
 import { createClient } from "@/utils/supabase/server";
 import { getProjectId } from "@/utils/supabase/project";
@@ -15,6 +16,7 @@ type CreemPortalResponse = {
 
 export async function GET() {
     try {
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || process.env.NEXT_PUBLIC_APP_URL?.trim() || site.siteUrl;
         let creemCustomerId: string | null | undefined;
 
         if (isCloudflareDataBackend()) {
@@ -62,7 +64,7 @@ export async function GET() {
             },
             body: JSON.stringify({
                 customer_id: creemCustomerId,
-                return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/en/dashboard`,
+                return_url: `${siteUrl}/en/dashboard`,
             }),
         });
 

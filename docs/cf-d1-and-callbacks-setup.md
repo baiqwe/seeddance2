@@ -39,10 +39,10 @@ npm run d1:tables
 Google Cloud Console -> OAuth 2.0 Client（Web 应用）：
 
 - Authorized JavaScript origins:
-  - `https://seedance2video.cc`
+  - `https://www.seedance2video.cc`
   - `http://127.0.0.1:3000`（本地需要时）
 - Authorized redirect URIs:
-  - `https://seedance2video.cc/api/auth/callback/google`
+  - `https://www.seedance2video.cc/api/auth/callback/google`
   - `http://127.0.0.1:3000/api/auth/callback/google`（本地需要时）
 
 注意：不要填 `/auth/google`，真正 OAuth 回调是 `/api/auth/callback/google`。
@@ -51,7 +51,7 @@ Google Cloud Console -> OAuth 2.0 Client（Web 应用）：
 
 项目会用下面地址作为 callback（由代码自动拼）：
 
-`https://seedance2video.cc/api/webhooks/kie?token=<KIE_CALLBACK_SECRET>`
+`https://www.seedance2video.cc/api/webhooks/kie?token=<KIE_CALLBACK_SECRET>`
 
 你要做的：
 
@@ -63,7 +63,7 @@ Google Cloud Console -> OAuth 2.0 Client（Web 应用）：
 
 Creem Dashboard webhook URL：
 
-`https://seedance2video.cc/api/webhooks/creem`
+`https://www.seedance2video.cc/api/webhooks/creem`
 
 你要做的：
 
@@ -78,4 +78,3 @@ Creem Dashboard webhook URL：
 - 你现在有：`KIE_API_UR`（少了 `L`）
 
 代码已经兼容了这个旧拼写，但仍建议你在 Cloudflare 里补上标准键 `KIE_API_URL`，避免后续混淆。
-

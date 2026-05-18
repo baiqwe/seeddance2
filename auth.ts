@@ -23,6 +23,7 @@ function buildAuthConfig(): NextAuthConfig {
   const isCloudflareRuntime = Boolean(env);
 
   return {
+    basePath: "/api/auth",
     adapter: hasD1 ? D1Adapter(env!.DB) : undefined,
     session: {
       // Credentials provider in Auth.js requires JWT sessions.
@@ -40,6 +41,17 @@ function buildAuthConfig(): NextAuthConfig {
             Google({
               clientId: googleClientId,
               clientSecret: googleClientSecret,
+              authorization: {
+                url: "https://accounts.google.com/o/oauth2/v2/auth",
+                params: {
+                  scope: "openid email profile",
+                  response_type: "code",
+                  prompt: "select_account",
+                },
+              },
+              token: "https://oauth2.googleapis.com/token",
+              userinfo: "https://openidconnect.googleapis.com/v1/userinfo",
+              checks: ["pkce", "state"],
               allowDangerousEmailAccountLinking: true,
             }),
           ]
@@ -109,7 +121,13 @@ function buildAuthConfig(): NextAuthConfig {
     },
     logger: {
       error(error) {
-        console.error("NextAuth error", error);
+        console.error("NextAuth error", {
+          name: error.name,
+          type: "type" in error ? error.type : undefined,
+          message: error.message,
+          cause: "cause" in error ? error.cause : undefined,
+          stack: error.stack,
+        });
       },
       warn(code) {
         console.warn("NextAuth warning", code);

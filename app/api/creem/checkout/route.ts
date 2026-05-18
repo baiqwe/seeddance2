@@ -1,5 +1,6 @@
 import { requireSessionUser } from "@/utils/backend/auth";
 import { isCloudflareDataBackend } from "@/utils/backend/runtime";
+import { site } from "@/config/site";
 import { createClient } from "@/utils/supabase/server";
 import { getAppKey } from "@/utils/supabase/project";
 import { NextResponse } from "next/server";
@@ -13,6 +14,7 @@ type CreemCheckoutResponse = {
 
 export async function POST(request: Request) {
     try {
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || process.env.NEXT_PUBLIC_APP_URL?.trim() || site.siteUrl;
         let authUser: { id: string; email?: string | null } | null = null;
 
         if (isCloudflareDataBackend()) {
@@ -59,7 +61,7 @@ export async function POST(request: Request) {
             },
             body: JSON.stringify({
                 product_id: priceId,
-                success_url: redirectUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/en/dashboard?checkout=success`,
+                success_url: redirectUrl || `${siteUrl}/en/dashboard?checkout=success`,
                 customer: {
                     email: authUser.email,
                 },
