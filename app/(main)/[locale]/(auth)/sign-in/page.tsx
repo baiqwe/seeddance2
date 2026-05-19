@@ -16,14 +16,24 @@ export default async function Login(props: { params: Promise<{ locale: string }>
   const locale = params.locale;
   const searchParams = await props.searchParams;
   const next = typeof searchParams.next === "string" ? searchParams.next : undefined;
+  const isZh = locale === "zh";
 
   return (
     <>
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">
+          {isZh ? "登录 Seedance 2 工作台" : "Sign in to Seedance 2"}
+        </h1>
         <p className="text-sm text-muted-foreground">
-          Enter your email to sign in to your account
+          {isZh
+            ? "使用本站账号管理你的创作任务、积分和生成历史。"
+            : "Use your site account to manage video requests, credits, and generation history."}
         </p>
+      </div>
+      <div className="rounded-2xl border border-border/70 bg-muted/30 px-4 py-3 text-xs leading-6 text-muted-foreground">
+        {isZh
+          ? "说明：seedance2video.cc 是独立 AI 视频工作流网站，不隶属于 ByteDance、TikTok、CapCut 或 Google。本站不会索要这些平台的密码。"
+          : "Note: seedance2video.cc is an independent AI video workflow website and is not affiliated with ByteDance, TikTok, CapCut, or Google. We never ask for passwords from those platforms."}
       </div>
       <div className="grid gap-6">
         <form className="grid gap-4">
@@ -49,7 +59,7 @@ export default async function Login(props: { params: Promise<{ locale: string }>
                 href={getLocalePath("/forgot-password", locale)}
                 className="text-sm font-medium text-primary hover:underline"
               >
-                Forgot password?
+                {isZh ? "忘记密码？" : "Forgot password?"}
               </Link>
             </div>
             <Input
@@ -66,7 +76,7 @@ export default async function Login(props: { params: Promise<{ locale: string }>
             pendingText="Signing in..."
             formAction={signInAction}
           >
-            Sign in
+            {isZh ? "登录" : "Sign in"}
           </SubmitButton>
           <FormMessage message={searchParams} />
         </form>
@@ -76,7 +86,7 @@ export default async function Login(props: { params: Promise<{ locale: string }>
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
+              {isZh ? "或使用 Google 继续" : "Or continue with"}
             </span>
           </div>
         </div>
@@ -100,16 +110,16 @@ export default async function Login(props: { params: Promise<{ locale: string }>
                 fill="#EA4335"
               />
             </svg>
-            Sign in with Google
+            {isZh ? "使用 Google 登录" : "Sign in with Google"}
           </a>
         </Button>
         <div className="text-sm text-muted-foreground text-center">
-          Don't have an account?{" "}
+          {isZh ? "还没有账号？" : "Don't have an account?"}{" "}
           <Link
             href={getLocalePath("/sign-up", locale)}
             className="text-primary underline underline-offset-4 hover:text-primary/90"
           >
-            Sign up
+            {isZh ? "创建账号" : "Create one"}
           </Link>
         </div>
       </div>

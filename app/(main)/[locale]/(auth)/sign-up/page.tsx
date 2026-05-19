@@ -14,14 +14,24 @@ export default async function SignUp(props: {
   const params = await props.params;
   const locale = params.locale;
   const searchParams = await props.searchParams;
+  const isZh = locale === "zh";
 
   return (
     <>
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Create your account</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">
+          {isZh ? "创建 Seedance 2 账号" : "Create your Seedance 2 account"}
+        </h1>
         <p className="text-sm text-muted-foreground">
-          Sign up to access global authentication and payment solutions
+          {isZh
+            ? "用于保存创作任务、管理积分和查看生成历史。"
+            : "Save video requests, manage credits, and review your generation history."}
         </p>
+      </div>
+      <div className="rounded-2xl border border-border/70 bg-muted/30 px-4 py-3 text-xs leading-6 text-muted-foreground">
+        {isZh
+          ? "说明：seedance2video.cc 是独立 AI 视频工作流网站，不隶属于 ByteDance、TikTok、CapCut 或 Google。请只为本站账号设置密码。"
+          : "Note: seedance2video.cc is an independent AI video workflow website and is not affiliated with ByteDance, TikTok, CapCut, or Google. Only create a password for this site account."}
       </div>
       <div className="grid gap-6">
         <form className="grid gap-4">
@@ -55,7 +65,7 @@ export default async function SignUp(props: {
             pendingText="Creating account..."
             formAction={signUpAction}
           >
-            Create account
+            {isZh ? "创建账号" : "Create account"}
           </SubmitButton>
           <FormMessage message={searchParams} />
         </form>
@@ -65,7 +75,7 @@ export default async function SignUp(props: {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
+              {isZh ? "或使用 Google 继续" : "Or continue with"}
             </span>
           </div>
         </div>
@@ -89,16 +99,16 @@ export default async function SignUp(props: {
                 fill="#EA4335"
               />
             </svg>
-            Sign up with Google
+            {isZh ? "使用 Google 创建账号" : "Sign up with Google"}
           </a>
         </Button>
         <div className="text-sm text-muted-foreground text-center">
-          Already have an account?{" "}
+          {isZh ? "已有账号？" : "Already have an account?"}{" "}
           <Link
             href={getLocalePath("/sign-in", locale)}
             className="text-primary underline underline-offset-4 hover:text-primary/90"
           >
-            Sign in
+            {isZh ? "登录" : "Sign in"}
           </Link>
         </div>
       </div>

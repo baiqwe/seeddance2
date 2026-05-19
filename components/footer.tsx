@@ -49,7 +49,7 @@ export function Footer() {
         <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row md:py-0">
           <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
             <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-              {isZh ? "Seedance 2 工作流改造中" : "Seedance 2 workflow in progress"}
+              {isZh ? "Seedance 2 独立 AI 视频工作流网站" : "Independent Seedance 2 AI video workflow website"}
             </p>
           </div>
         </div>
@@ -77,6 +77,11 @@ export function Footer() {
               {currentLocale === 'zh'
                 ? '首页负责理解 Seedance 2，创作中心负责开始生成，Guides 和场景页负责把真实工作流讲清楚。'
                 : 'The homepage explains Seedance 2, the creation center starts generation, and guides plus workflow pages explain how the production process actually works.'}
+            </p>
+            <p className="mt-4 max-w-sm rounded-2xl border border-border/70 bg-background/70 px-4 py-3 text-xs leading-6 text-muted-foreground">
+              {currentLocale === 'zh'
+                ? 'seedance2video.cc 是独立网站，不隶属于 ByteDance、TikTok、CapCut 或 Google。本站不提供客户端软件下载，也不会索要第三方平台密码。'
+                : 'seedance2video.cc is an independent website and is not affiliated with ByteDance, TikTok, CapCut, or Google. We do not offer client software downloads and never ask for third-party platform passwords.'}
             </p>
           </div>
 
