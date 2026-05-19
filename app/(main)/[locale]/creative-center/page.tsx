@@ -46,6 +46,11 @@ export default async function CreativeCenterPage(props: { params: Promise<{ loca
             <div className="mx-auto max-w-7xl space-y-8">
                 <Breadcrumbs items={breadcrumbs} />
 
+                <div className="rounded-[28px] border border-white/10 bg-black/24 p-3 shadow-[0_26px_80px_-46px_rgba(0,0,0,0.82)] backdrop-blur-sm">
+                    <WorkspaceQuerySync />
+                    <MultiModalWorkspace locale={locale} />
+                </div>
+
                 <div className="space-y-4 text-center">
                     <div className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/76">
                         {locale === "zh" ? "Seedance 2 创作中心" : "Seedance 2 Creation Center"}
@@ -119,11 +124,6 @@ export default async function CreativeCenterPage(props: { params: Promise<{ loca
                             <p className="mt-3 text-sm leading-7 text-white/64">{item.body}</p>
                         </div>
                     ))}
-                </div>
-
-                <div className="rounded-[28px] border border-white/10 bg-black/24 p-3 shadow-[0_26px_80px_-46px_rgba(0,0,0,0.82)] backdrop-blur-sm">
-                    <WorkspaceQuerySync />
-                    <MultiModalWorkspace locale={locale} />
                 </div>
             </div>
         </div>

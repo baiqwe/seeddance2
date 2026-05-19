@@ -523,6 +523,20 @@ export function MultiModalWorkspace({ locale }: Props) {
           ) : null}
 
           <div className="rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <Label>{copy.promptLabel}</Label>
+              <span className="text-[11px] text-white/36">{promptLength}/5000</span>
+            </div>
+            <Textarea
+              value={prompt}
+              onChange={(event) => actions.setPrompt(event.target.value)}
+              placeholder={copy.promptPlaceholder}
+              className="min-h-[130px] resize-none rounded-[12px] border-white/10 bg-[#111318] text-sm leading-7 text-white placeholder:text-white/32 focus-visible:ring-[#2563ff]/40"
+            />
+            <div className="mt-3 text-xs text-white/42">{copy.promptCounter}</div>
+          </div>
+
+          <div className="rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
             <div className="text-sm font-medium text-white">{currentUploadTitle}</div>
             <p className="mt-2 text-sm leading-7 text-white/56">{currentUploadHint}</p>
           </div>
@@ -558,20 +572,6 @@ export function MultiModalWorkspace({ locale }: Props) {
                 : "This mode does not need reference uploads right now. Describe the subject, camera move, pacing, and atmosphere clearly, then generate."}
             </div>
           )}
-
-          <div className="rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <Label>{copy.promptLabel}</Label>
-              <span className="text-[11px] text-white/36">{promptLength}/5000</span>
-            </div>
-            <Textarea
-              value={prompt}
-              onChange={(event) => actions.setPrompt(event.target.value)}
-              placeholder={copy.promptPlaceholder}
-              className="min-h-[110px] resize-none rounded-[12px] border-white/10 bg-[#111318] text-sm leading-7 text-white placeholder:text-white/32 focus-visible:ring-[#2563ff]/40"
-            />
-            <div className="mt-3 text-xs text-white/42">{copy.promptCounter}</div>
-          </div>
 
           <details className="group rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-white">
