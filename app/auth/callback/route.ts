@@ -1,5 +1,5 @@
-import { encode } from "@auth/core/jwt";
 import { NextResponse } from "next/server";
+import { createAuthSessionCookie } from "@/utils/auth/session-cookie";
 import { getRuntimeEnvValue } from "@/utils/cloudflare/context";
 import { upsertOAuthUser } from "@/utils/d1/auth-users";
 import { provisionCustomerIfMissing } from "@/utils/d1/customers";
@@ -11,7 +11,6 @@ export const runtime = "nodejs";
 const GOOGLE_OAUTH_STATE_COOKIE = "seedance_google_oauth_state";
 const GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
 const GOOGLE_USERINFO_URL = "https://openidconnect.googleapis.com/v1/userinfo";
-const SESSION_MAX_AGE = 30 * 24 * 60 * 60;
 
 type OAuthState = {
   state: string;
@@ -137,36 +136,6 @@ async function fetchGoogleProfile(accessToken: string) {
   return profile;
 }
 
-async function createAuthSessionCookie(input: {
-  origin: string;
-  userId: string;
-  email: string;
-  name: string | null;
-  image: string | null;
-}) {
-  const secret = getRuntimeEnvValue("AUTH_SECRET");
-  if (!secret) {
-    throw new Error("AUTH_SECRET is missing");
-  }
-
-  const secure = input.origin.startsWith("https://");
-  const cookieName = secure ? "__Secure-authjs.session-token" : "authjs.session-token";
-  const token = await encode({
-    secret,
-    salt: cookieName,
-    maxAge: SESSION_MAX_AGE,
-    token: {
-      id: input.userId,
-      sub: input.userId,
-      email: input.email,
-      name: input.name,
-      picture: input.image,
-    },
-  });
-
-  return { cookieName, secure, token };
-}
-
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const requestOrigin = await getRequestOrigin();
@@ -234,21 +203,15 @@ export async function GET(request: Request) {
     }
 
     const sessionCookie = await createAuthSessionCookie({
-      origin,
       userId: user.id,
       email: user.email,
       name: user.name,
       image: user.image,
+      secure: origin.startsWith("https://"),
     });
 
     const response = NextResponse.redirect(new URL(resolveSafeNextPath(stateCookie.nextPath, locale), origin));
-    response.cookies.set(sessionCookie.cookieName, sessionCookie.token, {
-      httpOnly: true,
-      secure: sessionCookie.secure,
-      sameSite: "lax",
-      path: "/",
-      maxAge: SESSION_MAX_AGE,
-    });
+    response.cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.options);
     response.cookies.set(GOOGLE_OAUTH_STATE_COOKIE, "", {
       httpOnly: true,
       secure: origin.startsWith("https://"),

@@ -1,7 +1,6 @@
 "use server";
 
-import { AuthError } from "@auth/core/errors";
-import { signIn as authSignIn, signOut as authSignOut } from "@/auth";
+import { clearAuthSessionCookies, setAuthSessionCookie } from "@/utils/auth/session-cookie";
 import { encodedRedirect } from "@/utils/utils";
 import { getLocalePath, normalizeLocale } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
@@ -10,7 +9,8 @@ import { headers } from "next/headers";
 import { getRequestOrigin } from "@/utils/request";
 import { redirect } from "next/navigation";
 import { isCloudflareDataBackend } from "@/utils/backend/runtime";
-import { createCredentialsUser, getAuthUserByEmail, updateUserPassword } from "@/utils/d1/auth-users";
+import { createCredentialsUser, getAuthUserByEmail, updateUserPassword, verifyCredentialsPassword } from "@/utils/d1/auth-users";
+import { provisionCustomerIfMissing } from "@/utils/d1/customers";
 import { createPasswordResetToken, getValidPasswordResetToken, markPasswordResetTokenUsed } from "@/utils/d1/password-reset";
 import { sendPasswordResetEmail } from "@/utils/email/resend";
 
@@ -70,9 +70,28 @@ export const signUpAction = async (formData: FormData) => {
         return encodedRedirect("error", "/sign-up", "An account with this email already exists.", locale);
       }
 
-      await createCredentialsUser({
+      const user = await createCredentialsUser({
         email,
         password,
+      });
+
+      if (!user) {
+        throw new Error("Created user could not be loaded.");
+      }
+
+      await provisionCustomerIfMissing({
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+      });
+
+      const origin = await getRequestOrigin();
+      await setAuthSessionCookie({
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+        image: user.image,
+        secure: origin.startsWith("https://"),
       });
     } catch (error) {
       console.error("Cloudflare sign-up create user failed", error);
@@ -84,32 +103,7 @@ export const signUpAction = async (formData: FormData) => {
       );
     }
 
-    try {
-      await authSignIn("credentials", {
-        email,
-        password,
-        redirectTo: getLocalePath("/dashboard", locale),
-      });
-    } catch (error) {
-      if (error instanceof AuthError) {
-        console.error("Cloudflare sign-up automatic sign-in failed", error);
-        return encodedRedirect(
-          "success",
-          "/sign-in",
-          "Account created successfully. Please sign in with your email and password.",
-          locale
-        );
-      }
-      console.error("Cloudflare sign-up unexpected automatic sign-in failure", error);
-      return encodedRedirect(
-        "success",
-        "/sign-in",
-        "Account created successfully. Please sign in with your email and password.",
-        locale
-      );
-    }
-
-    return;
+    return redirect(getLocalePath("/dashboard", locale));
   }
 
   const supabase = await createClient();
@@ -141,18 +135,30 @@ export const signInAction = async (formData: FormData) => {
 
   if (isCloudflareDataBackend()) {
     try {
-      await authSignIn("credentials", {
-        email,
-        password,
-        redirectTo: nextPath,
-      });
-    } catch (error) {
-      if (error instanceof AuthError) {
+      const user = await verifyCredentialsPassword(email, password);
+      if (!user) {
         return encodedRedirect("error", "/sign-in", "Invalid email or password.", locale);
       }
-      throw error;
+
+      await provisionCustomerIfMissing({
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+      });
+
+      const origin = await getRequestOrigin();
+      await setAuthSessionCookie({
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+        image: user.image,
+        secure: origin.startsWith("https://"),
+      });
+    } catch (error) {
+      console.error("Cloudflare credentials sign-in failed", error);
+      return encodedRedirect("error", "/sign-in", "Sign-in failed. Please try again.", locale);
     }
-    return;
+    return redirect(nextPath);
   }
 
   const supabase = await createClient();
@@ -304,10 +310,8 @@ export const signOutAction = async () => {
   const locale = normalizeLocale(localeMatch?.[1]);
 
   if (isCloudflareDataBackend()) {
-    await authSignOut({
-      redirectTo: getLocalePath("/sign-in", locale),
-    });
-    return;
+    await clearAuthSessionCookies();
+    return redirect(getLocalePath("/sign-in", locale));
   }
 
   const supabase = await createClient();
