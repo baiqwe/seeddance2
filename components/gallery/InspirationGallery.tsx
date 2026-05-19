@@ -24,8 +24,8 @@ export function InspirationGallery({
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {items.map((item) => {
               const href = anchorHrefPrefix
-                ? `${anchorHrefPrefix}#anime-uploader`
-                : `/${locale}/${item.slug}#anime-uploader`;
+                ? `${anchorHrefPrefix}#creation-workspace`
+                : `/${locale}/${item.slug}#creation-workspace`;
 
               return <GalleryVideoCard key={item.id} locale={locale} href={href} item={item} />;
             })}

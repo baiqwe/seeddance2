@@ -120,7 +120,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
-                {isZh ? "工作台 → 素材 staging → 积分估算 → 异步任务 → 视频延展与复用。这套结构更适合真实团队持续生产。" : "Workspace → asset staging → credit estimate → async jobs → extension and reuse. The structure is designed for repeatable team workflows."}
+                {isZh ? "从想法、参考素材、积分预估到视频生成与延展，整个流程都围绕持续创作来组织。" : "From idea, references, and credit estimates to video creation and extension, the whole flow is organized around repeatable production."}
               </CardContent>
             </Card>
 
@@ -133,8 +133,8 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
                 {isZh
-                  ? "上传、支付、权限和模型调用都应该被单独说明。我们会尽量把产品能力、限制、数据流和支持方式写清楚，而不是让用户自己猜。"
-                  : "Uploads, billing, permissions, and provider handoff should be described explicitly. We aim to document capabilities, limits, data flow, and support pathways instead of making users guess."}
+                  ? "上传、支付、权限和素材处理都应该被清楚说明。我们会尽量把产品能力、限制、数据使用方式和支持入口写清楚，而不是让用户自己猜。"
+                  : "Uploads, billing, permissions, and asset handling should be explained clearly. We aim to document capabilities, limits, data use, and support pathways instead of making users guess."}
               </CardContent>
             </Card>
           </div>

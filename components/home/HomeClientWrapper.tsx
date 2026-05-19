@@ -17,7 +17,7 @@ export default function HomeClientWrapper({ heroHeading, heroSupport, staticCont
     return (
         <div className="min-h-screen bg-background">
             <section
-                id="anime-uploader"
+                id="creation-workspace"
                 className="relative overflow-hidden border-b border-white/6 pb-14 pt-10 lg:min-h-screen lg:pb-20 lg:pt-20"
             >
                 <div className="pointer-events-none absolute inset-0">
@@ -44,7 +44,7 @@ export default function HomeClientWrapper({ heroHeading, heroSupport, staticCont
                 </div>
             </section>
 
-            {/* Static Content - only shown when no image is uploaded */}
+            {/* Static content appears below the quick generator. */}
             {showStaticContent && staticContent}
         </div>
     );

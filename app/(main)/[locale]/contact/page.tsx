@@ -112,8 +112,8 @@ export default async function ContactPage(props: { params: Promise<{ locale: str
               <CardContent className="space-y-3 text-sm leading-relaxed text-muted-foreground">
                 <p>
                   {locale === "zh"
-                    ? "如果你希望讨论团队采购、渠道合作、模型接入、视频工作流定制、品牌内容生产或媒体合作，也可以通过同一邮箱联系。"
-                    : "If you want to discuss team purchasing, partnerships, provider integration, custom video workflows, branded production, or media inquiries, you can use the same contact address."}
+                    ? "如果你希望讨论团队采购、渠道合作、视频工作流定制、品牌内容生产或媒体合作，也可以通过同一邮箱联系。"
+                    : "If you want to discuss team purchasing, partnerships, custom video workflows, branded production, or media inquiries, you can use the same contact address."}
                 </p>
                 <p>
                   {locale === "zh"

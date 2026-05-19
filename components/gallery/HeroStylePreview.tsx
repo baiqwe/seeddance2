@@ -43,12 +43,12 @@ export function HeroStylePreview({ locale, className = "" }: HeroStylePreviewPro
             {locale === "zh" ? "风格预览" : "Style Preview"}
           </div>
           <h2 className="text-2xl font-bold tracking-tight">
-            {locale === "zh" ? "同一张原图，预览不同动漫风格" : "Preview multiple anime styles from one source image"}
+            {locale === "zh" ? "同一份参考素材，预览不同视频方向" : "Preview multiple video directions from one reference"}
           </h2>
           <p className="text-sm leading-7 text-foreground/72">
             {locale === "zh"
-              ? "先快速感受同一张图在不同风格下的画面变化，再上传你自己的照片开始生成。"
-              : "See how the same reference image changes across different anime directions before uploading your own photo."}
+              ? "先快速感受同一素材在不同视觉方向下的差异，再上传你的参考素材开始创作。"
+              : "See how the same reference changes across different visual directions before uploading your own asset."}
           </p>
         </div>
 
@@ -96,13 +96,13 @@ export function HeroStylePreview({ locale, className = "" }: HeroStylePreviewPro
         <div className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
           <div className="rounded-xl border border-border/80 bg-background/[0.96] px-4 py-3 text-foreground/68">
             {locale === "zh"
-              ? "用同一张参考图做多风格展示，帮助用户一眼看出不同风格之间的结果差异。"
-              : "The same source image is reused so visitors can instantly compare how each style changes the final result."}
+              ? "用同一份参考素材做多方向展示，帮助你一眼看出不同镜头语言之间的差异。"
+              : "The same source reference is reused so you can instantly compare how each direction changes the final result."}
           </div>
           <div className="rounded-xl border border-border/80 bg-background/[0.96] px-4 py-3 text-foreground/68">
             {locale === "zh"
-              ? "上传后生成的仍然是用户自己的照片，不是固定模板头像。"
-              : "When users upload, the result is still generated from their own photo rather than a fixed template avatar."}
+              ? "上传后生成的会基于你的素材和提示词，而不是固定模板。"
+              : "When you upload, the result is based on your reference and prompt rather than a fixed template."}
           </div>
         </div>
       </div>

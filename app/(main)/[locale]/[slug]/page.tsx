@@ -106,7 +106,7 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
 
   return (
     <div className="bg-background">
-      <section id="anime-uploader" className="relative overflow-hidden py-12 lg:py-20">
+      <section id="creation-workspace" className="relative overflow-hidden py-12 lg:py-20">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(58,92,255,0.08),transparent_22%),linear-gradient(180deg,rgba(14,14,18,0.28),rgba(17,17,22,0.14))]" />
         <div className="relative z-10 container px-4 md:px-6">
           <Breadcrumbs items={breadcrumbItems} className="mb-6" />

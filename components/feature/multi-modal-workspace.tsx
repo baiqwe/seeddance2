@@ -134,7 +134,7 @@ const COPY: Record<string, WorkspaceCopy> = {
     previewSubtitle: "让结果成为视觉中心，让界面退后一步。",
     stats: [
       { label: "输入模态", value: "图 / 视 / 音 / 文" },
-      { label: "控制维度", value: "参考 + Prompt + 队列" },
+      { label: "控制维度", value: "参考 + Prompt + 进度" },
       { label: "适配流程", value: "生成 / 延展 / 编辑" },
     ],
     quickPresetsTitle: "一键代入工作流模板",
@@ -176,7 +176,7 @@ const COPY: Record<string, WorkspaceCopy> = {
       audio: "最多 3 段 / 合计 15 秒",
     },
     estimatedCredits: "预计扣费",
-    noAssets: "当前还没有素材进入这一队列",
+    noAssets: "当前还没有添加参考素材",
   },
   en: {
     tabs: [
@@ -220,7 +220,7 @@ const COPY: Record<string, WorkspaceCopy> = {
     previewSubtitle: "Let the output become the focus and the interface recede.",
     stats: [
       { label: "Input Modes", value: "Image / Video / Audio / Text" },
-      { label: "Control Layers", value: "References + Prompt + Queue" },
+      { label: "Control Layers", value: "References + Prompt + Progress" },
       { label: "Workflow", value: "Generate / Extend / Edit" },
     ],
     quickPresetsTitle: "Load workflow presets",
@@ -262,7 +262,7 @@ const COPY: Record<string, WorkspaceCopy> = {
       audio: "Up to 3 clips / 15s total",
     },
     estimatedCredits: "Estimated Cost",
-    noAssets: "No assets in this queue yet",
+    noAssets: "No reference assets added yet",
   },
 };
 
@@ -376,12 +376,12 @@ export function MultiModalWorkspace({ locale }: Props) {
   const currentUploadHint =
     mode === "text_to_video"
       ? locale === "zh"
-        ? "Kie 当前公开的 Seedance 文档里，这个工作流先以提示词为主。先把主体、镜头运动、节奏和氛围说清楚，再进入生成。"
-        : "In Kie's current public Seedance docs, this workflow starts prompt-first. Describe the subject, camera motion, pacing, and atmosphere clearly before you generate."
+        ? "这个工作流先以提示词为主。先把主体、镜头运动、节奏和氛围说清楚，再进入生成。"
+        : "This workflow starts prompt-first. Describe the subject, camera motion, pacing, and atmosphere clearly before you generate."
       : mode === "image_to_video"
         ? locale === "zh"
-          ? "当前按 Kie 文档收紧为首帧 / 尾帧图片工作流。第一张图负责起始画面，第二张图可作为尾帧目标。"
-          : "This mode is tightened to the first-frame / last-frame image workflow described by Kie. The first image starts the shot, and the optional second image becomes the target ending frame."
+          ? "图生视频适合使用首帧 / 尾帧图片工作流。第一张图负责起始画面，第二张图可作为尾帧目标。"
+          : "Image-to-video works best with a first-frame / last-frame workflow. The first image starts the shot, and the optional second image becomes the target ending frame."
         : copy.uploadHint;
   const showImageLane = imageLimit > 0;
   const showVideoLane = videoLimit > 0;
@@ -406,8 +406,8 @@ export function MultiModalWorkspace({ locale }: Props) {
         title: locale === "zh" ? "任务已进入队列" : "Generation queued",
         description:
           locale === "zh"
-            ? "工作台已经创建异步任务，可以继续编辑素材或前往 Dashboard 查看状态。"
-            : "The workspace created an async job. You can keep editing or track it in the dashboard.",
+            ? "视频请求已经提交。你可以继续整理素材，或前往控制台查看进度。"
+            : "Your video request has been submitted. You can keep editing or track progress in the dashboard.",
       });
       return;
     }
@@ -559,23 +559,6 @@ export function MultiModalWorkspace({ locale }: Props) {
             </div>
           )}
 
-          <div className="space-y-2.5">
-            <TogglePill
-              active={containsRealPeople}
-              onClick={actions.toggleContainsRealPeople}
-              label={copy.containsRealPeople}
-              hint={copy.containsRealPeopleHint}
-            />
-            {showLastFrameToggle ? (
-              <TogglePill
-                active={returnLastFrame}
-                onClick={actions.toggleReturnLastFrame}
-                label={copy.returnLastFrame}
-                hint={copy.returnLastFrameHint}
-              />
-            ) : null}
-          </div>
-
           <div className="rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
             <div className="mb-3 flex items-center justify-between gap-3">
               <Label>{copy.promptLabel}</Label>
@@ -590,26 +573,50 @@ export function MultiModalWorkspace({ locale }: Props) {
             <div className="mt-3 text-xs text-white/42">{copy.promptCounter}</div>
           </div>
 
-          <div className="grid gap-3">
-            <OptionGroup
-              title={copy.resolution}
-              options={RESOLUTIONS}
-              value={resolution}
-              onChange={(next) => actions.setResolution(next as typeof resolution)}
-            />
-            <DurationSlider
-              title={copy.duration}
-              options={DURATIONS}
-              value={durationSeconds}
-              onChange={(next) => actions.setDurationSeconds(next as typeof durationSeconds)}
-            />
-            <OptionGroup
-              title={copy.aspectRatio}
-              options={RATIOS}
-              value={aspectRatio}
-              onChange={(next) => actions.setAspectRatio(next as typeof aspectRatio)}
-            />
-          </div>
+          <details className="group rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-white">
+              <span>{copy.advanced}</span>
+              <span className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] text-white/56 transition-colors group-open:bg-[#2563ff]/15 group-open:text-[#bfdbfe]">
+                {locale === "zh" ? "比例 / 时长 / 安全选项" : "ratio / duration / safety"}
+              </span>
+            </summary>
+            <div className="mt-4 space-y-3">
+              <div className="space-y-2.5">
+                <TogglePill
+                  active={containsRealPeople}
+                  onClick={actions.toggleContainsRealPeople}
+                  label={copy.containsRealPeople}
+                  hint={copy.containsRealPeopleHint}
+                />
+                {showLastFrameToggle ? (
+                  <TogglePill
+                    active={returnLastFrame}
+                    onClick={actions.toggleReturnLastFrame}
+                    label={copy.returnLastFrame}
+                    hint={copy.returnLastFrameHint}
+                  />
+                ) : null}
+              </div>
+              <OptionGroup
+                title={copy.resolution}
+                options={RESOLUTIONS}
+                value={resolution}
+                onChange={(next) => actions.setResolution(next as typeof resolution)}
+              />
+              <DurationSlider
+                title={copy.duration}
+                options={DURATIONS}
+                value={durationSeconds}
+                onChange={(next) => actions.setDurationSeconds(next as typeof durationSeconds)}
+              />
+              <OptionGroup
+                title={copy.aspectRatio}
+                options={RATIOS}
+                value={aspectRatio}
+                onChange={(next) => actions.setAspectRatio(next as typeof aspectRatio)}
+              />
+            </div>
+          </details>
 
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-3">
@@ -714,9 +721,9 @@ export function MultiModalWorkspace({ locale }: Props) {
               </ul>
             </div>
             <div className="mt-4 space-y-3">
-              <QueueItem title={copy.laneTitle.image} detail={locale === "zh" ? `${assets.image.length} 个图像素材已进入角色与关键帧队列` : `${assets.image.length} image assets staged for identity and keyframes`} progress={assets.image.length > 0 ? "done" : "idle"} />
-              <QueueItem title={copy.laneTitle.video} detail={locale === "zh" ? `${assets.video.length} 个视频素材已进入动作与镜头队列` : `${assets.video.length} motion clips staged for movement and camera`} progress={assets.video.length > 0 ? "active" : "idle"} />
-              <QueueItem title={copy.laneTitle.audio} detail={locale === "zh" ? `${assets.audio.length} 个音频素材已进入节奏队列` : `${assets.audio.length} audio cues staged for rhythm and timing`} progress={assets.audio.length > 0 ? "done" : "idle"} />
+              <QueueItem title={copy.laneTitle.image} detail={locale === "zh" ? `${assets.image.length} 个图像素材用于角色与关键帧` : `${assets.image.length} image assets for identity and keyframes`} progress={assets.image.length > 0 ? "done" : "idle"} />
+              <QueueItem title={copy.laneTitle.video} detail={locale === "zh" ? `${assets.video.length} 个视频素材用于动作与运镜` : `${assets.video.length} motion clips for movement and camera`} progress={assets.video.length > 0 ? "active" : "idle"} />
+              <QueueItem title={copy.laneTitle.audio} detail={locale === "zh" ? `${assets.audio.length} 个音频素材用于节奏与氛围` : `${assets.audio.length} audio cues for rhythm and timing`} progress={assets.audio.length > 0 ? "done" : "idle"} />
               {activeGenerationId ? (
                 <QueueItem
                   title={locale === "zh" ? "当前任务" : "Current task"}
@@ -1123,7 +1130,7 @@ function formatWorkspaceNotice(notice: string | null, locale: string) {
     "Upload at least one keyframe image before generating.": "图生视频模式下，请至少上传一张关键帧图片。",
     "Upload at least one image or video reference before generating.": "开始生成前请至少准备一个图像或视频参考。",
     "Please wait until all uploads finish before generating.": "请先等待所有素材上传完成，再开始生成。",
-    "Generation queued. You can continue editing or monitor progress in the dashboard.": "任务已经进入队列，你可以继续整理素材，或前往控制台查看进度。",
+    "Generation queued. You can continue editing or monitor progress in the dashboard.": "视频请求已经提交，你可以继续整理素材，或前往控制台查看进度。",
     "Failed to create generation": "创建生成任务失败，请稍后再试。",
     "Upload failed": "素材上传失败，请稍后重试。",
     "Failed to prepare upload": "准备上传失败，请稍后重试。",
@@ -1137,12 +1144,12 @@ function formatWorkspaceNotice(notice: string | null, locale: string) {
 
   const laneLimitMatch = notice.match(/^Only (\d+) (\w+)s? allowed in this lane\.$/);
   if (laneLimitMatch) {
-    return `这个队列最多只能放 ${laneLimitMatch[1]} 个素材。`;
+    return `这里最多只能添加 ${laneLimitMatch[1]} 个素材。`;
   }
 
   const addedMatch = notice.match(/^Added (\d+) (\w+)s?\. (\d+) exceeded the lane limit\.$/);
   if (addedMatch) {
-    return `已加入 ${addedMatch[1]} 个素材，另外 ${addedMatch[3]} 个超过了当前队列上限。`;
+    return `已加入 ${addedMatch[1]} 个素材，另外 ${addedMatch[3]} 个超过了当前上限。`;
   }
 
   const uploadStatusMatch = notice.match(/^Upload failed with status (\d+)$/);

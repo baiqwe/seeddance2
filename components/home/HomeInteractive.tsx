@@ -242,7 +242,7 @@ function HeroWithUploadSection({
                                 className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(90deg,#2563ff,#6d28d9)] px-5 text-sm font-semibold text-white shadow-[0_18px_36px_-18px_rgba(59,130,246,0.65)] transition-transform hover:scale-[1.01]"
                             >
                                 <Sparkles className="h-4 w-4" />
-                                {isZh ? '开始生成' : 'Generate'}
+                                {isZh ? '带入创作中心' : 'Open Creation Center'}
                             </button>
                         </div>
                     </div>
