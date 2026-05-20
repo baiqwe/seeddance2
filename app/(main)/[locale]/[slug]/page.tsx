@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { landingPageSlugs, getLocalizedLandingPage, landingPages, getLandingPageInsights } from "@/config/landing-pages";
-import { MultiModalWorkspace } from "@/components/feature/multi-modal-workspace";
 import { site } from "@/config/site";
 import { locales } from "@/i18n/routing";
 import Link from "next/link";
@@ -11,6 +10,7 @@ import { FAQSchema, HowToSchema } from "@/components/breadcrumb-schema";
 import { buildLocaleAlternates } from "@/utils/seo/metadata";
 import { InspirationGallery } from "@/components/gallery/InspirationGallery";
 import { ImageGallerySchema } from "@/components/gallery/ImageGallerySchema";
+import { LandingPromptBar } from "@/components/landing/LandingPromptBar";
 
 function getCreationCenterHref(locale: string, mode: string) {
   const params = new URLSearchParams();
@@ -39,10 +39,6 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
   return {
     title: page.title,
     description: page.description,
-    keywords:
-      locale === "zh"
-        ? [page.targetKeyword, `Seedance 2 ${page.h1}`, "Seedance 2"]
-        : [page.targetKeyword, `Seedance 2 ${page.h1}`, "seedance 2"],
     alternates: buildLocaleAlternates(canonical),
     openGraph: {
       title: page.title,
@@ -80,29 +76,13 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
     { name: locale === "zh" ? "首页" : "Home", href: `${localePrefix}` },
     { name: page.h1, href: `${localePrefix}/${page.slug}` },
   ];
-  const howToSteps = [
-    { name: t("how_step1"), text: t("how_step1") },
-    { name: t("how_step2"), text: t("how_step2") },
-    { name: t("how_step3"), text: t("how_step3") },
-  ];
+  const howToSteps = page.executionSteps.map((step) => ({ name: step, text: step }));
   const insightBlock = getLandingPageInsights(page.slug, locale);
   const creationCenterHref = getCreationCenterHref(locale, page.mode);
-  const workflowSummary =
-    locale === "zh"
-      ? page.mode === "image_to_video"
-        ? "这条页面更适合从关键帧出发：先锁定起始画面，再决定镜头如何推进。"
-        : page.mode === "text_to_video"
-          ? "这条页面更适合先把场景、主体和镜头节奏说清楚，再进入创作中心补控制。"
-          : page.mode === "video_extension"
-            ? "这条页面更适合从已有片段继续往下写，重点是连续性而不是重新定义创意。"
-            : "这条页面更适合把图片、动作参考和节奏提示拆开控制，得到更稳定的多模态结果。"
-      : page.mode === "image_to_video"
-        ? "This page is best when a keyframe should anchor the shot first and camera evolution comes second."
-        : page.mode === "text_to_video"
-          ? "This page is best when the scene, subject, and pacing need to be described clearly before deeper controls are added."
-          : page.mode === "video_extension"
-            ? "This page is best when an existing clip needs continuation and continuity matters more than redefining the concept."
-            : "This page is best when images, motion references, and timing cues each need a separate job inside one multi-modal workflow.";
+  const updatedLabel = new Intl.DateTimeFormat(locale === "zh" ? "zh-CN" : "en-US", {
+    dateStyle: "medium",
+    timeZone: "UTC",
+  }).format(new Date(page.lastUpdated));
 
   return (
     <div className="bg-background">
@@ -114,18 +94,25 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
           <HowToSchema name={page.h1} description={page.description} steps={howToSteps} />
           <ImageGallerySchema locale={locale} useCase={page.slug} />
           <div className="mb-10 max-w-4xl space-y-4">
-            <div className="section-kicker">{locale === "zh" ? "Use Case" : "Use Case"}</div>
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="section-kicker">{locale === "zh" ? "独立工作流 · Powered by Seedance 2" : "Independent workflow · Powered by Seedance 2"}</div>
+              <div className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/52">
+                {locale === "zh" ? `更新于 ${updatedLabel}` : `Updated ${updatedLabel}`}
+              </div>
+            </div>
             <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl">{page.h1}</h1>
             <p className="max-w-3xl text-lg leading-8 text-white/76">{page.subtitle}</p>
-            <div className="inline-flex max-w-3xl rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm leading-7 text-white/66">
-              {workflowSummary}
-            </div>
+            <p className="max-w-3xl text-sm leading-7 text-white/54">
+              {locale === "zh"
+                ? "这是一个面向创作者的第三方多模态工作流页面，用来帮助你把具体任务组织进创作中心。"
+                : "This is an independent workflow page for creators who want to organize a specific video task before opening the creation center."}
+            </p>
           </div>
-          <MultiModalWorkspace locale={locale} />
+          <LandingPromptBar locale={locale} mode={page.mode} title={page.h1} summary={page.workflowSummary} />
         </div>
       </section>
 
-      <InspirationGallery locale={locale} useCase={page.slug} anchorHrefPrefix={`/${locale}/${page.slug}`} maxItems={3} />
+      <InspirationGallery locale={locale} useCase={page.slug} anchorHrefPrefix={creationCenterHref} maxItems={3} />
 
       <section className="border-t border-white/8 bg-[linear-gradient(180deg,#101117_0%,#0d1018_100%)] py-20">
         <div className="container px-4 md:px-6">
@@ -134,9 +121,9 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
               <div className="section-kicker">{locale === "zh" ? "执行路径" : "Execution Flow"}</div>
               <h2 className="text-3xl font-bold tracking-tight">{t("how_title", { keyword: page.targetKeyword })}</h2>
               <ol className="grid gap-3 list-decimal pl-5 text-white/72">
-                <li>{t("how_step1")}</li>
-                <li>{t("how_step2")}</li>
-                <li>{t("how_step3")}</li>
+                {page.executionSteps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
               </ol>
               <div className="surface-card border-white/8 bg-[#1d1f26] p-6 text-sm leading-8 text-white/70">
                 <p>
@@ -218,40 +205,25 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
               </div>
             ) : null}
 
-            <div className="grid gap-6 md:grid-cols-[1.05fr_0.95fr]">
-              <div className="surface-card border-white/8 bg-[#1d1f26] p-6">
-                <div className="section-kicker">{locale === "zh" ? "Recommended Next Step" : "Recommended Next Step"}</div>
-                <h2 className="mt-3 text-2xl font-bold tracking-tight">
-                  {locale === "zh" ? "看完这页以后，最好的动作通常是进入对应模式的创作中心。" : "After this page, the best next move is usually to open the creation center in the matching mode."}
-                </h2>
-                <p className="mt-4 text-sm leading-8 text-white/68">
-                  {locale === "zh"
-                    ? "首页负责理解 Seedance 2，场景页负责理解任务，创作中心负责真正开始生成。这样分开以后，团队更容易知道下一步该做什么。"
-                    : "The homepage explains Seedance 2, the use-case page explains the task, and the creation center is where production begins. That separation makes it easier for teams to know what to do next."}
-                </p>
-                <div className="mt-6">
-                  <Link
-                    href={creationCenterHref}
-                    className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-100"
-                  >
-                    {locale === "zh" ? "用这个工作流进入创作中心" : "Open this workflow in the creation center"}
-                  </Link>
+            <div className="surface-card border-white/8 bg-[#1d1f26] p-6">
+              <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+                <div>
+                  <div className="section-kicker">{locale === "zh" ? "准备开始" : "Ready to try it"}</div>
+                  <h2 className="mt-3 text-2xl font-bold tracking-tight">
+                    {locale === "zh" ? "把这条任务带进创作中心，而不是在文章页里硬学完整面板。" : "Bring this task into the creation center instead of learning a full panel inside an article page."}
+                  </h2>
+                  <p className="mt-3 text-sm leading-7 text-white/66">
+                    {locale === "zh"
+                      ? "场景页负责帮你理清输入、风险和评估方式；真正上传素材和生成结果，交给创作中心完成。"
+                      : "This page helps you understand inputs, pitfalls, and review criteria. Uploading references and generating results belongs in the creation center."}
+                  </p>
                 </div>
-              </div>
-
-              <div className="surface-card border-white/8 bg-[#1d1f26] p-6">
-                <div className="section-kicker">{locale === "zh" ? "Related Learning" : "Related Learning"}</div>
-                <h2 className="mt-3 text-2xl font-bold tracking-tight">
-                  {locale === "zh" ? "如果结果不对，先去看这两个解释层。" : "If the output is off, these are usually the next two layers worth checking."}
-                </h2>
-                <div className="mt-5 space-y-3">
-                  <Link href={`/${locale}/guides`} className="block rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-4 text-sm text-white/72 transition-colors hover:bg-white/[0.06] hover:text-white">
-                    {locale === "zh" ? "使用指南：先检查 Prompt、参考素材和评估方式。" : "Guides: review prompt structure, references, and output evaluation first."}
-                  </Link>
-                  <Link href={`/${locale}/about`} className="block rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-4 text-sm text-white/72 transition-colors hover:bg-white/[0.06] hover:text-white">
-                    {locale === "zh" ? "关于我们：理解这套产品为什么强调工作流、边界和团队复用。" : "About: understand why the product emphasizes workflow, boundaries, and team reuse."}
-                  </Link>
-                </div>
+                <Link
+                  href={creationCenterHref}
+                  className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-100"
+                >
+                  {page.ctaText}
+                </Link>
               </div>
             </div>
 

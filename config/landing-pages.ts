@@ -19,6 +19,10 @@ export type LandingPageConfig = {
   description: string;
   h1: string;
   subtitle: string;
+  workflowSummary: string;
+  lastUpdated: string;
+  executionSteps: string[];
+  ctaText: string;
   mode: VideoGenerationMode;
   faqs: LandingPageFaq[];
 };
@@ -28,6 +32,9 @@ type LandingPageLocalizedCopy = {
   descriptionZh: string;
   h1Zh: string;
   subtitleZh: string;
+  workflowSummaryZh: string;
+  executionStepsZh: string[];
+  ctaTextZh: string;
   faqsZh: LandingPageFaq[];
 };
 
@@ -259,100 +266,130 @@ export type LandingPageSlug = keyof typeof landingPages;
 
 const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
   "image-to-video": {
-    titleZh: "Seedance 2 图生视频 - 把静帧推进成镜头",
+    titleZh: "图生视频 AI 生成器 | 基于 Seedance 2",
     descriptionZh: "从一张静态图片出发，加入运镜、节奏和画面意图，把它变成更可控的 AI 视频工作流。",
-    h1Zh: "Seedance 2 图生视频",
+    h1Zh: "图生视频 AI 生成器",
     subtitleZh: "把静帧推进成有节奏的镜头，而不是随机动起来的短片段。",
+    workflowSummaryZh: "先用一张清晰关键帧锁住画面，再描述镜头如何推进。需要补参考图、角色一致性或更细节的镜头控制时，再带入创作中心。",
+    executionStepsZh: ["准备一张主体清楚、构图稳定的起始图。", "描述镜头怎么动、哪些元素要保持一致，以及镜头应该停在哪里。", "进入创作中心补关键帧，生成后重点检查运动连续性。"],
+    ctaTextZh: "打开图生视频工作流",
     faqsZh: [
       { question: "什么样的图像适合作为起始帧？", answer: "主体清晰、构图明确、空间关系稳定的画面最适合做起始帧。" },
       { question: "为什么要加运镜描述？", answer: "因为真正决定镜头质感的不只是会不会动，而是怎么动、动到哪里、节奏怎么推进。" }
     ]
   },
   "reference-video-generator": {
-    titleZh: "Seedance 2 参考视频生成器 - 用真实素材而不是玄学 Prompt",
+    titleZh: "参考视频生成器 | 基于 Seedance 2",
     descriptionZh: "把图片、视频和音频参考放在一起，让结果跟随真实创作意图，而不是依赖模糊的文字描述。",
-    h1Zh: "Seedance 2 参考视频生成器",
+    h1Zh: "参考视频生成器",
     subtitleZh: "把参考图、参考视频和音频节奏一起交给系统，生成更可控的视频结果。",
+    workflowSummaryZh: "当一句 Prompt 不够准确时，用一个主参考先定方向，再按需加入图片、视频或音频线索，最后进入创作中心继续细化。",
+    executionStepsZh: ["先选择一个主参考，不要一开始就堆太多素材。", "说明每个参考分别负责身份、动作、节奏还是氛围。", "进入创作中心上传素材，保持 Prompt 聚焦后再生成。"],
+    ctaTextZh: "打开参考视频工作流",
     faqsZh: [
       { question: "为什么多参考比纯文本更重要？", answer: "因为参考素材能直接压缩镜头语言、画面质感和动作方向，比单句文字更可靠。" },
       { question: "可以混合多种输入吗？", answer: "可以。图片负责身份与场景，视频负责动作和镜头，音频负责节奏提示。" }
     ]
   },
   "dance-motion-transfer": {
-    titleZh: "Seedance 2 动作迁移 - 复制节奏，替换主体",
+    titleZh: "AI 动作迁移 | 基于 Seedance 2",
     descriptionZh: "把参考舞蹈视频里的动作节奏和能量迁移到新的角色或新的视频设定上。",
-    h1Zh: "Seedance 2 动作迁移",
+    h1Zh: "AI 动作迁移",
     subtitleZh: "让动作参考带走节奏和编舞，同时把主体替换成新的角色或造型。",
+    workflowSummaryZh: "先准备一段动作清晰的参考视频，再补角色图或造型说明。进入创作中心后，可以把身份、动作和节奏拆开控制。",
+    executionStepsZh: ["选择全身清楚、镜头稳定、节奏明确的动作参考。", "再加入角色或风格参考，避免身份和动作互相抢控制权。", "进入创作中心生成，并一起检查节奏、手脚和角色一致性。"],
+    ctaTextZh: "打开动作迁移工作流",
     faqsZh: [
       { question: "什么样的参考舞蹈视频最好？", answer: "全身清晰、动作连续、镜头不要切太碎的视频最适合做动作迁移。" },
       { question: "怎么保证角色一致性？", answer: "同时上传角色参考图，并明确哪些服装、脸部和比例必须被锁定。" }
     ]
   },
   "product-ad-generator": {
-    titleZh: "Seedance 2 产品广告生成器 - 把产品图变成广告镜头",
+    titleZh: "产品广告生成器 | 基于 Seedance 2",
     descriptionZh: "用产品静帧、运镜参考和商业化 Prompt，生成更像 campaign shot 的产品视频片段。",
-    h1Zh: "Seedance 2 产品广告生成器",
+    h1Zh: "产品广告生成器",
     subtitleZh: "从产品静图出发，快速生成揭幕镜头、发售预告和视觉提案片段。",
+    workflowSummaryZh: "从一张干净产品图和一个明确商业镜头开始。需要揭幕运镜、材质高光或多角度参考时，再进入创作中心。",
+    executionStepsZh: ["准备一张材质、标签和轮廓都清楚的产品图。", "只定义一个商业镜头动作，例如推进、揭幕、环绕或扫光。", "进入创作中心补运镜参考，并先确认产品在运动中仍然清楚。"],
+    ctaTextZh: "打开产品广告工作流",
     faqsZh: [
       { question: "产品广告 Prompt 最关键的是什么？", answer: "材质反应、光线变化、镜头路径和品牌气质，这些都要写清楚。" },
       { question: "一定要加参考视频吗？", answer: "强烈建议加。哪怕只是一段短参考，也能显著提高镜头语言的一致性。" }
     ]
   },
   "storyboard-to-video": {
-    titleZh: "Seedance 2 分镜转视频 - 把静态分镜扩成预演镜头",
+    titleZh: "分镜转视频 AI | 基于 Seedance 2",
     descriptionZh: "把分镜稿或关键帧扩成可移动的预演视频，用来测试运镜、节奏和场景连续性。",
-    h1Zh: "Seedance 2 分镜转视频",
+    h1Zh: "分镜转视频 AI",
     subtitleZh: "让静态分镜不再只是平面图，而是可以用于预演和走位验证的动态镜头。",
+    workflowSummaryZh: "先把一张分镜变成明确的镜头意图。需要多关键帧、动作参考或连续性控制时，再把任务带入创作中心。",
+    executionStepsZh: ["选择一张空间关系和主体位置都清楚的分镜图。", "描述这一镜的戏剧目的、运镜方向和情绪节点。", "进入创作中心测试运动、走位和节奏，再决定是否扩展。"],
+    ctaTextZh: "打开分镜转视频工作流",
     faqsZh: [
       { question: "这更适合成片还是预演？", answer: "更适合预演、提案和拍摄前验证，而不是直接替代最终成片。" },
       { question: "只给一张图够吗？", answer: "可以，但如果有多张关键帧，系统会更容易理解连续性和镜头目标。" }
     ]
   },
   "video-extension": {
-    titleZh: "Seedance 2 视频扩写 - 把已有镜头平滑延长",
+    titleZh: "视频扩写 | 基于 Seedance 2",
     descriptionZh: "沿着原始视频的运动方向、场景逻辑和情绪基调，把镜头继续自然延长。",
-    h1Zh: "Seedance 2 视频扩写",
+    h1Zh: "视频扩写",
     subtitleZh: "不是重新生成一个新镜头，而是沿着原镜头的逻辑继续往前走。",
+    workflowSummaryZh: "这条流程适合继续已有片段，而不是从零重写创意。进入创作中心后，再处理源视频、尾帧目标和连续性要求。",
+    executionStepsZh: ["选择一段运动方向清楚、场景逻辑稳定的源视频。", "说明哪些内容必须继续，哪些内容不能被改掉。", "进入创作中心上传源视频和可选尾帧，再生成续写结果。"],
+    ctaTextZh: "打开视频扩写工作流",
     faqsZh: [
       { question: "什么决定扩写是否自然？", answer: "运动方向、空间关系、光线延续和主体状态是否前后一致。" },
       { question: "可以加尾帧吗？", answer: "可以。尾帧能给系统一个明确目标，通常会比纯粹续写更稳定。" }
     ]
   },
   "ai-music-video-generator": {
-    titleZh: "Seedance 2 AI 音乐视频生成器 - 用节奏驱动画面",
+    titleZh: "AI 音乐视频生成器 | 基于 Seedance 2",
     descriptionZh: "用 Seedance 2 把提示词、情绪图、动作参考和节奏 cue 组合成更像音乐视频的镜头序列。",
-    h1Zh: "Seedance 2 AI 音乐视频生成器",
+    h1Zh: "AI 音乐视频生成器",
     subtitleZh: "把节奏、动作和氛围组织起来，让画面不是随机动，而是沿着音乐感推进。",
+    workflowSummaryZh: "先写清楚氛围、主体和节奏目标。需要音频线索、动作参考和视觉身份共同工作时，再进入创作中心。",
+    executionStepsZh: ["先确定氛围、主体和节奏，不要一开始塞太多视觉想法。", "只有当节拍或动作结构需要更明确时，再加入音频或动作参考。", "进入创作中心组合 Prompt、视觉参考和节奏线索。"],
+    ctaTextZh: "打开音乐视频工作流",
     faqsZh: [
       { question: "音乐视频工作流最重要的是什么？", answer: "最重要的是节拍清楚、动作能量明确、主体稳定，以及镜头节奏是否真的跟得上音乐感。" },
       { question: "要不要上传音频参考？", answer: "如果你关心节奏和情绪推进，音频参考会明显有帮助，尤其适合多模态工作流。" }
     ]
   },
   "ecommerce-product-video-ai": {
-    titleZh: "Seedance 2 电商产品视频生成 - 把产品图变成销售型镜头",
+    titleZh: "电商产品视频生成 | 基于 Seedance 2",
     descriptionZh: "用 Seedance 2 把产品静图、揭幕参考和商业化 Prompt 组织成更适合电商和投放的产品视频。",
-    h1Zh: "Seedance 2 电商产品视频生成",
+    h1Zh: "电商产品视频生成",
     subtitleZh: "把产品主图变成发售片段、展示镜头和更适合销售场景的动态内容。",
+    workflowSummaryZh: "先用产品主图明确商品本身，再决定是否加入揭幕参考、材质描述和电商节奏，最后进入创作中心生成。",
+    executionStepsZh: ["准备一张干净、细节清楚、背景干扰少的产品主图。", "选择一个销售角度，例如材质、尺寸、使用场景或上新揭幕。", "进入创作中心先生成短镜头测试，并优先检查产品是否清楚。"],
+    ctaTextZh: "打开电商视频工作流",
     faqsZh: [
       { question: "电商视频最好的起点素材是什么？", answer: "通常是一张干净的产品主图，材质细节清楚、构图明确、没有多余干扰。" },
       { question: "为什么还要加运镜参考？", answer: "因为 reveal、orbit、push-in 这些商业镜头语言，有参考时会比只靠文字更稳定。" }
     ]
   },
   "ai-short-drama-maker": {
-    titleZh: "Seedance 2 AI 短剧制作器 - 把静态戏剧节点扩成预演镜头",
+    titleZh: "AI 短剧预演工具 | 基于 Seedance 2",
     descriptionZh: "用 Seedance 2 探索短剧场景、情绪节点和镜头连续性，把静态想法转成可以验证的动态预演。",
-    h1Zh: "Seedance 2 AI 短剧制作器",
+    h1Zh: "AI 短剧预演工具",
     subtitleZh: "先把戏剧情绪、镜头节奏和场景连续性跑通，再决定要不要进入更完整的制作流程。",
+    workflowSummaryZh: "先从一个明确戏剧节点开始，而不是直接塞完整剧情。需要分镜、运镜和情绪连续性时，再进入创作中心。",
+    executionStepsZh: ["先选择一个戏剧节点或关键帧，而不是完整剧情梗概。", "写清楚情绪目标、镜头运动和场景连续性。", "进入创作中心测试节奏和走位，再扩成更长片段。"],
+    ctaTextZh: "打开短剧预演工作流",
     faqsZh: [
       { question: "这适合直接生成完整短剧吗？", answer: "更适合做预演、节奏测试、镜头验证和拍摄前对齐，而不是直接替代最终成片。" },
       { question: "短剧团队应该先准备什么？", answer: "先准备一张关键帧或分镜图，再补一句说明情绪目标、镜头目的和节奏推进的 prompt。" }
     ]
   },
   "cinematic-product-reveal-generator": {
-    titleZh: "Seedance 2 电影感产品揭幕生成器 - 做更高级的发布镜头",
+    titleZh: "电影感产品揭幕生成器 | 基于 Seedance 2",
     descriptionZh: "用 Seedance 2 生成更有电影感的产品揭幕镜头，把材质、高光、运镜和发售氛围组织得更完整。",
-    h1Zh: "Seedance 2 电影感产品揭幕生成器",
+    h1Zh: "电影感产品揭幕生成器",
     subtitleZh: "更适合高质感产品发布、主视觉揭幕和需要精细运镜设计的品牌内容。",
+    workflowSummaryZh: "从一张高质感产品图和一个克制揭幕方向开始。需要光线扫过、运镜参考和最终定格时，再进入创作中心。",
+    executionStepsZh: ["选择一张高级感产品图，并确保最终画面仍能清楚卖出产品。", "描述克制的揭幕运动、光线变化和注意力落点。", "进入创作中心补参考并生成发布感更强的镜头测试。"],
+    ctaTextZh: "打开产品揭幕工作流",
     faqsZh: [
       { question: "什么决定产品揭幕镜头看起来够不够高级？", answer: "运镜克制、材质清晰、高光控制得当，以及注意力能否在镜头结尾稳定落到产品上。" },
       { question: "可以只从一张产品图开始吗？", answer: "可以。一张好的产品图可以锁定主体，再通过参考和 Prompt 去定义镜头如何展开。" }
@@ -377,6 +414,9 @@ export function getLocalizedLandingPage(slug: string, locale: string): LandingPa
     description: zhCopy.descriptionZh,
     h1: zhCopy.h1Zh,
     subtitle: zhCopy.subtitleZh,
+    workflowSummary: zhCopy.workflowSummaryZh,
+    executionSteps: zhCopy.executionStepsZh,
+    ctaText: zhCopy.ctaTextZh,
     faqs: zhCopy.faqsZh,
   };
 }

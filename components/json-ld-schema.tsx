@@ -96,7 +96,7 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
                 "contentUrl": contentUrl,
                 "embedUrl": embedUrl,
                 "duration": secondsToIsoDuration(durationSeconds),
-                "uploadDate": toSchemaDateTime("2026-04-23T00:00:00+08:00"),
+                ...(item.uploadDate ? { "uploadDate": toSchemaDateTime(item.uploadDate) } : {}),
                 "publisher": {
                     "@type": "Organization",
                     "name": site.siteName

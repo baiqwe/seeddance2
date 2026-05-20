@@ -18,6 +18,7 @@ export type GalleryItem = {
   durationLabel: string;
   aspectRatioLabel: string;
   promptLabel: string;
+  uploadDate?: string;
 };
 
 const SHARED_AFTER = mediaAsset("/images/gallery/hero-after.png");
@@ -278,6 +279,7 @@ export const galleryItems: GalleryItem[] = [
     durationLabel: "05s",
     aspectRatioLabel: "16:9",
     promptLabel: "Image seed",
+    uploadDate: "2026-05-02T10:00:00+08:00",
   },
   {
     id: "seedance-hero-6",
@@ -296,6 +298,7 @@ export const galleryItems: GalleryItem[] = [
     durationLabel: "05s",
     aspectRatioLabel: "16:9",
     promptLabel: "Narrative clip",
+    uploadDate: "2026-05-02T10:15:00+08:00",
   },
   {
     id: "seedance-space-travel",
@@ -314,6 +317,7 @@ export const galleryItems: GalleryItem[] = [
     durationLabel: "15s",
     aspectRatioLabel: "16:9",
     promptLabel: "Full clip",
+    uploadDate: "2026-05-03T09:00:00+08:00",
   },
   {
     id: "seedance-autumn-duel",

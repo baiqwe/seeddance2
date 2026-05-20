@@ -2,7 +2,7 @@ import Script from 'next/script';
 
 export function ClarityAnalytics() {
     return (
-        <Script id="clarity-script" strategy="beforeInteractive">
+        <Script id="clarity-script" strategy="lazyOnload">
             {`
                 (function(c,l,a,r,i,t,y){
                     c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};

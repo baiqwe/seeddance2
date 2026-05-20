@@ -12,7 +12,6 @@ import {
 
 interface HomeInteractiveProps {
     onShowStaticContent: (show: boolean) => void;
-    user?: any;
 }
 
 const MODE_TABS = {
@@ -72,18 +71,16 @@ const MODE_COPY = {
     },
 } as const;
 
-export default function HomeInteractive({ onShowStaticContent, user }: HomeInteractiveProps) {
+export default function HomeInteractive({ onShowStaticContent }: HomeInteractiveProps) {
     return (
-        <HeroWithUploadSection onShowStaticContent={onShowStaticContent} user={user} />
+        <HeroWithUploadSection onShowStaticContent={onShowStaticContent} />
     );
 }
 
 function HeroWithUploadSection({
     onShowStaticContent,
-    user
 }: {
     onShowStaticContent: (show: boolean) => void;
-    user?: any;
 }) {
     const router = useRouter();
     const pathname = usePathname();
@@ -119,13 +116,6 @@ function HeroWithUploadSection({
     const openCreationCenter = () => {
         const query = buildQuery();
         const targetPath = `/${locale}/creative-center${query ? `?${query}` : ''}`;
-
-        if (!user) {
-            const signInQuery = new URLSearchParams();
-            signInQuery.set('next', targetPath);
-            router.push(`/${locale}/sign-in?${signInQuery.toString()}`);
-            return;
-        }
 
         router.push(targetPath);
     };

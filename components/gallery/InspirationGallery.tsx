@@ -1,5 +1,5 @@
 import { getLocalizedGalleryItems } from "@/config/gallery";
-import type { LandingPageSlug } from "@/config/landing-pages";
+import { landingPages, type LandingPageSlug } from "@/config/landing-pages";
 import { GalleryVideoCard } from "@/components/gallery/GalleryVideoCard";
 
 type InspirationGalleryProps = {
@@ -23,9 +23,12 @@ export function InspirationGallery({
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {items.map((item) => {
+              const params = new URLSearchParams();
+              params.set("mode", landingPages[item.useCase]?.mode ?? "multi_modal_video");
+              params.set("preset", item.id);
               const href = anchorHrefPrefix
                 ? `${anchorHrefPrefix}#creation-workspace`
-                : `/${locale}/${item.slug}#creation-workspace`;
+                : `/${locale}/creative-center?${params.toString()}#creation-workspace`;
 
               return <GalleryVideoCard key={item.id} locale={locale} href={href} item={item} />;
             })}

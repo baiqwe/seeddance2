@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, PlayCircle, VolumeX } from "lucide-react";
 
 type GalleryVideoCardProps = {
@@ -25,8 +25,14 @@ type GalleryVideoCardProps = {
 export function GalleryVideoCard({ locale, href, item }: GalleryVideoCardProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPreviewing, setIsPreviewing] = useState(false);
+  const [canHoverPreview, setCanHoverPreview] = useState(false);
+
+  useEffect(() => {
+    setCanHoverPreview(window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+  }, []);
 
   function startPreview() {
+    if (!canHoverPreview) return;
     setIsPreviewing(true);
     const video = videoRef.current;
     if (!video) return;
@@ -59,12 +65,12 @@ export function GalleryVideoCard({ locale, href, item }: GalleryVideoCardProps) 
         />
         <video
           ref={videoRef}
-          src={item.videoUrl}
+          src={isPreviewing ? item.videoUrl : undefined}
           poster={item.afterImage}
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${isPreviewing ? "opacity-100" : "opacity-0"}`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/28 to-transparent" />
@@ -91,14 +97,14 @@ export function GalleryVideoCard({ locale, href, item }: GalleryVideoCardProps) 
 
       <div className="flex items-center justify-between gap-4 p-4">
         <div className="text-sm text-white/58">
-          {locale === "zh" ? "点击直达上传区，直接试这个风格" : "Jump straight to the uploader and try this style"}
+          {locale === "zh" ? "带着这个方向进入创作中心继续细化" : "Open the creation center with this direction"}
         </div>
         <Link
           href={href}
           aria-label={locale === "zh" ? `试试${item.titleLabel}风格` : `Try the ${item.titleLabel} style`}
           className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-950 transition-colors hover:bg-white/90"
         >
-          {locale === "zh" ? "制作同款" : "Try this style"}
+          {locale === "zh" ? "带入创作" : "Use this direction"}
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>

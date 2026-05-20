@@ -15,42 +15,42 @@ export default async function HomeStaticContent({ locale }: Props) {
   const workflowLinks = [
     {
       href: `${localePrefix}/image-to-video`,
-      title: isZh ? "Seedance 2 图生视频" : "Seedance 2 Image to Video",
+      title: isZh ? "图生视频工作流" : "Image to Video Workflow",
       description: isZh
         ? "从一张静帧、角色设定图或产品主视觉开始，把画面推成更稳定的连续镜头。"
         : "Start from a still, a character sheet, or a product hero frame and push it into a more stable moving shot.",
     },
     {
       href: `${localePrefix}/reference-video-generator`,
-      title: isZh ? "Seedance 2 参考视频生成" : "Seedance 2 Reference Video",
+      title: isZh ? "参考视频工作流" : "Reference Video Workflow",
       description: isZh
         ? "用已有片段锁定动作、运镜和节奏，让新视频更接近你脑海里的镜头语言。"
         : "Use existing clips to lock motion, camera behavior, and pacing so the new output stays closer to your intended shot language.",
     },
     {
       href: `${localePrefix}/dance-motion-transfer`,
-      title: isZh ? "Seedance 2 动作迁移" : "Seedance 2 Motion Transfer",
+      title: isZh ? "动作迁移工作流" : "Motion Transfer Workflow",
       description: isZh
         ? "把参考动作迁移到新的角色或数字人，同时尽量守住身份和造型一致性。"
         : "Transfer choreography into a new character or avatar while keeping identity and styling more consistent.",
     },
     {
       href: `${localePrefix}/storyboard-to-video`,
-      title: isZh ? "Seedance 2 分镜转视频" : "Seedance 2 Storyboard to Video",
+      title: isZh ? "分镜转视频工作流" : "Storyboard to Video Workflow",
       description: isZh
         ? "把分镜稿、关键帧和镜头说明扩成预演视频，先验证走位和节奏。"
         : "Turn boards, keyframes, and shot notes into previs clips so teams can validate timing and blocking early.",
     },
     {
       href: `${localePrefix}/video-extension`,
-      title: isZh ? "Seedance 2 视频延展" : "Seedance 2 Video Extension",
+      title: isZh ? "视频延展工作流" : "Video Extension Workflow",
       description: isZh
         ? "沿着原始片段的节奏与空间关系继续写下去，不必从头重来。"
         : "Continue a source clip along its existing momentum and scene logic instead of restarting from zero.",
     },
     {
       href: `${localePrefix}/product-ad-generator`,
-      title: isZh ? "Seedance 2 产品广告" : "Seedance 2 Product Ads",
+      title: isZh ? "产品广告工作流" : "Product Ad Workflow",
       description: isZh
         ? "适合产品揭幕、材质展示、发售预热和 campaign 测试片段。"
         : "Useful for product reveals, material sweeps, launch teasers, and campaign test edits.",
