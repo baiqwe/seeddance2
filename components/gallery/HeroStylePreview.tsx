@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { mediaAsset } from "@/config/media";
 
 type HeroStylePreviewProps = {
   locale: string;
@@ -10,25 +11,25 @@ type HeroStylePreviewProps = {
 const previewItems = [
   {
     id: "ghibli",
-    image: "/images/gallery/generated/ghibli.jpg",
+    image: mediaAsset("/images/gallery/generated/ghibli.jpg"),
     labelEn: "Ghibli",
     labelZh: "吉卜力风",
   },
   {
     id: "webtoon",
-    image: "/images/gallery/generated/webtoon.jpg",
+    image: mediaAsset("/images/gallery/generated/webtoon.jpg"),
     labelEn: "Webtoon",
     labelZh: "韩漫风",
   },
   {
     id: "retro",
-    image: "/images/gallery/generated/retro_90s.jpg",
+    image: mediaAsset("/images/gallery/generated/retro_90s.jpg"),
     labelEn: "90s Retro",
     labelZh: "90年代复古",
   },
   {
     id: "cyberpunk",
-    image: "/images/gallery/generated/cyberpunk.jpg",
+    image: mediaAsset("/images/gallery/generated/cyberpunk.jpg"),
     labelEn: "Cyberpunk",
     labelZh: "赛博朋克",
   },
@@ -79,7 +80,7 @@ export function HeroStylePreview({ locale, className = "" }: HeroStylePreviewPro
           <div className="pointer-events-none absolute left-1/2 top-1/2 w-[120px] -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-background bg-background/[0.92] p-1 shadow-[0_22px_60px_-20px_rgba(255,102,147,0.28)] md:w-[148px]">
             <div className="relative aspect-square overflow-hidden rounded-full">
               <Image
-              src="/images/gallery/hero-before.jpg"
+              src={mediaAsset("/images/gallery/hero-before.png")}
               alt={locale === "zh" ? "原图示例" : "Original sample image"}
               fill
               sizes="148px"

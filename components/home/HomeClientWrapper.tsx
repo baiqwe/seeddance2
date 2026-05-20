@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from 'react';
 import HomeInteractive from './HomeInteractive';
 import { useUser } from '@/hooks/use-user';
+import { mediaAsset } from '@/config/media';
 
 interface HomeClientWrapperProps {
     heroHeading: ReactNode;
@@ -28,9 +29,9 @@ export default function HomeClientWrapper({ heroHeading, heroSupport, staticCont
                         playsInline
                         preload="metadata"
                         className="h-full w-full object-cover opacity-34"
-                        poster="/images/gallery/custom/seedance-hero-w8ki0.png"
+                        poster={mediaAsset("/images/gallery/custom/seedance-hero-w8ki0.png")}
                     >
-                        <source src="/videos/hero/seedance-hero-w8ki0.mp4" type="video/mp4" />
+                        <source src={mediaAsset("/videos/hero/seedance-hero-w8ki0.mp4")} type="video/mp4" />
                     </video>
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,7,14,0.46)_0%,rgba(6,9,16,0.52)_16%,rgba(8,11,18,0.66)_44%,rgba(7,9,14,0.90)_100%)]" />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(92,156,255,0.22),transparent_26%),radial-gradient(circle_at_18%_18%,rgba(58,202,225,0.10),transparent_18%),radial-gradient(circle_at_82%_14%,rgba(118,92,255,0.10),transparent_20%)]" />

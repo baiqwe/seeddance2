@@ -35,6 +35,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/hooks/use-user";
+import { mediaAsset } from "@/config/media";
 import {
   useMultiModalWorkspace,
   type WorkspaceAsset,
@@ -300,7 +301,7 @@ const VIDEO_MODEL_META: Record<string, Record<VideoModelId, { name: string; desc
 
 const PREVIEW_REELS: Record<VideoGenerationMode, { src: string; label: string; headlineZh: string; headlineEn: string; bodyZh: string; bodyEn: string }> = {
   multi_modal_video: {
-    src: "/videos/gallery/seedance-autumn-duel.mp4",
+    src: mediaAsset("/videos/gallery/seedance-autumn-duel.mp4"),
     label: "Cinematic action sample",
     headlineZh: "让角色、动作和运镜在同一个镜头里配合起来。",
     headlineEn: "Let identity, movement, and camera travel work together in one shot.",
@@ -308,7 +309,7 @@ const PREVIEW_REELS: Record<VideoGenerationMode, { src: string; label: string; h
     bodyEn: "A full action sample shows the value of the multi-reference workflow more clearly: the subject stays stable, the motion keeps its rhythm, and the camera move follows one consistent intent.",
   },
   image_to_video: {
-    src: "/videos/gallery/seedance-hero-4.mp4",
+    src: mediaAsset("/videos/gallery/seedance-hero-4.mp4"),
     label: "Balance beam sample",
     headlineZh: "先锁定起始画面，再把动作慢慢推出来。",
     headlineEn: "Lock the opening frame first, then let the motion build from it.",
@@ -316,7 +317,7 @@ const PREVIEW_REELS: Record<VideoGenerationMode, { src: string; label: string; h
     bodyEn: "This gymnastics sample shows the core image-to-video pattern more clearly: stabilize the subject and scene first, then build movement and pacing on top of that still frame.",
   },
   text_to_video: {
-    src: "/videos/gallery/seedance-hero-6.mp4",
+    src: mediaAsset("/videos/gallery/seedance-hero-6.mp4"),
     label: "Narrative rush sample",
     headlineZh: "先把戏剧张力写清楚，再让镜头自己长出来。",
     headlineEn: "Write the urgency first, then let the shot language grow from it.",
@@ -324,7 +325,7 @@ const PREVIEW_REELS: Record<VideoGenerationMode, { src: string; label: string; h
     bodyEn: "This street-running sample is closer to how text-to-video usually starts in practice: describe the situation, tension, and forward drive first, then decide whether references are needed later.",
   },
   video_extension: {
-    src: "/videos/gallery/video-extension.mp4",
+    src: mediaAsset("/videos/gallery/video-extension.mp4"),
     label: "Extension sample",
     headlineZh: "沿着已有镜头，把叙事继续下去。",
     headlineEn: "Continue the shot without breaking the scene logic.",

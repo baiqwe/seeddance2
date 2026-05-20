@@ -35,6 +35,11 @@ const nextConfig: NextConfig = {
         hostname: 'lh3.googleusercontent.com', // Google Avatar
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'media.seedance2video.cc',
+        pathname: '/**',
+      },
     ],
   },
 
