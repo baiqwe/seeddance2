@@ -164,7 +164,7 @@ async function prepareUpload(kind: WorkspaceAssetKind, file: File) {
 
   const payload = (await response.json().catch(() => null)) as PrepareUploadResponse | null;
   if (!response.ok || !payload?.signedUrl || !payload?.publicUrl) {
-    throw new Error(payload?.error || "Failed to prepare upload");
+    throw new Error(payload?.error || `Failed to prepare upload (${response.status})`);
   }
 
   return payload;

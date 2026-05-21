@@ -844,7 +844,7 @@ function UploadLane({
         <div className="mt-1 text-xs text-white/36">{limitLabel}</div>
       </div>
 
-      <div className="mt-4 space-y-3">
+      <div className="mt-4 max-h-[360px] space-y-2 overflow-y-auto pr-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/12">
         {assets.length === 0 ? <div className="text-sm text-white/38">{emptyLabel}</div> : null}
         {assets.map((asset, index) => (
           <AssetRow
@@ -881,15 +881,15 @@ function AssetRow({
     asset.kind === "image" ? ImagePlus : asset.kind === "video" ? Film : Mic2;
 
   return (
-    <div className="rounded-[12px] border border-white/8 bg-[#15171d] p-3">
-      <div className="flex gap-3">
+    <div className="rounded-[12px] border border-white/8 bg-[#15171d] p-2.5">
+      <div className="flex gap-2.5">
         <AssetThumb asset={asset} icon={icon} />
         <div className="min-w-0 flex-1">
-          <div className="truncate text-sm font-medium text-white">{asset.name}</div>
+          <div className="truncate text-xs font-medium text-white sm:text-sm">{asset.name}</div>
           <div className="mt-1 text-xs uppercase tracking-[0.18em] text-white/36">
             {asset.kind} · {asset.sizeLabel}
           </div>
-          <div className="mt-3 h-1 overflow-hidden rounded-full bg-white/10">
+          <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
             <div
               className="h-full rounded-full bg-[linear-gradient(90deg,#2563ff,#8b5cf6)] transition-all"
               style={{ width: `${asset.progress}%` }}
@@ -897,8 +897,8 @@ function AssetRow({
           </div>
         </div>
       </div>
-      <div className="mt-3 flex items-center justify-between">
-        <div className="text-xs text-white/44">
+      <div className="mt-2 flex items-center justify-between gap-2">
+        <div className="min-w-0 truncate text-xs text-white/44">
           {asset.status === "ready"
             ? locale === "zh"
               ? "已准备好生成"
@@ -909,7 +909,7 @@ function AssetRow({
                 ? `已上传 ${asset.progress}%`
                 : `${asset.progress}% uploaded`}
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex shrink-0 items-center gap-1">
           <IconButton disabled={!canMoveUp} onClick={() => onMove("up")}>
             <ArrowUp className="h-3.5 w-3.5" />
           </IconButton>
@@ -937,7 +937,7 @@ function AssetThumb({
       <img
         src={asset.previewUrl}
         alt={asset.name}
-        className="h-14 w-14 rounded-[12px] border border-white/8 object-cover"
+        className="h-12 w-12 rounded-[12px] border border-white/8 object-cover"
       />
     );
   }
@@ -949,13 +949,13 @@ function AssetThumb({
         muted
         playsInline
         preload="metadata"
-        className="h-14 w-14 rounded-[12px] border border-white/8 object-cover"
+        className="h-12 w-12 rounded-[12px] border border-white/8 object-cover"
       />
     );
   }
 
   return (
-    <div className="flex h-14 w-14 items-center justify-center rounded-[12px] border border-white/8 bg-white/[0.04] text-white/58">
+    <div className="flex h-12 w-12 items-center justify-center rounded-[12px] border border-white/8 bg-white/[0.04] text-white/58">
       <Icon className="h-5 w-5" />
     </div>
   );
@@ -1149,6 +1149,11 @@ function formatWorkspaceNotice(notice: string | null, locale: string) {
     "Upload failed": "素材上传失败，请稍后重试。",
     "Failed to prepare upload": "准备上传失败，请稍后重试。",
     "Network error during upload": "上传过程中发生网络错误，请稍后重试。",
+    "Please sign in before uploading assets.": "请先登录，再上传参考素材。",
+    "R2 signing credentials are not configured.": "R2 上传签名密钥未配置，请检查 Cloudflare 环境变量。",
+    "R2_PUBLIC_BASE_URL is not configured.": "R2 公开访问地址未配置，请检查 R2_PUBLIC_BASE_URL。",
+    "Failed to prepare R2 upload.": "准备 R2 上传失败，请检查存储配置。",
+    "Invalid upload metadata": "上传信息无效，请重新选择文件。",
     "This mode does not accept image references.": "当前模式不接受图片参考素材。",
     "This mode does not accept video references.": "当前模式不接受视频参考素材。",
     "This mode does not accept audio references.": "当前模式不接受音频参考素材。",
@@ -1169,6 +1174,11 @@ function formatWorkspaceNotice(notice: string | null, locale: string) {
   const uploadStatusMatch = notice.match(/^Upload failed with status (\d+)$/);
   if (uploadStatusMatch) {
     return `素材上传失败，服务器返回状态 ${uploadStatusMatch[1]}。`;
+  }
+
+  const prepareStatusMatch = notice.match(/^Failed to prepare upload \((\d+)\)$/);
+  if (prepareStatusMatch) {
+    return `准备上传失败，接口返回状态 ${prepareStatusMatch[1]}。`;
   }
 
   return notice;

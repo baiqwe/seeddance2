@@ -60,7 +60,14 @@ function getR2PublicUrl(objectKey: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const body = (await request.json()) as UploadPrepareBody;
+  let body: UploadPrepareBody;
+
+  try {
+    body = (await request.json()) as UploadPrepareBody;
+  } catch {
+    return NextResponse.json({ error: "Invalid upload metadata" }, { status: 400 });
+  }
+
   const kind = body.kind as UploadKind;
   const fileName = typeof body.fileName === "string" ? body.fileName : "";
   const contentType = typeof body.contentType === "string" ? body.contentType : "";
@@ -86,21 +93,31 @@ export async function POST(request: NextRequest) {
   if (isCloudflareDataBackend()) {
     const user = await requireSessionUser();
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "Please sign in before uploading assets." }, { status: 401 });
     }
 
-    const path = buildR2StoragePath(user.id, kind, fileName);
-    const signedUrl = await createR2SignedUploadUrl({
-      objectKey: path,
-      contentType,
-    });
+    try {
+      const path = buildR2StoragePath(user.id, kind, fileName);
+      const signedUrl = await createR2SignedUploadUrl({
+        objectKey: path,
+        contentType,
+      });
 
-    return NextResponse.json({
-      bucket: process.env.R2_BUCKET_NAME || "seedance2-media",
-      path,
-      signedUrl,
-      publicUrl: getR2PublicUrl(path),
-    });
+      return NextResponse.json({
+        bucket: process.env.R2_BUCKET_NAME || "seedance2-media",
+        path,
+        signedUrl,
+        publicUrl: getR2PublicUrl(path),
+      });
+    } catch (error: any) {
+      return NextResponse.json(
+        {
+          error: error?.message || "Failed to prepare R2 upload.",
+          code: "R2_UPLOAD_PREPARE_FAILED",
+        },
+        { status: 500 }
+      );
+    }
   }
 
   const supabase = await createClient();
