@@ -166,9 +166,9 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                             </p>
                         </div>
 
-                        <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_300px]">
+                        <div className="mt-4 grid gap-4">
                             <div className="rounded-[24px] border border-white/10 bg-white/[0.035] p-4">
-                                <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
+                                <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
                                     <Clapperboard className="h-3.5 w-3.5 text-blue-200/80" />
                                     {isZh ? '参考素材与职责' : 'References and roles'}
                                 </div>
@@ -188,7 +188,7 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                             </div>
 
                             <div className="rounded-[24px] border border-white/10 bg-white/[0.035] p-4">
-                                <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
+                                <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
                                     <Settings2 className="h-3.5 w-3.5 text-violet-200/80" />
                                     {isZh ? '生成逻辑' : 'Generation logic'}
                                 </div>
@@ -231,10 +231,10 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                                     playsInline
                                     controls
                                     preload="metadata"
-                                    className="aspect-[9/12] w-full bg-black object-cover"
+                                    className={cn(getVideoAspectClass(activeTemplate.ratio), 'w-full bg-black object-cover')}
                                 />
                             ) : (
-                                <div className="relative aspect-[9/12] w-full overflow-hidden bg-[radial-gradient(circle_at_50%_26%,rgba(103,232,249,0.16),transparent_32%),linear-gradient(180deg,#111827,#020617)]">
+                                <div className={cn(getVideoAspectClass(activeTemplate.ratio), 'relative w-full overflow-hidden bg-[radial-gradient(circle_at_50%_26%,rgba(103,232,249,0.16),transparent_32%),linear-gradient(180deg,#111827,#020617)]')}>
                                     <img src={activeTemplate.poster} alt="" className="h-full w-full object-cover opacity-42 blur-[1px]" />
                                     <div className="absolute inset-0 flex items-center justify-center p-8 text-center">
                                         <div className="rounded-[24px] border border-white/10 bg-black/36 p-5 backdrop-blur-xl">
@@ -299,7 +299,7 @@ function ParamBadge({ label, value }: { label: string; value: string }) {
 function ReferenceCard({ reference, isZh }: { reference: ShowcaseReference; isZh: boolean }) {
     const Icon = REFERENCE_ICON[reference.type];
     return (
-        <div className="grid gap-3 rounded-[18px] border border-white/8 bg-black/18 p-3 sm:grid-cols-[72px_minmax(0,1fr)]">
+        <div className="grid gap-3 rounded-[18px] border border-white/8 bg-black/18 p-3 md:grid-cols-[72px_minmax(0,1fr)]">
             <div className="flex h-[72px] items-center justify-center overflow-hidden rounded-[14px] border border-white/8 bg-white/[0.04]">
                 {reference.thumbnail ? (
                     <img src={reference.thumbnail} alt="" className="h-full w-full object-cover" />
@@ -332,4 +332,13 @@ function formatMode(mode: string, isZh: boolean) {
 
     const label = labels[mode];
     return label ? (isZh ? label.zh : label.en) : mode;
+}
+
+function getVideoAspectClass(ratio: string) {
+    if (ratio === '9:16') return 'aspect-[9/16]';
+    if (ratio === '1:1') return 'aspect-square';
+    if (ratio === '4:3') return 'aspect-[4/3]';
+    if (ratio === '3:4') return 'aspect-[3/4]';
+    if (ratio === '21:9') return 'aspect-[21/9]';
+    return 'aspect-video';
 }
