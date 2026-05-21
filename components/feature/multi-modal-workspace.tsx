@@ -4,15 +4,12 @@ import type { ComponentType, ReactNode } from "react";
 import { useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import type { Accept } from "react-dropzone";
-import { motion } from "framer-motion";
 import {
   AlertCircle,
   ArrowDown,
   ArrowUp,
-  AudioLines,
   Check,
   CheckCircle2,
-  Clapperboard,
   Film,
   ImagePlus,
   Loader2,
@@ -61,17 +58,20 @@ type WorkspaceCopy = {
   modelName: string;
   modelDescription: string;
   modelBadges: string[];
-  containsRealPeople: string;
-  containsRealPeopleHint: string;
   returnLastFrame: string;
   returnLastFrameHint: string;
+  generateAudio: string;
+  generateAudioHint: string;
+  webSearch: string;
+  webSearchHint: string;
+  providerParamsTitle: string;
+  providerParamsHint: string;
   promptLabel: string;
   promptPlaceholder: string;
   promptCounter: string;
   resolution: string;
   duration: string;
   aspectRatio: string;
-  advanced: string;
   generate: string;
   queueTitle: string;
   queueEta: string;
@@ -110,10 +110,14 @@ const COPY: Record<string, WorkspaceCopy> = {
     modelName: "Seedance 2.0 Multi-Reference",
     modelDescription: "优先理解图像、视频、音频与文字之间的关系，适合做角色一致性、动作继承和镜头延展。",
     modelBadges: ["参考优先", "动作理解", "镜头延展"],
-    containsRealPeople: "包含真人素材",
-    containsRealPeopleHint: "启用后，会优先把人物身份、皮肤细节和镜头安全边界处理得更稳。",
-    returnLastFrame: "添加尾帧目标",
-    returnLastFrameHint: "给模型一个明确的终点画面，适合做延展、收束动作和更稳定的转场。",
+    returnLastFrame: "返回尾帧",
+    returnLastFrameHint: "让 Kie 在结果里返回最后一帧，方便继续做延展或下一轮关键帧控制。",
+    generateAudio: "生成音频",
+    generateAudioHint: "让模型同步生成音频；如果你已上传音频参考，建议保持开启。",
+    webSearch: "启用联网增强",
+    webSearchHint: "允许模型参考网络信息增强语义理解；不需要真实信息时可关闭。",
+    providerParamsTitle: "Kie Seedance 2 参数",
+    providerParamsHint: "这里对应 API 入参：model、resolution、aspect_ratio、duration、generate_audio、return_last_frame、web_search。",
     promptLabel: "Prompt",
     promptPlaceholder:
       "例如：以 image-01 作为首帧角色，沿用 video-02 的推轨与镜头节奏，5 秒内从中景推进到近景，保留冷色夜景霓虹和电子鼓点推进感。",
@@ -121,7 +125,6 @@ const COPY: Record<string, WorkspaceCopy> = {
     resolution: "分辨率",
     duration: "时长",
     aspectRatio: "画幅",
-    advanced: "高级选项",
     generate: "生成视频",
     queueTitle: "生成前检查",
     queueEta: "当前素材状态",
@@ -196,10 +199,14 @@ const COPY: Record<string, WorkspaceCopy> = {
     modelName: "Seedance 2.0 Multi-Reference",
     modelDescription: "Built to interpret images, clips, audio, and text together, with stronger control over identity, motion transfer, and shot extension.",
     modelBadges: ["Reference-first", "Motion-aware", "Extendable"],
-    containsRealPeople: "Contains real people",
-    containsRealPeopleHint: "Use this when human identity, skin detail, and safer portrait behavior need extra stability.",
-    returnLastFrame: "Add target last frame",
-    returnLastFrameHint: "Give the model a visual destination for endings, transitions, and more stable clip extension.",
+    returnLastFrame: "Return last frame",
+    returnLastFrameHint: "Ask Kie to return the final frame so you can continue an extension or use it as the next keyframe.",
+    generateAudio: "Generate audio",
+    generateAudioHint: "Generate synchronized audio with the video. Keep this on when audio references should guide rhythm.",
+    webSearch: "Use web search",
+    webSearchHint: "Allow model-side web context when the prompt needs factual or external context.",
+    providerParamsTitle: "Kie Seedance 2 parameters",
+    providerParamsHint: "Mapped to API fields: model, resolution, aspect_ratio, duration, generate_audio, return_last_frame, web_search.",
     promptLabel: "Prompt",
     promptPlaceholder:
       "Example: use image-01 as the opening character frame, borrow the push-in and pacing from video-02, move from medium shot to close-up in 5 seconds, and keep the cold neon night tone with an electronic beat ramp.",
@@ -207,7 +214,6 @@ const COPY: Record<string, WorkspaceCopy> = {
     resolution: "Resolution",
     duration: "Duration",
     aspectRatio: "Aspect Ratio",
-    advanced: "Advanced",
     generate: "Generate",
     queueTitle: "Pre-flight check",
     queueEta: "Current asset state",
@@ -345,8 +351,9 @@ export function MultiModalWorkspace({ locale }: Props) {
     resolution,
     durationSeconds,
     aspectRatio,
-    containsRealPeople,
     returnLastFrame,
+    generateAudio,
+    webSearch,
     assets,
     notice,
     estimatedCredits,
@@ -368,27 +375,26 @@ export function MultiModalWorkspace({ locale }: Props) {
   const currentUploadTitle =
     mode === "text_to_video"
       ? locale === "zh"
-        ? "这个模式只需要一段清晰的文字描述"
-        : "This mode starts with a clear text prompt"
+        ? "文本生成"
+        : "Text generation"
       : mode === "image_to_video"
         ? locale === "zh"
-          ? "上传 1 到 2 张关键帧图片"
-          : "Upload 1 to 2 keyframe images"
+          ? "首帧 / 尾帧"
+          : "First / last frame"
         : copy.uploadTitle;
   const currentUploadHint =
     mode === "text_to_video"
       ? locale === "zh"
-        ? "这个工作流先以提示词为主。先把主体、镜头运动、节奏和氛围说清楚，再进入生成。"
-        : "This workflow starts prompt-first. Describe the subject, camera motion, pacing, and atmosphere clearly before you generate."
+        ? "无需上传素材，Prompt 会直接进入 Kie 的 text-to-video 输入。"
+        : "No upload required. The prompt maps directly to Kie's text-to-video input."
       : mode === "image_to_video"
         ? locale === "zh"
-          ? "图生视频适合使用首帧 / 尾帧图片工作流。第一张图负责起始画面，第二张图可作为尾帧目标。"
-          : "Image-to-video works best with a first-frame / last-frame workflow. The first image starts the shot, and the optional second image becomes the target ending frame."
+          ? "第 1 张图片会作为 first_frame_url，第 2 张图片会作为可选 last_frame_url。"
+          : "Image 1 becomes first_frame_url. Image 2 becomes the optional last_frame_url."
         : copy.uploadHint;
   const showImageLane = imageLimit > 0;
   const showVideoLane = videoLimit > 0;
   const showAudioLane = audioLimit > 0;
-  const showLastFrameToggle = mode !== "text_to_video";
   const isUploadingAssets = useMemo(
     () =>
       Object.values(assets).some((assetList) =>
@@ -459,12 +465,7 @@ export function MultiModalWorkspace({ locale }: Props) {
   return (
     <div id="workspace" className="mx-auto max-w-7xl rounded-[30px] border border-cyan-200/10 bg-[#0e1724]/96 p-4 shadow-[0_34px_90px_-44px_rgba(0,0,0,0.8)] backdrop-blur-xl md:p-5">
       <div className="grid gap-5 xl:grid-cols-[390px_minmax(0,1fr)]">
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: "easeOut" }}
-        className="rounded-[22px] border border-cyan-200/10 bg-[#101827] p-4 xl:sticky xl:top-24 xl:self-start"
-      >
+      <div className="rounded-[22px] border border-cyan-200/10 bg-[#101827] p-4 xl:sticky xl:top-24 xl:self-start">
         <div className="space-y-4">
           <div className="grid grid-cols-3 gap-2">
             {copy.tabs.map((tab) => (
@@ -484,18 +485,6 @@ export function MultiModalWorkspace({ locale }: Props) {
             ))}
           </div>
 
-          <div className="rounded-[16px] border border-cyan-200/10 bg-cyan-200/[0.035] px-4 py-3">
-            <div className="flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <div className="text-[11px] uppercase tracking-[0.18em] text-cyan-100/44">{copy.modelLabel}</div>
-                <div className="mt-1 truncate text-sm font-medium text-white">{activeModel.name}</div>
-              </div>
-              <span className="shrink-0 rounded-full border border-white/10 bg-white/[0.045] px-2.5 py-1 text-[11px] text-white/52">
-                {locale === "zh" ? "高级选项中切换" : "Change in Advanced"}
-              </span>
-            </div>
-          </div>
-
           {localizedNotice ? (
             <div className="flex items-center gap-3 rounded-[14px] border border-amber-300/15 bg-amber-300/8 px-4 py-3 text-sm text-amber-100/90">
               <AlertCircle className="h-4 w-4 shrink-0" />
@@ -505,6 +494,27 @@ export function MultiModalWorkspace({ locale }: Props) {
               </button>
             </div>
           ) : null}
+
+          <ProviderParamsPanel
+            locale={locale}
+            copy={copy}
+            videoModel={videoModel}
+            videoModelMeta={videoModelMeta}
+            activeModel={activeModel}
+            resolution={resolution}
+            durationSeconds={durationSeconds}
+            aspectRatio={aspectRatio}
+            returnLastFrame={returnLastFrame}
+            generateAudio={generateAudio}
+            webSearch={webSearch}
+            onModelChange={actions.setVideoModel}
+            onResolutionChange={actions.setResolution}
+            onDurationChange={actions.setDurationSeconds}
+            onAspectRatioChange={actions.setAspectRatio}
+            onToggleReturnLastFrame={actions.toggleReturnLastFrame}
+            onToggleGenerateAudio={actions.toggleGenerateAudio}
+            onToggleWebSearch={actions.toggleWebSearch}
+          />
 
           <div className="rounded-[16px] border border-white/8 bg-[#0b1220] p-4">
             <div className="mb-3 flex items-center justify-between gap-3">
@@ -520,9 +530,18 @@ export function MultiModalWorkspace({ locale }: Props) {
             <div className="mt-3 text-xs text-white/42">{copy.promptCounter}</div>
           </div>
 
-          <div className="rounded-[16px] border border-white/8 bg-[#0b1220] p-4">
-            <div className="text-sm font-medium text-white">{currentUploadTitle}</div>
-            <p className="mt-2 text-sm leading-7 text-white/56">{currentUploadHint}</p>
+          <div className="rounded-[14px] border border-white/8 bg-white/[0.025] px-3.5 py-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="text-sm font-medium text-white">{currentUploadTitle}</div>
+              <span className="rounded-full border border-white/8 bg-white/[0.04] px-2.5 py-1 text-[11px] text-white/42">
+                {mode === "image_to_video"
+                  ? "first_frame_url / last_frame_url"
+                  : mode === "multi_modal_video"
+                    ? "reference_*_urls"
+                    : "prompt only"}
+              </span>
+            </div>
+            <p className="mt-2 text-xs leading-6 text-white/46">{currentUploadHint}</p>
           </div>
 
           {showImageLane || showVideoLane || showAudioLane ? (
@@ -551,83 +570,6 @@ export function MultiModalWorkspace({ locale }: Props) {
             </div>
           ) : null}
 
-          <details className="group rounded-[16px] border border-white/8 bg-[#0b1220] p-4">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-white">
-              <span>{copy.advanced}</span>
-              <span className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] text-white/56 transition-colors group-open:bg-[#2563ff]/15 group-open:text-[#bfdbfe]">
-                {locale === "zh" ? "比例 / 时长 / 安全选项" : "ratio / duration / safety"}
-              </span>
-            </summary>
-            <div className="mt-4 space-y-3">
-              <div className="rounded-[14px] border border-white/8 bg-white/[0.035] p-3.5">
-                <Label>{copy.modelLabel}</Label>
-                <div className="mt-3">
-                  <Select value={videoModel} onValueChange={(value) => actions.setVideoModel(value as VideoModelId)}>
-                    <SelectTrigger className="h-11 rounded-[12px] border-white/10 bg-[#070b12] text-left text-sm text-white focus:ring-[#2563ff]/35 focus:ring-offset-0">
-                      <SelectValue placeholder={locale === "zh" ? "选择视频模型" : "Choose a video model"} />
-                    </SelectTrigger>
-                    <SelectContent className="border-white/10 bg-[#101827] text-white">
-                      {VIDEO_MODEL_OPTIONS.map((modelOptionKey) => {
-                        const modelOption = videoModelMeta[modelOptionKey];
-                        return (
-                          <SelectItem
-                            key={modelOptionKey}
-                            value={modelOptionKey}
-                            className="rounded-[10px] py-2.5 pl-8 pr-3 text-sm text-white focus:bg-white/[0.08] focus:text-white"
-                          >
-                            {modelOption.name}
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="mt-3 text-xs leading-5 text-white/50">{activeModel.description}</div>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {activeModel.badges.map((badge) => (
-                    <span key={badge} className="rounded-full border border-white/8 bg-white/[0.05] px-2.5 py-1 text-[11px] text-white/68">
-                      {badge}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="space-y-2.5">
-                <TogglePill
-                  active={containsRealPeople}
-                  onClick={actions.toggleContainsRealPeople}
-                  label={copy.containsRealPeople}
-                  hint={copy.containsRealPeopleHint}
-                />
-                {showLastFrameToggle ? (
-                  <TogglePill
-                    active={returnLastFrame}
-                    onClick={actions.toggleReturnLastFrame}
-                    label={copy.returnLastFrame}
-                    hint={copy.returnLastFrameHint}
-                  />
-                ) : null}
-              </div>
-              <OptionGroup
-                title={copy.resolution}
-                options={RESOLUTIONS}
-                value={resolution}
-                onChange={(next) => actions.setResolution(next as typeof resolution)}
-              />
-              <DurationSlider
-                title={copy.duration}
-                options={DURATIONS}
-                value={durationSeconds}
-                onChange={(next) => actions.setDurationSeconds(next as typeof durationSeconds)}
-              />
-              <OptionGroup
-                title={copy.aspectRatio}
-                options={RATIOS}
-                value={aspectRatio}
-                onChange={(next) => actions.setAspectRatio(next as typeof aspectRatio)}
-              />
-            </div>
-          </details>
-
           <div className="sticky bottom-3 z-20 space-y-3 rounded-[18px] border border-white/10 bg-[#101827]/92 p-3 shadow-[0_22px_60px_-36px_rgba(0,0,0,0.85)] backdrop-blur-xl xl:static xl:border-0 xl:bg-transparent xl:p-0 xl:shadow-none xl:backdrop-blur-0">
             <div className="flex flex-wrap items-center gap-3">
               <div className="rounded-lg border border-white/10 bg-[#1d1f26] px-4 py-2 text-sm text-white/78">
@@ -653,14 +595,9 @@ export function MultiModalWorkspace({ locale }: Props) {
             </Button>
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.08, ease: "easeOut" }}
-        className="space-y-6"
-      >
+      <div className="space-y-6">
         <div className="rounded-[22px] border border-white/8 bg-[#24252c] p-4">
           <div className="flex items-center justify-between gap-3">
             <div>
@@ -772,9 +709,96 @@ export function MultiModalWorkspace({ locale }: Props) {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
       </div>
     </div>
+  );
+}
+
+function ProviderParamsPanel({
+  locale,
+  copy,
+  videoModel,
+  videoModelMeta,
+  activeModel,
+  resolution,
+  durationSeconds,
+  aspectRatio,
+  returnLastFrame,
+  generateAudio,
+  webSearch,
+  onModelChange,
+  onResolutionChange,
+  onDurationChange,
+  onAspectRatioChange,
+  onToggleReturnLastFrame,
+  onToggleGenerateAudio,
+  onToggleWebSearch,
+}: {
+  locale: string;
+  copy: WorkspaceCopy;
+  videoModel: VideoModelId;
+  videoModelMeta: Record<VideoModelId, { name: string; description: string; badges: string[] }>;
+  activeModel: { name: string; description: string; badges: string[] };
+  resolution: string;
+  durationSeconds: number;
+  aspectRatio: string;
+  returnLastFrame: boolean;
+  generateAudio: boolean;
+  webSearch: boolean;
+  onModelChange: (model: VideoModelId) => void;
+  onResolutionChange: (resolution: any) => void;
+  onDurationChange: (duration: any) => void;
+  onAspectRatioChange: (ratio: any) => void;
+  onToggleReturnLastFrame: () => void;
+  onToggleGenerateAudio: () => void;
+  onToggleWebSearch: () => void;
+}) {
+  return (
+    <section className="rounded-[18px] border border-cyan-200/10 bg-[linear-gradient(180deg,rgba(93,211,255,0.055),rgba(255,255,255,0.02))] p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <div className="text-sm font-semibold text-white">{copy.providerParamsTitle}</div>
+          <p className="mt-1 text-xs leading-5 text-white/42">{copy.providerParamsHint}</p>
+        </div>
+        <span className="shrink-0 rounded-full border border-cyan-200/12 bg-cyan-200/[0.05] px-2.5 py-1 text-[11px] text-cyan-100/58">
+          API
+        </span>
+      </div>
+
+      <div className="mt-4">
+        <Label>{copy.modelLabel}</Label>
+        <Select value={videoModel} onValueChange={(value) => onModelChange(value as VideoModelId)}>
+          <SelectTrigger className="mt-2 h-11 rounded-[12px] border-white/10 bg-[#070b12] text-left text-sm text-white focus:ring-[#2563ff]/35 focus:ring-offset-0">
+            <SelectValue placeholder={locale === "zh" ? "选择视频模型" : "Choose a video model"} />
+          </SelectTrigger>
+          <SelectContent className="border-white/10 bg-[#101827] text-white">
+            {VIDEO_MODEL_OPTIONS.map((modelOptionKey) => (
+              <SelectItem
+                key={modelOptionKey}
+                value={modelOptionKey}
+                className="rounded-[10px] py-2.5 pl-8 pr-3 text-sm text-white focus:bg-white/[0.08] focus:text-white"
+              >
+                {videoModelMeta[modelOptionKey].name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <div className="mt-2 line-clamp-2 text-xs leading-5 text-white/46">{activeModel.description}</div>
+      </div>
+
+      <div className="mt-4 grid gap-3">
+        <CompactOptionGroup title={copy.resolution} options={RESOLUTIONS} value={resolution} onChange={onResolutionChange} />
+        <CompactOptionGroup title={copy.aspectRatio} options={RATIOS} value={aspectRatio} onChange={onAspectRatioChange} />
+        <CompactDurationGroup title={copy.duration} options={DURATIONS} value={durationSeconds} onChange={onDurationChange} />
+      </div>
+
+      <div className="mt-4 grid gap-2">
+        <CompactToggle active={generateAudio} onClick={onToggleGenerateAudio} label={copy.generateAudio} hint={copy.generateAudioHint} apiName="generate_audio" />
+        <CompactToggle active={returnLastFrame} onClick={onToggleReturnLastFrame} label={copy.returnLastFrame} hint={copy.returnLastFrameHint} apiName="return_last_frame" />
+        <CompactToggle active={webSearch} onClick={onToggleWebSearch} label={copy.webSearch} hint={copy.webSearchHint} apiName="web_search" />
+      </div>
+    </section>
   );
 }
 
@@ -961,46 +985,7 @@ function AssetThumb({
   );
 }
 
-function Label({ children }: { children: ReactNode }) {
-  return <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-white/46">{children}</div>;
-}
-
-function TogglePill({
-  active,
-  onClick,
-  label,
-  hint,
-}: {
-  active: boolean;
-  onClick: () => void;
-  label: ReactNode;
-  hint: ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "flex w-full items-center justify-between rounded-[14px] border px-4 py-3.5 text-sm transition-all",
-        active
-          ? "border-cyan-300/28 bg-[linear-gradient(180deg,rgba(93,211,255,0.12),rgba(255,255,255,0.04))] text-white"
-          : "border-white/10 bg-[#1d1f26] text-white/82 hover:border-white/16"
-      )}
-    >
-      <span className="min-w-0 pr-4 text-left">
-        <span className="block text-sm font-medium text-white">{label}</span>
-        <span className="mt-1 block text-xs leading-5 text-white/50">{hint}</span>
-      </span>
-      <span className={cn("flex h-6 w-11 shrink-0 items-center rounded-full p-0.5 transition-colors", active ? "bg-cyan-300/30" : "bg-white/8")}>
-        <span className={cn("flex h-5 w-5 items-center justify-center rounded-full transition-transform", active ? "translate-x-5 bg-white text-slate-950" : "translate-x-0 bg-white/65 text-transparent")}>
-          <Check className="h-3 w-3" />
-        </span>
-      </span>
-    </button>
-  );
-}
-
-function OptionGroup({
+function CompactOptionGroup({
   title,
   options,
   value,
@@ -1011,33 +996,23 @@ function OptionGroup({
   value: string;
   onChange: (next: string) => void;
 }) {
-  if (options.length <= 1) {
-    return (
-      <div className="rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
-        <Label>{title}</Label>
-        <div className="mt-3 inline-flex rounded-xl border border-white/10 bg-[#15171d] px-3.5 py-2 text-sm text-white/76">
-          {options[0]}
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
-      <Label>{title}</Label>
-      <div className="mt-3 flex flex-wrap gap-2">
+    <div className="rounded-[13px] border border-white/8 bg-[#080d16]/70 p-3">
+      <div className="flex items-center justify-between gap-3">
+        <Label>{title}</Label>
+        <span className="rounded-full bg-white/[0.04] px-2 py-0.5 text-[11px] text-white/42">{value}</span>
+      </div>
+      <div className="mt-2 flex flex-wrap gap-1.5">
         {options.map((option) => (
           <button
             key={option}
             type="button"
             onClick={() => onChange(option)}
             className={cn(
-              title.toLowerCase().includes("aspect") || title.includes("画幅")
-                ? "flex h-14 w-14 flex-col items-center justify-center rounded-xl border text-[11px] transition-colors"
-                : "rounded-xl border px-3.5 py-2 text-sm transition-colors",
+              "rounded-lg border px-2.5 py-1.5 text-xs transition-colors",
               value === option
-                ? "border-cyan-300/30 bg-white text-slate-950 shadow-[0_6px_20px_-10px_rgba(255,255,255,0.85)]"
-                : "border-white/10 bg-[#15171d] text-white/76 hover:border-white/16 hover:bg-white/[0.05]"
+                ? "border-cyan-200/28 bg-white text-slate-950"
+                : "border-white/8 bg-white/[0.03] text-white/62 hover:border-white/16 hover:text-white"
             )}
           >
             {option}
@@ -1048,7 +1023,7 @@ function OptionGroup({
   );
 }
 
-function DurationSlider({
+function CompactDurationGroup({
   title,
   options,
   value,
@@ -1059,37 +1034,71 @@ function DurationSlider({
   value: number;
   onChange: (next: number) => void;
 }) {
-  if (options.length <= 1) {
-    return (
-      <div className="rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
-        <div className="flex items-center justify-between">
-          <Label>{title}</Label>
-          <span className="text-sm text-white">{value}s</span>
-        </div>
-        <div className="mt-3 rounded-xl border border-white/10 bg-[#15171d] px-3.5 py-3 text-sm text-white/68">
-          {title.includes("时长") ? `${value}s · 当前按 Kie 支持能力展示` : `${value}s · Shown from the current Kie-supported set`}
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
-      <div className="flex items-center justify-between">
+    <div className="rounded-[13px] border border-white/8 bg-[#080d16]/70 p-3">
+      <div className="flex items-center justify-between gap-3">
         <Label>{title}</Label>
-        <span className="text-sm text-white">{value}s</span>
+        <span className="rounded-full bg-white/[0.04] px-2 py-0.5 text-[11px] text-white/42">{value}s</span>
       </div>
-      <input
-        type="range"
-        min={Math.min(...options)}
-        max={Math.max(...options)}
-        step={options.length > 1 ? options[1] - options[0] : 1}
-        value={value}
-        onChange={(event) => onChange(Number(event.target.value))}
-        className="mt-4 h-2 w-full accent-[#5da3ff]"
-      />
+      <div className="mt-2 flex flex-wrap gap-1.5">
+        {options.map((option) => (
+          <button
+            key={option}
+            type="button"
+            onClick={() => onChange(option)}
+            className={cn(
+              "rounded-lg border px-2.5 py-1.5 text-xs transition-colors",
+              value === option
+                ? "border-cyan-200/28 bg-white text-slate-950"
+                : "border-white/8 bg-white/[0.03] text-white/62 hover:border-white/16 hover:text-white"
+            )}
+          >
+            {option}s
+          </button>
+        ))}
+      </div>
     </div>
   );
+}
+
+function CompactToggle({
+  active,
+  onClick,
+  label,
+  hint,
+  apiName,
+}: {
+  active: boolean;
+  onClick: () => void;
+  label: ReactNode;
+  hint: ReactNode;
+  apiName: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "flex items-center justify-between gap-3 rounded-[13px] border px-3 py-2.5 text-left transition-colors",
+        active ? "border-cyan-200/24 bg-cyan-200/[0.055]" : "border-white/8 bg-white/[0.025] hover:border-white/16"
+      )}
+    >
+      <span className="min-w-0">
+        <span className="flex flex-wrap items-center gap-2">
+          <span className="text-sm font-medium text-white">{label}</span>
+          <span className="rounded-full bg-black/24 px-1.5 py-0.5 text-[10px] text-white/34">{apiName}</span>
+        </span>
+        <span className="mt-1 line-clamp-1 block text-xs text-white/42">{hint}</span>
+      </span>
+      <span className={cn("flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition-colors", active ? "bg-cyan-300/35" : "bg-white/10")}>
+        <span className={cn("h-4 w-4 rounded-full transition-transform", active ? "translate-x-4 bg-white" : "translate-x-0 bg-white/55")} />
+      </span>
+    </button>
+  );
+}
+
+function Label({ children }: { children: ReactNode }) {
+  return <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-white/46">{children}</div>;
 }
 
 function QueueItem({

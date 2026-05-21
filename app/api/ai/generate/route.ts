@@ -158,6 +158,8 @@ export async function POST(request: NextRequest) {
           providerModel: payload.videoModel,
           containsRealPeople: payload.containsRealPeople,
           returnLastFrame: payload.returnLastFrame,
+          generateAudio: payload.generateAudio,
+          webSearch: payload.webSearch,
           workspacePreset: payload.workspacePreset,
           providerStatus: "waiting",
           orchestration: "kie_seedance",
@@ -205,6 +207,8 @@ export async function POST(request: NextRequest) {
           providerStatus: "waiting",
           containsRealPeople: payload.containsRealPeople,
           returnLastFrame: payload.returnLastFrame,
+          generateAudio: payload.generateAudio,
+          webSearch: payload.webSearch,
           workspacePreset: payload.workspacePreset,
           orchestration: "kie_seedance",
           assetCounts: {

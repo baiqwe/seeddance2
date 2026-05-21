@@ -47,7 +47,7 @@ function getKieBaseUrl() {
 }
 
 function normalizeResolution(resolution: VideoGenerationRequest["resolution"]) {
-  return resolution === "480p" ? "720p" : resolution;
+  return resolution;
 }
 
 function normalizeAspectRatio(aspectRatio: VideoGenerationRequest["aspectRatio"]) {
@@ -101,12 +101,12 @@ function extractCoverUrl(source: unknown): string | null {
 export function buildKieSeedanceInput(request: VideoGenerationRequest) {
   const baseInput: Record<string, unknown> = {
     prompt: request.prompt,
-    duration: `${request.durationSeconds}s`,
+    duration: request.durationSeconds,
     resolution: normalizeResolution(request.resolution),
     aspect_ratio: normalizeAspectRatio(request.aspectRatio),
-    generate_audio: false,
+    generate_audio: request.generateAudio === true,
     return_last_frame: request.returnLastFrame !== false,
-    web_search: false,
+    web_search: request.webSearch === true,
   };
 
   if (request.mode === "text_to_video") {
@@ -122,7 +122,7 @@ export function buildKieSeedanceInput(request: VideoGenerationRequest) {
     return {
       ...baseInput,
       first_frame_url: firstFrame.url,
-      ...(request.returnLastFrame && request.images[1] ? { last_frame_url: request.images[1].url } : {}),
+      ...(request.images[1] ? { last_frame_url: request.images[1].url } : {}),
     };
   }
 

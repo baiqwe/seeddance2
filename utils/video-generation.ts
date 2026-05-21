@@ -25,14 +25,16 @@ export type VideoGenerationRequest = {
   audios: VideoAsset[];
   containsRealPeople?: boolean;
   returnLastFrame?: boolean;
+  generateAudio?: boolean;
+  webSearch?: boolean;
   workspacePreset?: string | null;
 };
 
 export const KIE_SEEDANCE_SUPPORTED_MODELS: VideoModelId[] = ["bytedance/seedance-2", "bytedance/seedance-2-fast"];
 export const KIE_SEEDANCE_SUPPORTED_MODES: VideoGenerationMode[] = ["multi_modal_video", "image_to_video", "text_to_video"];
-export const KIE_SEEDANCE_SUPPORTED_RESOLUTIONS: VideoGenerationRequest["resolution"][] = ["720p"];
-export const KIE_SEEDANCE_SUPPORTED_DURATIONS: VideoGenerationRequest["durationSeconds"][] = [15];
-export const KIE_SEEDANCE_SUPPORTED_RATIOS: VideoGenerationRequest["aspectRatio"][] = ["16:9"];
+export const KIE_SEEDANCE_SUPPORTED_RESOLUTIONS: VideoGenerationRequest["resolution"][] = ["480p", "720p", "1080p"];
+export const KIE_SEEDANCE_SUPPORTED_DURATIONS: VideoGenerationRequest["durationSeconds"][] = [5, 10, 15];
+export const KIE_SEEDANCE_SUPPORTED_RATIOS: VideoGenerationRequest["aspectRatio"][] = ["16:9", "4:3", "1:1", "3:4", "9:16", "21:9"];
 
 export const KIE_MODE_ASSET_LIMITS: Record<
   VideoGenerationMode,
@@ -121,6 +123,8 @@ export function normalizeVideoGenerationRequest(payload: any): VideoGenerationRe
     audios: normalizeAssets(payload?.audios, "audio"),
     containsRealPeople: payload?.containsRealPeople === true,
     returnLastFrame: payload?.returnLastFrame !== false,
+    generateAudio: payload?.generateAudio === true,
+    webSearch: payload?.webSearch === true,
     workspacePreset: typeof payload?.workspacePreset === "string" ? payload.workspacePreset : null,
   };
 }

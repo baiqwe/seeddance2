@@ -38,6 +38,8 @@ type WorkspaceState = {
   aspectRatio: "16:9" | "9:16" | "1:1" | "4:3" | "3:4" | "21:9" | "auto";
   containsRealPeople: boolean;
   returnLastFrame: boolean;
+  generateAudio: boolean;
+  webSearch: boolean;
   assets: AssetBuckets;
   notice: string | null;
   isSubmitting: boolean;
@@ -55,6 +57,8 @@ type WorkspaceHydrationPayload = Partial<{
   ratio: string;
   containsRealPeople: string;
   returnLastFrame: string;
+  generateAudio: string;
+  webSearch: string;
   model: string;
 }>;
 
@@ -67,6 +71,8 @@ const initialState: WorkspaceState = {
   aspectRatio: "16:9",
   containsRealPeople: true,
   returnLastFrame: true,
+  generateAudio: false,
+  webSearch: false,
   assets: {
     image: [],
     video: [],
@@ -313,6 +319,16 @@ export const workspaceActions = {
         nextState.returnLastFrame = lastFrame;
       }
 
+      const generateAudio = parseBoolean(payload.generateAudio);
+      if (typeof generateAudio === "boolean") {
+        nextState.generateAudio = generateAudio;
+      }
+
+      const webSearch = parseBoolean(payload.webSearch);
+      if (typeof webSearch === "boolean") {
+        nextState.webSearch = webSearch;
+      }
+
       return nextState;
     });
   },
@@ -363,6 +379,12 @@ export const workspaceActions = {
   },
   toggleReturnLastFrame() {
     setState((current) => ({ ...current, returnLastFrame: !current.returnLastFrame }));
+  },
+  toggleGenerateAudio() {
+    setState((current) => ({ ...current, generateAudio: !current.generateAudio }));
+  },
+  toggleWebSearch() {
+    setState((current) => ({ ...current, webSearch: !current.webSearch }));
   },
   clearNotice() {
     setState((current) => ({ ...current, notice: null }));
@@ -521,6 +543,8 @@ export const workspaceActions = {
           aspectRatio: state.aspectRatio,
           containsRealPeople: state.containsRealPeople,
           returnLastFrame: state.returnLastFrame,
+          generateAudio: state.generateAudio,
+          webSearch: state.webSearch,
           images: readyAssets.image.map((asset) => ({
             id: asset.id,
             url: asset.remoteUrl,

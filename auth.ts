@@ -21,6 +21,7 @@ function buildAuthConfig(): NextAuthConfig {
   const googleClientSecret = getRuntimeEnvValue("AUTH_GOOGLE_SECRET");
   const hasGoogle = Boolean(googleClientId && googleClientSecret);
   const isCloudflareRuntime = Boolean(env);
+  const isLocalDev = process.env.NODE_ENV !== "production";
 
   return {
     basePath: "/api/auth",
@@ -34,7 +35,7 @@ function buildAuthConfig(): NextAuthConfig {
     // Cloudflare custom domains/proxies can omit AUTH_TRUST_HOST from the
     // runtime env even when it's configured in the dashboard. When we're
     // inside the Cloudflare runtime, trust the forwarded host explicitly.
-    trustHost: authTrustHost || isCloudflareRuntime,
+    trustHost: authTrustHost || isCloudflareRuntime || isLocalDev,
     providers: [
       ...(hasGoogle
         ? [
