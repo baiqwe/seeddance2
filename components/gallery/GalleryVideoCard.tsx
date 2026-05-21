@@ -19,6 +19,7 @@ type GalleryVideoCardProps = {
     durationLabel: string;
     aspectRatioLabel: string;
     promptLabel: string;
+    resolutionLabel?: string;
   };
 };
 
@@ -33,9 +34,12 @@ export function GalleryVideoCard({ locale, href, item }: GalleryVideoCardProps) 
 
   function startPreview() {
     if (!canHoverPreview) return;
-    setIsPreviewing(true);
     const video = videoRef.current;
-    if (!video) return;
+    setIsPreviewing(true);
+    if (!video) {
+      return;
+    }
+    video.currentTime = 0;
     void video.play().catch(() => {
       setIsPreviewing(false);
     });
@@ -65,7 +69,7 @@ export function GalleryVideoCard({ locale, href, item }: GalleryVideoCardProps) 
         />
         <video
           ref={videoRef}
-          src={isPreviewing ? item.videoUrl : undefined}
+          src={item.videoUrl}
           poster={item.afterImage}
           muted
           loop
@@ -87,7 +91,7 @@ export function GalleryVideoCard({ locale, href, item }: GalleryVideoCardProps) 
           <div className="text-lg font-semibold">{item.titleLabel}</div>
           <div className="mt-2 text-sm text-zinc-100">{item.descriptionLabel}</div>
           <div className="mt-3 flex flex-wrap gap-2 text-xs text-white/80">
-            <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1">1080p</span>
+            <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1">{item.resolutionLabel ?? "1080p"}</span>
             <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1">{item.durationLabel}</span>
             <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1">{item.aspectRatioLabel}</span>
             <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1">{item.promptLabel}</span>

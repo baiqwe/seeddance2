@@ -495,6 +495,20 @@ export function MultiModalWorkspace({ locale }: Props) {
             </div>
           ) : null}
 
+          <div className="rounded-[16px] border border-white/8 bg-[#0b1220] p-4">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <Label>{copy.promptLabel}</Label>
+              <span className="text-[11px] text-white/36">{promptLength}/5000</span>
+            </div>
+            <Textarea
+              value={prompt}
+              onChange={(event) => actions.setPrompt(event.target.value)}
+              placeholder={copy.promptPlaceholder}
+              className="min-h-[130px] resize-none rounded-[12px] border-white/10 bg-[#070b12] text-sm leading-7 text-white placeholder:text-white/32 focus-visible:ring-[#2563ff]/40"
+            />
+            <div className="mt-3 text-xs text-white/42">{copy.promptCounter}</div>
+          </div>
+
           <ProviderParamsPanel
             locale={locale}
             copy={copy}
@@ -515,20 +529,6 @@ export function MultiModalWorkspace({ locale }: Props) {
             onToggleGenerateAudio={actions.toggleGenerateAudio}
             onToggleWebSearch={actions.toggleWebSearch}
           />
-
-          <div className="rounded-[16px] border border-white/8 bg-[#0b1220] p-4">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <Label>{copy.promptLabel}</Label>
-              <span className="text-[11px] text-white/36">{promptLength}/5000</span>
-            </div>
-            <Textarea
-              value={prompt}
-              onChange={(event) => actions.setPrompt(event.target.value)}
-              placeholder={copy.promptPlaceholder}
-              className="min-h-[130px] resize-none rounded-[12px] border-white/10 bg-[#070b12] text-sm leading-7 text-white placeholder:text-white/32 focus-visible:ring-[#2563ff]/40"
-            />
-            <div className="mt-3 text-xs text-white/42">{copy.promptCounter}</div>
-          </div>
 
           <div className="rounded-[14px] border border-white/8 bg-white/[0.025] px-3.5 py-3">
             <div className="flex flex-wrap items-center justify-between gap-2">

@@ -1,5 +1,6 @@
 import type { LandingPageSlug } from "@/config/landing-pages";
 import { mediaAsset } from "@/config/media";
+import { showcaseTemplates } from "@/config/showcase-templates";
 
 export type GalleryItem = {
   id: string;
@@ -18,11 +19,55 @@ export type GalleryItem = {
   durationLabel: string;
   aspectRatioLabel: string;
   promptLabel: string;
+  resolutionLabel?: string;
   uploadDate?: string;
 };
 
 const SHARED_AFTER = mediaAsset("/images/gallery/hero-after.png");
 const SHARED_BEFORE = mediaAsset("/images/gallery/hero-before.png");
+
+const showcaseUseCaseById: Record<string, LandingPageSlug> = {
+  "product-reveal": "product-ad-generator",
+  "character-consistency": "image-to-video",
+  "motion-transfer": "dance-motion-transfer",
+  "storyboard-previs": "storyboard-to-video",
+  "text-concept": "ai-short-drama-maker",
+};
+
+const showcaseCategoryById: Record<string, string> = {
+  "product-reveal": "Commercial",
+  "character-consistency": "Identity",
+  "motion-transfer": "Motion",
+  "storyboard-previs": "Previs",
+  "text-concept": "Concept",
+};
+
+const showcaseGalleryItems: GalleryItem[] = showcaseTemplates.map((template, index) => {
+  const useCase = showcaseUseCaseById[template.id] ?? "reference-video-generator";
+
+  return {
+    id: `showcase-${template.id}`,
+    useCase,
+    slug: useCase,
+    category: showcaseCategoryById[template.id] ?? "Workflow",
+    title: template.title,
+    titleZh: template.titleZh,
+    description: template.subtitle,
+    descriptionZh: template.subtitleZh,
+    alt: `${template.title} Seedance 2 preview template result.`,
+    altZh: `${template.titleZh} Seedance 2 预览模板结果。`,
+    afterImage: template.poster,
+    beforeThumb: template.references[0]?.thumbnail ?? SHARED_BEFORE,
+    videoUrl: template.outputVideo ?? "",
+    durationLabel: template.duration,
+    aspectRatioLabel: template.ratio,
+    promptLabel: template.references.length > 0 ? "Prompt + refs" : "Prompt only",
+    resolutionLabel: template.resolution,
+    uploadDate: `2026-05-${String(9 + index).padStart(2, "0")}T10:00:00+08:00`,
+  };
+});
+
+const showcaseVideoUrls = new Set(showcaseGalleryItems.map((item) => item.videoUrl).filter(Boolean));
 
 const kieSeedanceSamples: GalleryItem[] = [
   {
@@ -262,63 +307,7 @@ const kieSeedanceSamples: GalleryItem[] = [
 ];
 
 export const galleryItems: GalleryItem[] = [
-  {
-    id: "seedance-hero-4",
-    useCase: "image-to-video",
-    slug: "image-to-video",
-    category: "Performance",
-    title: "Balance beam motion study",
-    titleZh: "平衡木动作镜头",
-    description: "A compact performance clip that works well as a keyframe-to-motion example for Seedance 2 image-to-video workflows.",
-    descriptionZh: "一条更适合图生视频场景的动作样片：先锁住角色起始画面，再把运动感逐步推出来。",
-    alt: "Seedance 2 video sample showing a gymnast walking across a balance beam.",
-    altZh: "用于展示 Seedance 2 图生视频工作流的平衡木动作视频样例。",
-    afterImage: mediaAsset("/images/gallery/custom/seedance-hero-4.png"),
-    beforeThumb: SHARED_BEFORE,
-    videoUrl: mediaAsset("/videos/gallery/seedance-hero-4.mp4"),
-    durationLabel: "05s",
-    aspectRatioLabel: "16:9",
-    promptLabel: "Image seed",
-    uploadDate: "2026-05-02T10:00:00+08:00",
-  },
-  {
-    id: "seedance-hero-6",
-    useCase: "ai-short-drama-maker",
-    slug: "ai-short-drama-maker",
-    category: "Narrative",
-    title: "Street rush sequence",
-    titleZh: "街头追逐片段",
-    description: "A fast narrative moment that fits short-drama, storyboard, and text-led video ideation with stronger urgency.",
-    descriptionZh: "一条更有叙事冲突感的街头奔跑样片，适合短剧、分镜预演和文本驱动的镜头构思。",
-    alt: "Seedance 2 narrative video sample showing a man running through a crowded street.",
-    altZh: "用于展示 Seedance 2 短剧与叙事镜头生成的街头奔跑视频样例。",
-    afterImage: mediaAsset("/images/gallery/custom/seedance-hero-6.png"),
-    beforeThumb: SHARED_AFTER,
-    videoUrl: mediaAsset("/videos/gallery/seedance-hero-6.mp4"),
-    durationLabel: "05s",
-    aspectRatioLabel: "16:9",
-    promptLabel: "Narrative clip",
-    uploadDate: "2026-05-02T10:15:00+08:00",
-  },
-  {
-    id: "seedance-space-travel",
-    useCase: "reference-video-generator",
-    slug: "reference-video-generator",
-    category: "Worldbuilding",
-    title: "Space travel sequence",
-    titleZh: "宇宙穿梭场景片段",
-    description: "A full Seedance 2 clip that moves from stylized terrain into large-scale sci-fi worldbuilding.",
-    descriptionZh: "一条完整的 Seedance 2 场景视频，从体素地貌一路推进到更宏观的宇宙世界观。",
-    alt: "Seedance 2 full video showing sci-fi worldbuilding and space travel.",
-    altZh: "用于展示 Seedance 2 宇宙世界构建与穿梭场景的完整视频案例。",
-    afterImage: mediaAsset("/images/gallery/custom/seedance-space-travel.png"),
-    beforeThumb: SHARED_BEFORE,
-    videoUrl: mediaAsset("/videos/gallery/seedance-space-travel.mp4"),
-    durationLabel: "15s",
-    aspectRatioLabel: "16:9",
-    promptLabel: "Full clip",
-    uploadDate: "2026-05-03T09:00:00+08:00",
-  },
+  ...showcaseGalleryItems,
   {
     id: "seedance-autumn-duel",
     useCase: "storyboard-to-video",
@@ -337,7 +326,7 @@ export const galleryItems: GalleryItem[] = [
     aspectRatioLabel: "16:9",
     promptLabel: "Full clip",
   },
-  ...kieSeedanceSamples,
+  ...kieSeedanceSamples.filter((item) => !showcaseVideoUrls.has(item.videoUrl)),
   {
     id: "product-cinematic",
     useCase: "product-ad-generator",
