@@ -9,7 +9,10 @@ import {
     CreditCard,
     Film,
     Image as ImageIcon,
+    LockKeyhole,
+    MousePointerClick,
     Music2,
+    PlayCircle,
     Settings2,
     Sparkles,
     WandSparkles,
@@ -70,6 +73,7 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
     const prompt = isZh ? activeTemplate.promptZh : activeTemplate.prompt;
     const intent = isZh ? activeTemplate.intentZh : activeTemplate.intent;
     const resultNotes = isZh ? activeTemplate.resultNotesZh : activeTemplate.resultNotes;
+    const previewRatio = activeTemplate.previewRatio ?? activeTemplate.ratio;
 
     return (
         <div className="mx-auto w-full max-w-7xl">
@@ -77,11 +81,17 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                 <div className="pointer-events-none absolute -left-20 top-10 h-56 w-56 rounded-full bg-cyan-300/12 blur-[80px]" />
                 <div className="pointer-events-none absolute -right-16 bottom-0 h-64 w-64 rounded-full bg-blue-600/14 blur-[90px]" />
 
-                <div className="relative grid gap-0 xl:grid-cols-[300px_minmax(0,1fr)_430px]">
-                    <aside className="border-b border-white/10 bg-white/[0.025] p-4 xl:border-b-0 xl:border-r xl:p-5">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/24 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-cyan-100/68">
-                            <Sparkles className="h-3.5 w-3.5 text-cyan-200" />
-                            {isZh ? '真实案例预览' : 'Real showcase'}
+                <div className="relative grid gap-0 xl:grid-cols-[320px_minmax(0,1fr)_440px]">
+                    <aside className="relative border-b border-white/10 bg-[linear-gradient(180deg,rgba(34,211,238,0.075),rgba(255,255,255,0.022))] p-4 xl:border-b-0 xl:border-r xl:p-5">
+                        <div className="mb-4 flex items-center justify-between gap-3">
+                            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/24 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-cyan-100/68">
+                                <Sparkles className="h-3.5 w-3.5 text-cyan-200" />
+                                {isZh ? '01 模板选择' : '01 Template deck'}
+                            </div>
+                            <div className="inline-flex items-center gap-1.5 rounded-full border border-cyan-200/18 bg-cyan-200/[0.075] px-2.5 py-1 text-[11px] text-cyan-50/72">
+                                <MousePointerClick className="h-3.5 w-3.5" />
+                                {isZh ? '可切换' : 'Switch'}
+                            </div>
                         </div>
                         <h2 className="mt-4 text-2xl font-semibold tracking-tight text-white">
                             {isZh ? '先看输入如何影响结果' : 'See how inputs shape the result'}
@@ -99,14 +109,19 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                                     <button
                                         key={template.id}
                                         type="button"
+                                        aria-pressed={active}
                                         onClick={() => setActiveTemplateId(template.id)}
                                         className={cn(
-                                            'group w-full rounded-[18px] border p-3 text-left transition-all',
+                                            'group relative w-full overflow-hidden rounded-[22px] border p-3.5 text-left transition-all duration-300',
                                             active
-                                                ? 'border-cyan-200/24 bg-cyan-200/[0.08] shadow-[0_18px_50px_-34px_rgba(103,232,249,0.55)]'
-                                                : 'border-white/8 bg-white/[0.028] hover:border-white/14 hover:bg-white/[0.055]'
+                                                ? 'border-cyan-200/42 bg-[linear-gradient(135deg,rgba(34,211,238,0.18),rgba(59,130,246,0.08)_48%,rgba(255,255,255,0.04))] shadow-[0_22px_70px_-38px_rgba(103,232,249,0.88)]'
+                                                : 'border-white/9 bg-white/[0.03] hover:-translate-y-0.5 hover:border-cyan-200/26 hover:bg-cyan-200/[0.055] hover:shadow-[0_18px_54px_-42px_rgba(103,232,249,0.55)]'
                                         )}
                                     >
+                                        <span className={cn(
+                                            'pointer-events-none absolute inset-y-4 left-0 w-1 rounded-r-full transition-opacity',
+                                            active ? 'bg-cyan-200 opacity-100' : 'bg-cyan-200 opacity-0 group-hover:opacity-55'
+                                        )} />
                                         <div className="flex items-start gap-3">
                                             <span className={cn(
                                                 'flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border text-xs font-semibold',
@@ -123,13 +138,39 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                                                 </span>
                                             </span>
                                         </div>
+                                        <div className="mt-3 flex items-center justify-between border-t border-white/8 pt-3 text-[11px]">
+                                            <span className={cn(
+                                                'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1',
+                                                active ? 'bg-cyan-200/12 text-cyan-50' : 'bg-white/[0.045] text-white/48 group-hover:text-cyan-50/82'
+                                            )}>
+                                                <PlayCircle className="h-3.5 w-3.5" />
+                                                {active ? (isZh ? '正在预览' : 'Previewing') : (isZh ? '点击切换' : 'Click to preview')}
+                                            </span>
+                                            <ArrowRight className={cn(
+                                                'h-3.5 w-3.5 transition-transform',
+                                                active ? 'text-cyan-100' : 'text-white/32 group-hover:translate-x-0.5 group-hover:text-cyan-100'
+                                            )} />
+                                        </div>
                                     </button>
                                 );
                             })}
                         </div>
                     </aside>
 
-                    <section className="p-4 sm:p-5 xl:p-6">
+                    <section className="relative bg-[linear-gradient(180deg,rgba(255,255,255,0.035),rgba(2,6,23,0.06))] p-4 sm:p-5 xl:p-6">
+                        <div className="mb-4 flex items-center justify-between gap-3">
+                            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/22 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-white/52">
+                                <LockKeyhole className="h-3.5 w-3.5 text-white/62" />
+                                {isZh ? '02 只读参数单' : '02 Locked setup'}
+                            </div>
+                            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-white/48">
+                                {isZh ? '不可编辑 · 用于判断效果' : 'Read-only · effect preview'}
+                            </span>
+                        </div>
+                        <div
+                            aria-disabled="true"
+                            className="pointer-events-none select-none rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.52),rgba(2,6,23,0.22))] p-4 opacity-95 shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_24px_90px_-62px_rgba(0,0,0,0.9)] sm:p-5"
+                        >
                         <div className="flex flex-wrap items-start justify-between gap-4">
                             <div>
                                 <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/14 bg-emerald-200/[0.06] px-3 py-1.5 text-xs text-emerald-100/76">
@@ -203,13 +244,14 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                                 </div>
                             </div>
                         </div>
+                        </div>
                     </section>
 
-                    <aside className="border-t border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.025))] p-4 sm:p-5 xl:border-l xl:border-t-0 xl:p-6">
+                    <aside className="border-t border-white/10 bg-[linear-gradient(180deg,rgba(99,102,241,0.095),rgba(255,255,255,0.028))] p-4 sm:p-5 xl:border-l xl:border-t-0 xl:p-6">
                         <div className="flex items-center justify-between gap-3">
                             <div>
                                 <div className="text-xs uppercase tracking-[0.18em] text-white/40">
-                                    {isZh ? '右侧输出预览' : 'Output preview'}
+                                    {isZh ? '03 输出预览' : '03 Output preview'}
                                 </div>
                                 <div className="mt-1 text-lg font-semibold text-white">
                                     {isZh ? '结果不是盲盒' : 'Not a black box'}
@@ -231,10 +273,10 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                                     playsInline
                                     controls
                                     preload="metadata"
-                                    className={cn(getVideoAspectClass(activeTemplate.ratio), 'w-full bg-black object-cover')}
+                                    className={cn(getVideoAspectClass(previewRatio), 'w-full bg-black object-contain')}
                                 />
                             ) : (
-                                <div className={cn(getVideoAspectClass(activeTemplate.ratio), 'relative w-full overflow-hidden bg-[radial-gradient(circle_at_50%_26%,rgba(103,232,249,0.16),transparent_32%),linear-gradient(180deg,#111827,#020617)]')}>
+                                <div className={cn(getVideoAspectClass(previewRatio), 'relative w-full overflow-hidden bg-[radial-gradient(circle_at_50%_26%,rgba(103,232,249,0.16),transparent_32%),linear-gradient(180deg,#111827,#020617)]')}>
                                     <img src={activeTemplate.poster} alt="" className="h-full w-full object-cover opacity-42 blur-[1px]" />
                                     <div className="absolute inset-0 flex items-center justify-center p-8 text-center">
                                         <div className="rounded-[24px] border border-white/10 bg-black/36 p-5 backdrop-blur-xl">
@@ -289,9 +331,10 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
 
 function ParamBadge({ label, value }: { label: string; value: string }) {
     return (
-        <div className="rounded-[16px] border border-white/10 bg-white/[0.04] px-3 py-2">
-            <div className="text-[10px] uppercase tracking-[0.16em] text-white/36">{label}</div>
-            <div className="mt-1 text-sm font-semibold text-white">{value}</div>
+        <div className="relative rounded-[16px] border border-white/9 bg-black/24 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]">
+            <div className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-white/20" />
+            <div className="text-[10px] uppercase tracking-[0.16em] text-white/30">{label}</div>
+            <div className="mt-1 text-sm font-semibold text-white/78">{value}</div>
         </div>
     );
 }

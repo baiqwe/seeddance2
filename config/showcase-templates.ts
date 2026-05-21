@@ -21,6 +21,7 @@ export type ShowcaseTemplate = {
   prompt: string;
   promptZh: string;
   ratio: string;
+  previewRatio?: string;
   duration: string;
   resolution: string;
   outputVideo?: string;
@@ -114,6 +115,7 @@ export const showcaseTemplates: ShowcaseTemplate[] = [
     promptZh:
       "保留图片参考里的角色造型，但沿用舞蹈参考视频的动作节奏、身体律动和镜头能量。生成一个竖版短视频，人物轮廓清晰，动作自信，节奏适合社交媒体传播。",
     ratio: "9:16",
+    previewRatio: "16:9",
     duration: "15s",
     resolution: "720p",
     outputVideo: mediaAsset("/videos/gallery/kie/kie-seedance-02.mp4"),
