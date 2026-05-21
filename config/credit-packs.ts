@@ -27,7 +27,7 @@ export const CREDITS_PER_GENERATION = 700;
 // 1. Buy-out: Pitch Pack
 export const PLAN_MINI: PricingPlan = {
     id: "mini_refill",
-    productId: "prod_6YOc0hnaYoimusgXJkh3a2",
+    productId: "prod_1QrZWC7oDzeaf14hDtsNvf",
     name: "Pitch Pack",
     nameZh: "提案包",
     price: 99,
@@ -41,7 +41,7 @@ export const PLAN_MINI: PricingPlan = {
 // 2. Subscription: Studio Monthly
 export const PLAN_PRO_MONTHLY: PricingPlan = {
     id: "pro_monthly",
-    productId: "prod_4pBVe6NzowRcuNB77DECWu",
+    productId: "prod_6G4OmbtvyH69hDpCm3kg6e",
     name: "Studio Monthly",
     nameZh: "工作室月卡",
     price: 299,
@@ -60,7 +60,7 @@ export const PLAN_PRO_MONTHLY: PricingPlan = {
 
 export const PLAN_PRO_YEARLY: PricingPlan = {
     id: "pro_yearly",
-    productId: "prod_6Yo0APx53tCUDX0ph4RBWe",
+    productId: "prod_7AyvNxRRkTXBtwSl8Qk2mx",
     name: "Agency Annual",
     nameZh: "代理商年卡",
     price: 2888,
