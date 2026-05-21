@@ -9,6 +9,8 @@
     "preview": "npm run build && opennextjs-cloudflare preview",
     "deploy": "wrangler deploy",
     "upload": "wrangler versions upload",
+    "r2:cors": "wrangler r2 bucket cors set seedance2-media --file ./r2-cors.json --force",
+    "r2:cors:list": "wrangler r2 bucket cors list seedance2-media",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "start": "next start",
     "gallery:generate": "node scripts/generate-gallery-samples.js"

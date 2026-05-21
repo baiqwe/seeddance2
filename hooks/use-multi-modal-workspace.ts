@@ -189,9 +189,12 @@ function uploadToSignedUrl(url: string, file: File, onProgress: (progress: numbe
         return;
       }
 
-      reject(new Error(`Upload failed with status ${request.status}`));
+      const detail = request.responseText?.trim();
+      reject(new Error(detail ? `Upload failed with status ${request.status}: ${detail.slice(0, 180)}` : `Upload failed with status ${request.status}`));
     };
-    request.onerror = () => reject(new Error("Network error during upload"));
+    request.onerror = () => reject(new Error("R2 upload request failed or was blocked by CORS"));
+    request.onabort = () => reject(new Error("Upload was cancelled before it finished"));
+    request.ontimeout = () => reject(new Error("Upload timed out before it finished"));
     request.send(file);
   });
 }

@@ -1149,6 +1149,9 @@ function formatWorkspaceNotice(notice: string | null, locale: string) {
     "Upload failed": "素材上传失败，请稍后重试。",
     "Failed to prepare upload": "准备上传失败，请稍后重试。",
     "Network error during upload": "上传过程中发生网络错误，请稍后重试。",
+    "R2 upload request failed or was blocked by CORS": "R2 直传请求失败或被 CORS 拦截，请先应用 R2 CORS 配置。",
+    "Upload was cancelled before it finished": "上传在完成前被取消，请重新选择素材。",
+    "Upload timed out before it finished": "上传超时，请检查网络后重试。",
     "Please sign in before uploading assets.": "请先登录，再上传参考素材。",
     "R2 signing credentials are not configured.": "R2 上传签名密钥未配置，请检查 Cloudflare 环境变量。",
     "R2_PUBLIC_BASE_URL is not configured.": "R2 公开访问地址未配置，请检查 R2_PUBLIC_BASE_URL。",
@@ -1171,9 +1174,11 @@ function formatWorkspaceNotice(notice: string | null, locale: string) {
     return `已加入 ${addedMatch[1]} 个素材，另外 ${addedMatch[3]} 个超过了当前上限。`;
   }
 
-  const uploadStatusMatch = notice.match(/^Upload failed with status (\d+)$/);
+  const uploadStatusMatch = notice.match(/^Upload failed with status (\d+)(?::\s*(.+))?$/);
   if (uploadStatusMatch) {
-    return `素材上传失败，服务器返回状态 ${uploadStatusMatch[1]}。`;
+    return uploadStatusMatch[2]
+      ? `素材上传失败，服务器返回状态 ${uploadStatusMatch[1]}：${uploadStatusMatch[2]}`
+      : `素材上传失败，服务器返回状态 ${uploadStatusMatch[1]}。`;
   }
 
   const prepareStatusMatch = notice.match(/^Failed to prepare upload \((\d+)\)$/);

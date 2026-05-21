@@ -1,0 +1,23 @@
+{
+  "rules": [
+    {
+      "allowed": {
+        "origins": [
+          "https://seedance2video.cc",
+          "https://www.seedance2video.cc",
+          "https://seeddance2.mrwhiteqq.workers.dev",
+          "http://localhost:3000",
+          "http://localhost:3100",
+          "http://localhost:3101",
+          "http://localhost:3102",
+          "http://localhost:3103",
+          "http://localhost:3104"
+        ],
+        "methods": ["GET", "HEAD", "PUT"],
+        "headers": ["*"]
+      },
+      "exposeHeaders": ["ETag"],
+      "maxAgeSeconds": 3600
+    }
+  ]
+}
