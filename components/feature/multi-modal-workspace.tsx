@@ -15,6 +15,7 @@ import {
   Clapperboard,
   Film,
   ImagePlus,
+  Loader2,
   Mic2,
   MonitorPlay,
   PlayCircle,
@@ -388,6 +389,22 @@ export function MultiModalWorkspace({ locale }: Props) {
   const showVideoLane = videoLimit > 0;
   const showAudioLane = audioLimit > 0;
   const showLastFrameToggle = mode !== "text_to_video";
+  const isUploadingAssets = useMemo(
+    () =>
+      Object.values(assets).some((assetList) =>
+        assetList.some((asset) => asset.status !== "ready" && asset.status !== "error")
+      ),
+    [assets]
+  );
+  const generateButtonLabel = isUploadingAssets
+    ? locale === "zh"
+      ? "素材上传中..."
+      : "Uploading assets..."
+    : isSubmitting
+      ? locale === "zh"
+        ? "提交中..."
+        : "Submitting..."
+      : copy.generate;
 
   async function handleGenerate() {
     if (!user) {
@@ -440,13 +457,13 @@ export function MultiModalWorkspace({ locale }: Props) {
   }
 
   return (
-    <div id="workspace" className="mx-auto max-w-7xl rounded-[30px] border border-white/10 bg-[#181a1f]/96 p-4 shadow-[0_34px_90px_-44px_rgba(0,0,0,0.8)] backdrop-blur-xl md:p-5">
+    <div id="workspace" className="mx-auto max-w-7xl rounded-[30px] border border-cyan-200/10 bg-[#0e1724]/96 p-4 shadow-[0_34px_90px_-44px_rgba(0,0,0,0.8)] backdrop-blur-xl md:p-5">
       <div className="grid gap-5 xl:grid-cols-[390px_minmax(0,1fr)]">
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: "easeOut" }}
-        className="rounded-[22px] border border-white/8 bg-[#24252c] p-4 xl:sticky xl:top-24 xl:self-start"
+        className="rounded-[22px] border border-cyan-200/10 bg-[#101827] p-4 xl:sticky xl:top-24 xl:self-start"
       >
         <div className="space-y-4">
           <div className="grid grid-cols-3 gap-2">
@@ -467,49 +484,15 @@ export function MultiModalWorkspace({ locale }: Props) {
             ))}
           </div>
 
-          <div className="space-y-3 rounded-[18px] border border-white/8 bg-[#1c1f26] p-3.5">
-            <div className="text-[11px] uppercase tracking-[0.18em] text-white/38">{copy.modelLabel}</div>
-            <div className="rounded-[14px] border border-white/10 bg-[linear-gradient(180deg,#2a2d36_0%,#242730_100%)] p-3.5">
-              <div className="flex items-start gap-3">
-                <span className="mt-3 h-3 w-3 shrink-0 rounded-full bg-[linear-gradient(135deg,#5ad7ff,#7d57ff)] shadow-[0_0_18px_rgba(93,103,255,0.55)]" />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <div className="truncate text-sm font-medium text-white">{activeModel.name}</div>
-                    <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.14em] text-emerald-200">
-                      {locale === "zh" ? "已启用" : "Active"}
-                    </span>
-                  </div>
-                  <div className="mt-3">
-                    <Select value={videoModel} onValueChange={(value) => actions.setVideoModel(value as VideoModelId)}>
-                      <SelectTrigger className="h-11 rounded-[12px] border-white/10 bg-[#171920] text-left text-sm text-white focus:ring-[#2563ff]/35 focus:ring-offset-0">
-                        <SelectValue placeholder={locale === "zh" ? "选择视频模型" : "Choose a video model"} />
-                      </SelectTrigger>
-                      <SelectContent className="border-white/10 bg-[#171920] text-white">
-                        {VIDEO_MODEL_OPTIONS.map((modelOptionKey) => {
-                          const modelOption = videoModelMeta[modelOptionKey];
-                          return (
-                          <SelectItem
-                            key={modelOptionKey}
-                            value={modelOptionKey}
-                            className="rounded-[10px] py-2.5 pl-8 pr-3 text-sm text-white focus:bg-white/[0.08] focus:text-white"
-                          >
-                            {modelOption.name}
-                          </SelectItem>
-                          );
-                        })}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="mt-3 text-xs leading-5 text-white/46">{activeModel.description}</div>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {activeModel.badges.map((badge) => (
-                      <span key={badge} className="rounded-full border border-white/8 bg-white/[0.05] px-2.5 py-1 text-[11px] text-white/68">
-                        {badge}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+          <div className="rounded-[16px] border border-cyan-200/10 bg-cyan-200/[0.035] px-4 py-3">
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <div className="text-[11px] uppercase tracking-[0.18em] text-cyan-100/44">{copy.modelLabel}</div>
+                <div className="mt-1 truncate text-sm font-medium text-white">{activeModel.name}</div>
               </div>
+              <span className="shrink-0 rounded-full border border-white/10 bg-white/[0.045] px-2.5 py-1 text-[11px] text-white/52">
+                {locale === "zh" ? "高级选项中切换" : "Change in Advanced"}
+              </span>
             </div>
           </div>
 
@@ -523,7 +506,7 @@ export function MultiModalWorkspace({ locale }: Props) {
             </div>
           ) : null}
 
-          <div className="rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
+          <div className="rounded-[16px] border border-white/8 bg-[#0b1220] p-4">
             <div className="mb-3 flex items-center justify-between gap-3">
               <Label>{copy.promptLabel}</Label>
               <span className="text-[11px] text-white/36">{promptLength}/5000</span>
@@ -532,12 +515,12 @@ export function MultiModalWorkspace({ locale }: Props) {
               value={prompt}
               onChange={(event) => actions.setPrompt(event.target.value)}
               placeholder={copy.promptPlaceholder}
-              className="min-h-[130px] resize-none rounded-[12px] border-white/10 bg-[#111318] text-sm leading-7 text-white placeholder:text-white/32 focus-visible:ring-[#2563ff]/40"
+              className="min-h-[130px] resize-none rounded-[12px] border-white/10 bg-[#070b12] text-sm leading-7 text-white placeholder:text-white/32 focus-visible:ring-[#2563ff]/40"
             />
             <div className="mt-3 text-xs text-white/42">{copy.promptCounter}</div>
           </div>
 
-          <div className="rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
+          <div className="rounded-[16px] border border-white/8 bg-[#0b1220] p-4">
             <div className="text-sm font-medium text-white">{currentUploadTitle}</div>
             <p className="mt-2 text-sm leading-7 text-white/56">{currentUploadHint}</p>
           </div>
@@ -566,15 +549,9 @@ export function MultiModalWorkspace({ locale }: Props) {
                 <UploadLane locale={locale} kind="audio" title={copy.laneTitle.audio} hint={copy.laneHint.audio} actionLabel={copy.laneAction.audio} limitLabel={copy.laneEmptyMeta.audio} assets={assets.audio} onAddFiles={actions.addFiles} onMove={actions.moveAsset} onRemove={actions.removeAsset} emptyLabel={copy.noAssets} />
               ) : null}
             </div>
-          ) : (
-            <div className="rounded-[16px] border border-dashed border-white/10 bg-[#1c1f26] px-4 py-5 text-sm leading-7 text-white/54">
-              {locale === "zh"
-                ? "这个模式当前不需要上传参考素材。直接把主体、镜头、节奏和氛围写清楚，就可以发起生成。"
-                : "This mode does not need reference uploads right now. Describe the subject, camera move, pacing, and atmosphere clearly, then generate."}
-            </div>
-          )}
+          ) : null}
 
-          <details className="group rounded-[16px] border border-white/8 bg-[#1d1f26] p-4">
+          <details className="group rounded-[16px] border border-white/8 bg-[#0b1220] p-4">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-white">
               <span>{copy.advanced}</span>
               <span className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] text-white/56 transition-colors group-open:bg-[#2563ff]/15 group-open:text-[#bfdbfe]">
@@ -582,6 +559,38 @@ export function MultiModalWorkspace({ locale }: Props) {
               </span>
             </summary>
             <div className="mt-4 space-y-3">
+              <div className="rounded-[14px] border border-white/8 bg-white/[0.035] p-3.5">
+                <Label>{copy.modelLabel}</Label>
+                <div className="mt-3">
+                  <Select value={videoModel} onValueChange={(value) => actions.setVideoModel(value as VideoModelId)}>
+                    <SelectTrigger className="h-11 rounded-[12px] border-white/10 bg-[#070b12] text-left text-sm text-white focus:ring-[#2563ff]/35 focus:ring-offset-0">
+                      <SelectValue placeholder={locale === "zh" ? "选择视频模型" : "Choose a video model"} />
+                    </SelectTrigger>
+                    <SelectContent className="border-white/10 bg-[#101827] text-white">
+                      {VIDEO_MODEL_OPTIONS.map((modelOptionKey) => {
+                        const modelOption = videoModelMeta[modelOptionKey];
+                        return (
+                          <SelectItem
+                            key={modelOptionKey}
+                            value={modelOptionKey}
+                            className="rounded-[10px] py-2.5 pl-8 pr-3 text-sm text-white focus:bg-white/[0.08] focus:text-white"
+                          >
+                            {modelOption.name}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="mt-3 text-xs leading-5 text-white/50">{activeModel.description}</div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {activeModel.badges.map((badge) => (
+                    <span key={badge} className="rounded-full border border-white/8 bg-white/[0.05] px-2.5 py-1 text-[11px] text-white/68">
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+              </div>
               <div className="space-y-2.5">
                 <TogglePill
                   active={containsRealPeople}
@@ -619,7 +628,7 @@ export function MultiModalWorkspace({ locale }: Props) {
             </div>
           </details>
 
-          <div className="space-y-3">
+          <div className="sticky bottom-3 z-20 space-y-3 rounded-[18px] border border-white/10 bg-[#101827]/92 p-3 shadow-[0_22px_60px_-36px_rgba(0,0,0,0.85)] backdrop-blur-xl xl:static xl:border-0 xl:bg-transparent xl:p-0 xl:shadow-none xl:backdrop-blur-0">
             <div className="flex flex-wrap items-center gap-3">
               <div className="rounded-lg border border-white/10 bg-[#1d1f26] px-4 py-2 text-sm text-white/78">
                 {copy.estimatedCredits}: <span className="font-semibold text-white">{estimatedCredits} credits</span>
@@ -632,11 +641,15 @@ export function MultiModalWorkspace({ locale }: Props) {
             </div>
             <Button
               onClick={() => void handleGenerate()}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isUploadingAssets}
               className="h-12 w-full rounded-[12px] bg-[linear-gradient(90deg,#8b8b95,#6d28d9)] text-sm font-medium text-white hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
             >
-              <WandSparkles className="mr-2 h-4 w-4" />
-              {isSubmitting ? (locale === "zh" ? "提交中" : "Submitting") : copy.generate}
+              {isSubmitting || isUploadingAssets ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <WandSparkles className="mr-2 h-4 w-4" />
+              )}
+              {generateButtonLabel}
             </Button>
           </div>
         </div>
