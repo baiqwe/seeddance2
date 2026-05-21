@@ -7,6 +7,21 @@
     "nodejs_compat",
     "global_fetch_strictly_public"
   ],
+  // Keep dashboard-managed variables instead of letting wrangler delete them on deploy.
+  "keep_vars": true,
+  "vars": {
+    "DATA_BACKEND": "cloudflare",
+    "AUTH_TRUST_HOST": "true",
+    "KIE_API_URL": "https://api.kie.ai/api/v1",
+    "R2_BUCKET_NAME": "seedance2-media",
+    "R2_PUBLIC_BASE_URL": "https://media.seedance2video.cc",
+    "NEXT_PUBLIC_SITE_URL": "https://www.seedance2video.cc",
+    "NEXT_PUBLIC_APP_URL": "https://www.seedance2video.cc",
+    "NEXT_PUBLIC_MEDIA_BASE_URL": "https://media.seedance2video.cc",
+    "NEXT_PUBLIC_VIDEO_CDN_URL": "https://media.seedance2video.cc",
+    "CREEM_API_URL": "https://api.creem.io",
+    "CREEM_SUCCESS_URL": "https://www.seedance2video.cc/zh/dashboard"
+  },
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
