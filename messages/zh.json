@@ -135,41 +135,41 @@
     "p3": "我们通常会在 24 到 48 小时内回复。如果你的请求涉及上传图片或账号数据，请在邮件里直接注明，方便我们优先处理。"
   },
   "Pricing": {
-    "eyebrow": "生产级定价",
-    "title": "按你的使用频率选择合适的 Seedance 2 方案。",
-    "subtitle": "先用一次性买断包试水，确定工作流跑顺以后，再切到更适合高频创作的订阅方案。",
-    "artist_anchor": "和反复做预演、镜头测试或外包剪辑相比，一个合适的 Seedance 方案更像是提高产能，而不是多一笔纯软件成本。",
+    "eyebrow": "工作室定价",
+    "title": "面向付费视频项目的 Seedance 2 生产级方案。",
+    "subtitle": "视频生成会消耗真实算力。这里的套餐面向商业提案、影视预演、广告试片和需要稳定交付的工作室。",
+    "artist_anchor": "这里的单个预演镜头，对标的是广告分镜、动态样片和外包动作测试，而不是低价图片生成玩具。",
     "buyout_label": "买断",
-    "subscription_label": "专业版",
+    "subscription_label": "工作室",
     "one_time_payment": "一次性付款",
     "month": "月",
     "year": "年",
     "start_pro": "立即订阅",
     "get_pack": "立即购买",
-    "credits": "积分",
-    "generations": "生成次数",
-    "price_per_image": "单张成本",
-    "only_price_per_image": "约 ${price} / 张",
-    "missing_features": "缺失特权",
+    "credits": "渲染额度",
+    "generations": "镜头数",
+    "price_per_image": "720p 镜头成本",
+    "only_price_per_image": "约 ${price} / 镜头",
+    "missing_features": "升级可获得",
     "faq_kicker": "团队为什么会升级",
     "checkout_failed": "发起支付失败。",
-    "refill_title": "让视频工作流保持连续。",
-    "refill_subtitle": "买断包适合活动测试、客户提案和短期需求；如果你几乎每周都要出片，订阅会更省心。",
-    "refill_upgrade": "开通专业版月订阅",
-    "refill_mini": "购买 10 积分",
+    "refill_title": "让工作室视频流程保持连续。",
+    "refill_subtitle": "单次客户测试可以用提案包；如果每周都要交付视频镜头，工作室月卡更适合控制预算。",
+    "refill_upgrade": "开通工作室月卡",
+    "refill_mini": "购买提案包",
     "cards": {
       "starter": {
         "subtitle": "一次性付款",
-        "cta": "购买体验包",
+        "cta": "购买提案包",
         "features": {
-          "credits": "40 积分",
-          "speed": "短视频实验预算",
-          "resolution": "支持到 720p 测试"
+          "credits": "3,000 渲染额度",
+          "speed": "约 4 个 720p 提案镜头",
+          "resolution": "适合单次商业提案"
         },
         "missing": {
           "queue": "优先队列",
-          "upscale": "长时长预算",
-          "license": "团队工作流特权"
+          "upscale": "月度持续额度",
+          "license": "团队生产特权"
         }
       },
       "pro_pack": {
@@ -189,28 +189,28 @@
       },
       "monthly": {
         "subtitle": "按月计费，随时取消。",
-        "anchor": "最适合活跃创作者",
-        "cta": "立即订阅月卡",
+        "anchor": "小型工作室核心方案",
+        "cta": "开通工作室月卡",
         "features": {
-          "credits": "每月 320 积分",
-          "queue": "优先队列预算",
-          "upscale": "高分辨率输出",
-          "styles": "工作流模板",
-          "license": "更适合商用",
-          "watermark": "零水印导出"
+          "credits": "每月 10,000 渲染额度",
+          "queue": "约 14 个生产级 720p 镜头",
+          "upscale": "可用于 1080p 渲染",
+          "styles": "提案、广告和预演工作流模板",
+          "license": "商业项目使用",
+          "watermark": "无水印交付"
         }
       },
       "yearly": {
         "subtitle_prefix": "折合",
-        "anchor": "立省 50%",
-        "cta": "开通年卡",
+        "anchor": "每年立省 $700",
+        "cta": "开通代理商年卡",
         "features": {
-          "credits": "每年 4800 积分",
-          "queue": "优先 GPU 队列",
-          "upscale": "高分辨率输出",
-          "styles": "工作流模板",
-          "license": "更适合商用",
-          "watermark": "零水印导出"
+          "credits": "每年 120,000 渲染额度",
+          "queue": "稳定的月度工作室产能",
+          "upscale": "可用于 1080p 渲染",
+          "styles": "代理商工作流模板",
+          "license": "商业项目使用",
+          "watermark": "无水印交付"
         }
       }
     },

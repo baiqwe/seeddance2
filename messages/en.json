@@ -135,41 +135,41 @@
     "p3": "We usually reply within 24 to 48 hours. If your request is about uploaded images or account data, mention that directly so we can route it correctly."
   },
   "Pricing": {
-    "eyebrow": "Production Pricing",
-    "title": "Choose the Seedance 2 plan that matches how often you generate.",
-    "subtitle": "Start with a one-time pack for testing, or switch to a subscription once your team needs repeatable video output every week.",
-    "artist_anchor": "Compared with repeated concept edits, previs revisions, or outsourced motion tests, a well-sized Seedance plan should feel like faster creative throughput, not just another bill.",
+    "eyebrow": "Studio Pricing",
+    "title": "Production-grade Seedance 2 plans for paid video work.",
+    "subtitle": "Video generation uses real compute. These plans are built for pitches, previs, campaign tests, and studios that need repeatable commercial output.",
+    "artist_anchor": "A single production-ready previs shot here is positioned against agency storyboards, animatics, and outsourced motion tests, not consumer image generation toys.",
     "buyout_label": "Buy-out",
-    "subscription_label": "Pro",
+    "subscription_label": "Studio",
     "one_time_payment": "One-time payment",
     "month": "mo",
     "year": "yr",
     "start_pro": "Subscribe now",
     "get_pack": "Buy now",
-    "credits": "Credits",
-    "generations": "Generations",
-    "price_per_image": "Cost / image",
-    "only_price_per_image": "Only ${price} / image",
-    "missing_features": "Missing features",
+    "credits": "Render credits",
+    "generations": "Shots",
+    "price_per_image": "Cost / 720p shot",
+    "only_price_per_image": "About ${price} / shot",
+    "missing_features": "Upgrade for",
     "faq_kicker": "Why teams upgrade",
     "checkout_failed": "Failed to start payment process.",
-    "refill_title": "Keep your video workflow moving.",
-    "refill_subtitle": "Top-up packs work well for campaign tests and short bursts. Subscriptions make more sense once you are generating every week.",
-    "refill_upgrade": "Go Pro Monthly",
-    "refill_mini": "Get 10 credits",
+    "refill_title": "Keep the studio workflow moving.",
+    "refill_subtitle": "Use a pitch pack for one-off client tests, or move to Studio Monthly when you need predictable render capacity every week.",
+    "refill_upgrade": "Open Studio Monthly",
+    "refill_mini": "Buy Pitch Pack",
     "cards": {
       "starter": {
         "subtitle": "One-time payment",
-        "cta": "Buy Starter Pack",
+        "cta": "Buy Pitch Pack",
         "features": {
-          "credits": "40 Credits",
-          "speed": "Short-form generation budget",
-          "resolution": "Up to 720p experiments"
+          "credits": "3,000 render credits",
+          "speed": "About 4 pitch-ready 720p shots",
+          "resolution": "Good for one commercial pitch"
         },
         "missing": {
           "queue": "Priority Queue",
-          "upscale": "Long-form budget",
-          "license": "Team workflow perks"
+          "upscale": "Recurring monthly budget",
+          "license": "Team production perks"
         }
       },
       "pro_pack": {
@@ -189,28 +189,28 @@
       },
       "monthly": {
         "subtitle": "Billed monthly. Cancel anytime.",
-        "anchor": "Best for active creators",
-        "cta": "Subscribe Now",
+        "anchor": "Core plan for small studios",
+        "cta": "Start Studio Monthly",
         "features": {
-          "credits": "320 Credits / month",
-          "queue": "Priority queue budget",
-          "upscale": "High-res render access",
-          "styles": "Workflow presets",
-          "license": "Commercial-friendly usage",
-          "watermark": "Zero Watermarks"
+          "credits": "10,000 render credits / month",
+          "queue": "About 14 production-ready 720p shots",
+          "upscale": "1080p render capacity available",
+          "styles": "Workflow templates for pitch, ad, and previs",
+          "license": "Commercial project usage",
+          "watermark": "No watermark delivery"
         }
       },
       "yearly": {
         "subtitle_prefix": "Equivalent to",
-        "anchor": "Save 50%",
-        "cta": "Get Yearly Plan",
+        "anchor": "Save $700 a year",
+        "cta": "Get Agency Annual",
         "features": {
-          "credits": "4800 Credits / year",
-          "queue": "Priority GPU Queue",
-          "upscale": "High-res render access",
-          "styles": "Workflow presets",
-          "license": "Commercial-friendly usage",
-          "watermark": "Zero Watermarks"
+          "credits": "120,000 render credits / year",
+          "queue": "Predictable monthly studio capacity",
+          "upscale": "1080p render capacity available",
+          "styles": "Agency workflow templates",
+          "license": "Commercial project usage",
+          "watermark": "No watermark delivery"
         }
       }
     },

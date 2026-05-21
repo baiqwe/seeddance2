@@ -19,79 +19,79 @@ export type PricingPlan = {
     badgeZh?: string;
 };
 
-// Credits will eventually become dynamic by duration and resolution.
-export const CREDITS_PER_GENERATION = 1;
+// Pricing anchor: one production-ready 720p Seedance shot costs about 700 provider credits.
+export const CREDITS_PER_GENERATION = 700;
 
 // === 核心定价策略 ===
 
-// 1. Buy-out: Starter Pack
+// 1. Buy-out: Pitch Pack
 export const PLAN_MINI: PricingPlan = {
     id: "mini_refill",
     productId: "prod_6YOc0hnaYoimusgXJkh3a2",
-    name: "Creator Starter",
-    nameZh: "创作体验包",
-    price: 4.99,
-    credits: 40,
+    name: "Pitch Pack",
+    nameZh: "提案包",
+    price: 99,
+    credits: 3000,
     type: 'one_time',
-    description: "A small one-time pack for testing short Seedance workflows.",
-    descriptionZh: "适合轻量试水的单次买断包，用来体验短时长工作流。",
-    originalPrice: 6.99
+    description: "A one-time render budget for a single commercial pitch or client-facing previs test.",
+    descriptionZh: "适合单次商业提案、客户比稿或预演测试的一次性渲染额度。",
+    originalPrice: 129
 };
 
-// 2. Subscription: Pro Monthly
+// 2. Subscription: Studio Monthly
 export const PLAN_PRO_MONTHLY: PricingPlan = {
     id: "pro_monthly",
     productId: "prod_4pBVe6NzowRcuNB77DECWu",
-    name: "Pro Monthly",
-    nameZh: "Pro 月订阅",
-    price: 29.99,
-    credits: 320,
+    name: "Studio Monthly",
+    nameZh: "工作室月卡",
+    price: 299,
+    credits: 10000,
     type: 'subscription',
     interval: 'month',
-    label: "Most Popular",
-    labelZh: "最受欢迎",
+    label: "Core Studio Plan",
+    labelZh: "核心工作室方案",
     isPopular: true,
-    description: "Monthly credits for consistent multi-modal video production.",
-    descriptionZh: "适合稳定产出的多模态视频创作月度额度。",
-    originalPrice: 49.99,
-    badge: "Save 40%",
-    badgeZh: "立省 40%"
+    description: "Monthly render capacity for small production teams shipping repeatable previews and campaign shots.",
+    descriptionZh: "面向小型制作团队的月度渲染额度，适合持续产出预演镜头和营销试片。",
+    originalPrice: 399,
+    badge: "~$21 / 720p shot",
+    badgeZh: "约 $21 / 720p 镜头"
 };
 
 export const PLAN_PRO_YEARLY: PricingPlan = {
     id: "pro_yearly",
     productId: "prod_6Yo0APx53tCUDX0ph4RBWe",
-    name: "Pro Yearly",
-    nameZh: "Pro 年订阅",
-    price: 89.99,
-    credits: 4800,
+    name: "Agency Annual",
+    nameZh: "代理商年卡",
+    price: 2888,
+    credits: 120000,
     type: 'subscription',
     interval: 'year',
-    label: "Best Value",
-    labelZh: "最佳价值",
+    label: "Agency Value",
+    labelZh: "代理商优选",
     isPopular: true,
-    description: "Best-value plan for teams and high-frequency production.",
-    descriptionZh: "面向高频创作和团队协作的高性价比方案。",
-    originalPrice: 179.99,
-    badge: "Save 50%",
-    badgeZh: "立省 50%"
+    description: "Annual production capacity for agencies that need predictable output and upfront budget control.",
+    descriptionZh: "面向代理商和高频团队的年度产能方案，用更稳定的预算覆盖持续交付。",
+    originalPrice: 3588,
+    badge: "Save $700",
+    badgeZh: "立省 $700"
 };
 
-// 3. Buy-out: Creator Pack
+// Legacy plan retained only for compatibility with older payment records.
 export const PLAN_ANCHOR: PricingPlan = {
     id: "lifetime_anchor",
     productId: "prod_74hGM82264trVHdwGAP897",
-    name: "Production Pack",
-    nameZh: "制作买断包",
-    price: 19.99,
-    credits: 180,
+    name: "Legacy Production Pack",
+    nameZh: "旧版制作包",
+    price: 199,
+    credits: 6000,
     type: 'one_time',
-    description: "A larger one-time pack for client demos and campaign tests.",
-    descriptionZh: "适合客户提案和营销试片的单次大包。",
-    originalPrice: 24.99
+    description: "Legacy one-time pack retained for compatibility with existing checkout products.",
+    descriptionZh: "为兼容旧支付产品保留的单次买断包。",
+    originalPrice: 249
 };
 
-export const ALL_PLANS = [PLAN_MINI, PLAN_PRO_MONTHLY, PLAN_PRO_YEARLY, PLAN_ANCHOR];
+export const ALL_PLANS = [PLAN_MINI, PLAN_PRO_MONTHLY, PLAN_PRO_YEARLY];
 
 // 辅助函数：计算单次生成的成本
 export function calculateCostPerGeneration(plan: PricingPlan): number {

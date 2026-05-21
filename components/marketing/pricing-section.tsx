@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import {
-    PLAN_ANCHOR,
     PLAN_MINI,
     PLAN_PRO_MONTHLY,
     PLAN_PRO_YEARLY,
@@ -39,7 +38,6 @@ export function PricingSection({ locale, hideIntro = false }: PricingSectionProp
 
     const plans = [
         getLocalizedPlan(PLAN_MINI, locale) as LocalizedPlan,
-        getLocalizedPlan(PLAN_ANCHOR, locale) as LocalizedPlan,
         getLocalizedPlan(PLAN_PRO_MONTHLY, locale) as LocalizedPlan,
         getLocalizedPlan(PLAN_PRO_YEARLY, locale) as LocalizedPlan,
     ];
@@ -137,10 +135,9 @@ export function PricingSection({ locale, hideIntro = false }: PricingSectionProp
 
     const renderCard = (plan: LocalizedPlan) => {
         const isStarter = plan.id === PLAN_MINI.id;
-        const isPack = plan.id === PLAN_ANCHOR.id;
         const isMonthly = plan.id === PLAN_PRO_MONTHLY.id;
         const isYearly = plan.id === PLAN_PRO_YEARLY.id;
-        const costPerImage = calculateCostPerGeneration(plan);
+        const costPerShot = calculateCostPerGeneration(plan);
 
         const cardClass = isYearly
             ? "border-white/12 bg-[radial-gradient(circle_at_top,rgba(98,86,255,0.18),transparent_30%),radial-gradient(circle_at_100%_0%,rgba(37,99,255,0.16),transparent_24%),linear-gradient(180deg,#161924_0%,#0d111a_100%)] text-white shadow-[0_35px_120px_-35px_rgba(2,6,23,0.95)]"
@@ -170,30 +167,23 @@ export function PricingSection({ locale, hideIntro = false }: PricingSectionProp
                 t("cards.starter.features.speed"),
                 t("cards.starter.features.resolution"),
             ]
-            : isPack
+            : isMonthly
                 ? [
-                    t("cards.pro_pack.features.credits"),
-                    t("cards.pro_pack.features.speed"),
-                    t("cards.pro_pack.features.resolution"),
-                    t("cards.pro_pack.features.watermark"),
+                    t("cards.monthly.features.credits"),
+                    t("cards.monthly.features.queue"),
+                    t("cards.monthly.features.upscale"),
+                    t("cards.monthly.features.styles"),
+                    t("cards.monthly.features.license"),
+                    t("cards.monthly.features.watermark"),
                 ]
-                : isMonthly
-                    ? [
-                        t("cards.monthly.features.credits"),
-                        t("cards.monthly.features.queue"),
-                        t("cards.monthly.features.upscale"),
-                        t("cards.monthly.features.styles"),
-                        t("cards.monthly.features.license"),
-                        t("cards.monthly.features.watermark"),
-                    ]
-                    : [
-                        t("cards.yearly.features.credits"),
-                        t("cards.yearly.features.queue"),
-                        t("cards.yearly.features.upscale"),
-                        t("cards.yearly.features.styles"),
-                        t("cards.yearly.features.license"),
-                        t("cards.yearly.features.watermark"),
-                    ];
+                : [
+                    t("cards.yearly.features.credits"),
+                    t("cards.yearly.features.queue"),
+                    t("cards.yearly.features.upscale"),
+                    t("cards.yearly.features.styles"),
+                    t("cards.yearly.features.license"),
+                    t("cards.yearly.features.watermark"),
+                ];
 
         const missingFeatures = isStarter
             ? [
@@ -201,13 +191,7 @@ export function PricingSection({ locale, hideIntro = false }: PricingSectionProp
                 t("cards.starter.missing.upscale"),
                 t("cards.starter.missing.license"),
             ]
-            : isPack
-                ? [
-                    t("cards.pro_pack.missing.queue"),
-                    t("cards.pro_pack.missing.upscale"),
-                    t("cards.pro_pack.missing.styles"),
-                ]
-                : [];
+            : [];
 
         return (
             <div
@@ -256,7 +240,7 @@ export function PricingSection({ locale, hideIntro = false }: PricingSectionProp
                         </div>
                     ) : (
                         <p className={cn("text-sm", textMuted)}>
-                            {isStarter || isPack ? t("one_time_payment") : t("cards.monthly.subtitle")}
+                            {isStarter ? t("one_time_payment") : t("cards.monthly.subtitle")}
                         </p>
                     )}
 
@@ -265,7 +249,7 @@ export function PricingSection({ locale, hideIntro = false }: PricingSectionProp
                             {t("price_per_image")}
                         </p>
                         <p className={cn("mt-2 text-2xl font-black", anchorClass)}>
-                            {t("only_price_per_image", { price: costPerImage.toFixed(2) })}
+                            {t("only_price_per_image", { price: costPerShot.toFixed(2) })}
                         </p>
                         {isMonthly ? (
                             <p className="mt-2 text-sm font-semibold text-emerald-600">{t("cards.monthly.anchor")}</p>
@@ -303,11 +287,9 @@ export function PricingSection({ locale, hideIntro = false }: PricingSectionProp
                         {loadingPlanId === plan.id ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                         {isStarter
                             ? t("cards.starter.cta")
-                            : isPack
-                                ? t("cards.pro_pack.cta")
-                                : isMonthly
-                                    ? t("cards.monthly.cta")
-                                    : t("cards.yearly.cta")}
+                            : isMonthly
+                                ? t("cards.monthly.cta")
+                                : t("cards.yearly.cta")}
                     </Button>
                 </div>
             </div>
@@ -331,7 +313,7 @@ export function PricingSection({ locale, hideIntro = false }: PricingSectionProp
                 ) : null}
 
                 <div className={cn("overflow-x-auto overflow-y-visible pb-6 pt-6 [scrollbar-width:none]", hideIntro ? "mt-4" : "mt-14")}>
-                    <div className="grid min-w-[1180px] snap-x snap-mandatory grid-cols-4 items-stretch gap-6 px-1 lg:min-w-0">
+                    <div className="grid min-w-[900px] snap-x snap-mandatory grid-cols-3 items-stretch gap-6 px-1 lg:min-w-0">
                         {plans.map(renderCard)}
                     </div>
                 </div>
