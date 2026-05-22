@@ -104,20 +104,25 @@ const COPY: Record<string, WorkspaceCopy> = {
     subtitle:
       "把图片、视频、音频和文本放进同一个创作台，让输入关系更清楚、输出更可控，也让界面真正服务于镜头结果。",
     uploadTitle: "拖入你的多模态素材",
-    uploadHint: "把图像、动作参考和音频线索拆开管理，角色、镜头和节奏就能更清楚地分别控制。",
+    uploadHint:
+      "把图像、动作参考和音频线索拆开管理，角色、镜头和节奏就能更清楚地分别控制。",
     uploadMeta: "Images 9 · Videos 3 · Audios 3",
     modelLabel: "AI 模型",
     modelName: "Seedance 2.0 Multi-Reference",
-    modelDescription: "优先理解图像、视频、音频与文字之间的关系，适合做角色一致性、动作继承和镜头延展。",
+    modelDescription:
+      "优先理解图像、视频、音频与文字之间的关系，适合做角色一致性、动作继承和镜头延展。",
     modelBadges: ["参考优先", "动作理解", "镜头延展"],
     returnLastFrame: "返回尾帧",
-    returnLastFrameHint: "让 Kie 在结果里返回最后一帧，方便继续做延展或下一轮关键帧控制。",
+    returnLastFrameHint:
+      "让 Kie 在结果里返回最后一帧，方便继续做延展或下一轮关键帧控制。",
     generateAudio: "生成音频",
-    generateAudioHint: "让模型同步生成音频；如果你已上传音频参考，建议保持开启。",
+    generateAudioHint:
+      "让模型同步生成音频；如果你已上传音频参考，建议保持开启。",
     webSearch: "启用联网增强",
     webSearchHint: "允许模型参考网络信息增强语义理解；不需要真实信息时可关闭。",
     providerParamsTitle: "Kie Seedance 2 参数",
-    providerParamsHint: "这里对应 API 入参：model、resolution、aspect_ratio、duration、generate_audio、return_last_frame、web_search。",
+    providerParamsHint:
+      "这里对应 API 入参：model、resolution、aspect_ratio、duration、generate_audio、return_last_frame、web_search。",
     promptLabel: "Prompt",
     promptPlaceholder:
       "例如：以 image-01 作为首帧角色，沿用 video-02 的推轨与镜头节奏，5 秒内从中景推进到近景，保留冷色夜景霓虹和电子鼓点推进感。",
@@ -128,7 +133,8 @@ const COPY: Record<string, WorkspaceCopy> = {
     generate: "生成视频",
     queueTitle: "生成前检查",
     queueEta: "当前素材状态",
-    queueHint: "先确认参考素材各自承担的职责，再发起生成。这样通常比一味加长 Prompt 更容易得到稳定结果。",
+    queueHint:
+      "先确认参考素材各自承担的职责，再发起生成。这样通常比一味加长 Prompt 更容易得到稳定结果。",
     queueBullets: [
       "先用图片锁定角色、场景和关键帧，再决定镜头应该怎么动。",
       "参考视频更适合描述动作、运镜和节奏，而不是取代所有文字说明。",
@@ -146,17 +152,20 @@ const COPY: Record<string, WorkspaceCopy> = {
     presets: [
       {
         name: "舞蹈动作克隆",
-        prompt: "用参考舞蹈视频的动作节奏，保持角色服装一致，生成 9:16 竖版短视频。",
+        prompt:
+          "用参考舞蹈视频的动作节奏，保持角色服装一致，生成 9:16 竖版短视频。",
         mode: "multi_modal_video",
       },
       {
         name: "广告产品镜头",
-        prompt: "让产品图在黑色镜面桌面上完成 cinematic reveal，镜头缓慢推进并带有微弱高光扫过。",
+        prompt:
+          "让产品图在黑色镜面桌面上完成 cinematic reveal，镜头缓慢推进并带有微弱高光扫过。",
         mode: "multi_modal_video",
       },
       {
         name: "电影预演",
-        prompt: "参考第二段视频的推轨和转场节奏，把静帧角色扩展成连续镜头，保持场景连贯。",
+        prompt:
+          "参考第二段视频的推轨和转场节奏，把静帧角色扩展成连续镜头，保持场景连贯。",
         mode: "image_to_video",
       },
     ],
@@ -197,16 +206,21 @@ const COPY: Record<string, WorkspaceCopy> = {
     uploadMeta: "Images 9 · Videos 3 · Audios 3",
     modelLabel: "AI Model",
     modelName: "Seedance 2.0 Multi-Reference",
-    modelDescription: "Built to interpret images, clips, audio, and text together, with stronger control over identity, motion transfer, and shot extension.",
+    modelDescription:
+      "Built to interpret images, clips, audio, and text together, with stronger control over identity, motion transfer, and shot extension.",
     modelBadges: ["Reference-first", "Motion-aware", "Extendable"],
     returnLastFrame: "Return last frame",
-    returnLastFrameHint: "Ask Kie to return the final frame so you can continue an extension or use it as the next keyframe.",
+    returnLastFrameHint:
+      "Ask Kie to return the final frame so you can continue an extension or use it as the next keyframe.",
     generateAudio: "Generate audio",
-    generateAudioHint: "Generate synchronized audio with the video. Keep this on when audio references should guide rhythm.",
+    generateAudioHint:
+      "Generate synchronized audio with the video. Keep this on when audio references should guide rhythm.",
     webSearch: "Use web search",
-    webSearchHint: "Allow model-side web context when the prompt needs factual or external context.",
+    webSearchHint:
+      "Allow model-side web context when the prompt needs factual or external context.",
     providerParamsTitle: "Kie Seedance 2 parameters",
-    providerParamsHint: "Mapped to API fields: model, resolution, aspect_ratio, duration, generate_audio, return_last_frame, web_search.",
+    providerParamsHint:
+      "Mapped to API fields: model, resolution, aspect_ratio, duration, generate_audio, return_last_frame, web_search.",
     promptLabel: "Prompt",
     promptPlaceholder:
       "Example: use image-01 as the opening character frame, borrow the push-in and pacing from video-02, move from medium shot to close-up in 5 seconds, and keep the cold neon night tone with an electronic beat ramp.",
@@ -217,7 +231,8 @@ const COPY: Record<string, WorkspaceCopy> = {
     generate: "Generate",
     queueTitle: "Pre-flight check",
     queueEta: "Current asset state",
-    queueHint: "Use this area to confirm that each reference has a clear job before you generate. Stable outputs usually come from clearer responsibilities, not longer prompts.",
+    queueHint:
+      "Use this area to confirm that each reference has a clear job before you generate. Stable outputs usually come from clearer responsibilities, not longer prompts.",
     queueBullets: [
       "Use images to lock identity, scene layout, and keyframes before pushing motion further.",
       "Use reference clips for body movement, camera travel, and pacing rather than trying to describe all motion in text alone.",
@@ -225,7 +240,8 @@ const COPY: Record<string, WorkspaceCopy> = {
       "The clearest results usually come from assigning one role to each reference type.",
     ],
     previewTitle: "Output Preview",
-    previewSubtitle: "Let the output become the focus and the interface recede.",
+    previewSubtitle:
+      "Let the output become the focus and the interface recede.",
     stats: [
       { label: "Input Modes", value: "Image / Video / Audio / Text" },
       { label: "Control Layers", value: "References + Prompt + Progress" },
@@ -235,17 +251,20 @@ const COPY: Record<string, WorkspaceCopy> = {
     presets: [
       {
         name: "Dance Motion Clone",
-        prompt: "Transfer the choreography timing from the reference dance clip while keeping the character wardrobe consistent in a 9:16 short.",
+        prompt:
+          "Transfer the choreography timing from the reference dance clip while keeping the character wardrobe consistent in a 9:16 short.",
         mode: "multi_modal_video",
       },
       {
         name: "Commercial Product Shot",
-        prompt: "Reveal the product on a black reflective table with a slow cinematic push-in and a subtle specular sweep.",
+        prompt:
+          "Reveal the product on a black reflective table with a slow cinematic push-in and a subtle specular sweep.",
         mode: "multi_modal_video",
       },
       {
         name: "Previs Storyboard",
-        prompt: "Reuse the dolly move and transition rhythm from clip two, then extend the still character frame into a continuous shot.",
+        prompt:
+          "Reuse the dolly move and transition rhythm from clip two, then extend the still character frame into a continuous shot.",
         mode: "image_to_video",
       },
     ],
@@ -277,67 +296,98 @@ const COPY: Record<string, WorkspaceCopy> = {
 const RESOLUTIONS = KIE_SEEDANCE_SUPPORTED_RESOLUTIONS;
 const DURATIONS = KIE_SEEDANCE_SUPPORTED_DURATIONS;
 const RATIOS = KIE_SEEDANCE_SUPPORTED_RATIOS;
-const VIDEO_MODEL_OPTIONS: VideoModelId[] = ["bytedance/seedance-2", "bytedance/seedance-2-fast"];
+const VIDEO_MODEL_OPTIONS: VideoModelId[] = [
+  "bytedance/seedance-2",
+  "bytedance/seedance-2-fast",
+];
 
-const VIDEO_MODEL_META: Record<string, Record<VideoModelId, { name: string; description: string; badges: string[] }>> = {
+const VIDEO_MODEL_META: Record<
+  string,
+  Record<VideoModelId, { name: string; description: string; badges: string[] }>
+> = {
   zh: {
     "bytedance/seedance-2": {
       name: "Seedance 2.0",
-      description: "标准质量模型，更适合角色稳定性、镜头层次和更完整的多参考视频生成。",
+      description:
+        "标准质量模型，更适合角色稳定性、镜头层次和更完整的多参考视频生成。",
       badges: ["高质量", "多参考", "镜头稳定"],
     },
     "bytedance/seedance-2-fast": {
       name: "Seedance 2 Fast",
-      description: "更适合快速验证方向、快速试错和先把镜头节奏跑通，再决定是否切回标准模型。",
+      description:
+        "更适合快速验证方向、快速试错和先把镜头节奏跑通，再决定是否切回标准模型。",
       badges: ["更快出片", "概念验证", "快速迭代"],
     },
   },
   en: {
     "bytedance/seedance-2": {
       name: "Seedance 2.0",
-      description: "The quality-first model for stronger identity consistency, richer shot design, and deeper multi-reference generation.",
+      description:
+        "The quality-first model for stronger identity consistency, richer shot design, and deeper multi-reference generation.",
       badges: ["Higher quality", "Multi-reference", "Stable shots"],
     },
     "bytedance/seedance-2-fast": {
       name: "Seedance 2 Fast",
-      description: "Optimized for faster iteration when you want to validate direction, pacing, and camera ideas before committing to the standard model.",
+      description:
+        "Optimized for faster iteration when you want to validate direction, pacing, and camera ideas before committing to the standard model.",
       badges: ["Faster output", "Concept testing", "Rapid iteration"],
     },
   },
 };
 
-const PREVIEW_REELS: Record<VideoGenerationMode, { src: string; label: string; headlineZh: string; headlineEn: string; bodyZh: string; bodyEn: string }> = {
+const PREVIEW_REELS: Record<
+  VideoGenerationMode,
+  {
+    src: string;
+    label: string;
+    headlineZh: string;
+    headlineEn: string;
+    bodyZh: string;
+    bodyEn: string;
+  }
+> = {
   multi_modal_video: {
     src: mediaAsset("/videos/gallery/seedance-autumn-duel.mp4"),
     label: "Cinematic action sample",
     headlineZh: "让角色、动作和运镜在同一个镜头里配合起来。",
-    headlineEn: "Let identity, movement, and camera travel work together in one shot.",
-    bodyZh: "这类完整动作样片更适合展示多参考工作流的价值：主体需要稳定，动作需要有节奏，镜头也要沿着同一个意图推进。",
-    bodyEn: "A full action sample shows the value of the multi-reference workflow more clearly: the subject stays stable, the motion keeps its rhythm, and the camera move follows one consistent intent.",
+    headlineEn:
+      "Let identity, movement, and camera travel work together in one shot.",
+    bodyZh:
+      "这类完整动作样片更适合展示多参考工作流的价值：主体需要稳定，动作需要有节奏，镜头也要沿着同一个意图推进。",
+    bodyEn:
+      "A full action sample shows the value of the multi-reference workflow more clearly: the subject stays stable, the motion keeps its rhythm, and the camera move follows one consistent intent.",
   },
   image_to_video: {
     src: mediaAsset("/videos/gallery/seedance-hero-4.mp4"),
     label: "Balance beam sample",
     headlineZh: "先锁定起始画面，再把动作慢慢推出来。",
-    headlineEn: "Lock the opening frame first, then let the motion build from it.",
-    bodyZh: "这条体操样片更适合说明图生视频的典型做法：角色与场景先稳定住，再用镜头和节奏把静帧推进成连续动作。",
-    bodyEn: "This gymnastics sample shows the core image-to-video pattern more clearly: stabilize the subject and scene first, then build movement and pacing on top of that still frame.",
+    headlineEn:
+      "Lock the opening frame first, then let the motion build from it.",
+    bodyZh:
+      "这条体操样片更适合说明图生视频的典型做法：角色与场景先稳定住，再用镜头和节奏把静帧推进成连续动作。",
+    bodyEn:
+      "This gymnastics sample shows the core image-to-video pattern more clearly: stabilize the subject and scene first, then build movement and pacing on top of that still frame.",
   },
   text_to_video: {
     src: mediaAsset("/videos/gallery/seedance-hero-6.mp4"),
     label: "Narrative rush sample",
     headlineZh: "先把戏剧张力写清楚，再让镜头自己长出来。",
-    headlineEn: "Write the urgency first, then let the shot language grow from it.",
-    bodyZh: "这条街头奔跑样片更像文本转视频的真实起点：先描述情境、冲突和推进感，再决定后续是否补参考素材。",
-    bodyEn: "This street-running sample is closer to how text-to-video usually starts in practice: describe the situation, tension, and forward drive first, then decide whether references are needed later.",
+    headlineEn:
+      "Write the urgency first, then let the shot language grow from it.",
+    bodyZh:
+      "这条街头奔跑样片更像文本转视频的真实起点：先描述情境、冲突和推进感，再决定后续是否补参考素材。",
+    bodyEn:
+      "This street-running sample is closer to how text-to-video usually starts in practice: describe the situation, tension, and forward drive first, then decide whether references are needed later.",
   },
   video_extension: {
     src: mediaAsset("/videos/gallery/video-extension.mp4"),
     label: "Extension sample",
     headlineZh: "沿着已有镜头，把叙事继续下去。",
     headlineEn: "Continue the shot without breaking the scene logic.",
-    bodyZh: "更适合扩写现有片段、延续角色动作和保留空间关系，让生成结果更像真正的接续镜头。",
-    bodyEn: "Ideal for continuing an existing clip while preserving movement, identity, and spatial continuity.",
+    bodyZh:
+      "更适合扩写现有片段、延续角色动作和保留空间关系，让生成结果更像真正的接续镜头。",
+    bodyEn:
+      "Ideal for continuing an existing clip while preserving movement, identity, and spatial continuity.",
   },
 };
 
@@ -368,7 +418,10 @@ export function MultiModalWorkspace({ locale }: Props) {
   const promptLength = useMemo(() => prompt.length, [prompt]);
   const activePreview = PREVIEW_REELS[mode];
   const activeModel = videoModelMeta[videoModel];
-  const localizedNotice = useMemo(() => formatWorkspaceNotice(notice, locale), [notice, locale]);
+  const localizedNotice = useMemo(
+    () => formatWorkspaceNotice(notice, locale),
+    [notice, locale],
+  );
   const imageLimit = getAssetLimitForMode(mode, "image");
   const videoLimit = getAssetLimitForMode(mode, "video");
   const audioLimit = getAssetLimitForMode(mode, "audio");
@@ -398,9 +451,11 @@ export function MultiModalWorkspace({ locale }: Props) {
   const isUploadingAssets = useMemo(
     () =>
       Object.values(assets).some((assetList) =>
-        assetList.some((asset) => asset.status !== "ready" && asset.status !== "error")
+        assetList.some(
+          (asset) => asset.status !== "ready" && asset.status !== "error",
+        ),
       ),
-    [assets]
+    [assets],
   );
   const generateButtonLabel = isUploadingAssets
     ? locale === "zh"
@@ -447,137 +502,188 @@ export function MultiModalWorkspace({ locale }: Props) {
             ? locale === "zh"
               ? "图生视频模式下，请至少上传一张关键帧图片。"
               : "Upload at least one keyframe image in image-to-video mode."
-          : result.error === "missing_references"
-            ? locale === "zh"
-              ? "至少准备一个图像或视频参考。"
-              : "Prepare at least one image or video reference."
-            : result.error === "uploads_in_progress"
+            : result.error === "missing_references"
               ? locale === "zh"
-                ? "还有素材在上传中，等上传完成后再生成。"
-                : "Some assets are still uploading. Wait for them to finish first."
-              : locale === "zh"
-                ? "创建任务时出错，请稍后再试。"
-                : "Something went wrong while creating the generation.",
+                ? "至少准备一个图像或视频参考。"
+                : "Prepare at least one image or video reference."
+              : result.error === "uploads_in_progress"
+                ? locale === "zh"
+                  ? "还有素材在上传中，等上传完成后再生成。"
+                  : "Some assets are still uploading. Wait for them to finish first."
+                : locale === "zh"
+                  ? "创建任务时出错，请稍后再试。"
+                  : "Something went wrong while creating the generation.",
       variant: "destructive",
     });
   }
 
   return (
-    <div id="workspace" className="mx-auto max-w-[1500px] rounded-[28px] border border-[#232938] bg-[#060811] p-3 shadow-[0_30px_80px_-58px_rgba(0,0,0,0.95)] md:p-4">
+    <div
+      id="workspace"
+      className="mx-auto max-w-[1500px] rounded-[26px] bg-[#060811]"
+    >
       <div className="grid gap-4 xl:grid-cols-[420px_minmax(0,1fr)]">
-      <div className="rounded-[22px] border border-[#232938] bg-[#0b1020] p-4 xl:sticky xl:top-20 xl:max-h-[calc(100vh-6rem)] xl:self-start xl:overflow-y-auto">
-        <div className="space-y-4">
-          <div className="grid grid-cols-3 gap-2">
-            {copy.tabs.map((tab) => (
-              <button
-                key={tab.mode}
-                type="button"
-                onClick={() => actions.setMode(tab.mode)}
-                className={cn(
-                  "rounded-lg border px-3 py-2.5 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/35",
-                  mode === tab.mode
-                    ? "border-cyan-100/25 bg-[#dbe7fb] text-[#07111d]"
-                    : "border-[#232938] bg-[#101726] text-white/70 hover:border-white/16 hover:bg-white/[0.045] hover:text-white"
-                )}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {localizedNotice ? (
-            <div className="flex items-center gap-3 rounded-[14px] border border-amber-300/15 bg-amber-300/8 px-4 py-3 text-sm text-amber-100/90">
-              <AlertCircle className="h-4 w-4 shrink-0" />
-              <span className="flex-1">{localizedNotice}</span>
-              <button type="button" onClick={actions.clearNotice} className="text-white/50 hover:text-white">
-                ×
-              </button>
+        <div className="flex flex-col overflow-hidden rounded-[22px] bg-[#0b1020] ring-1 ring-[#232938]/75 xl:sticky xl:top-20 xl:max-h-[calc(100vh-12rem)] xl:self-start">
+          <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-4">
+            <div className="grid grid-cols-3 gap-2">
+              {copy.tabs.map((tab) => (
+                <button
+                  key={tab.mode}
+                  type="button"
+                  onClick={() => actions.setMode(tab.mode)}
+                  className={cn(
+                    "rounded-lg border px-3 py-2.5 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/35",
+                    mode === tab.mode
+                      ? "border-cyan-100/25 bg-[#dbe7fb] text-[#07111d]"
+                      : "border-[#232938] bg-[#101726] text-white/70 hover:border-white/16 hover:bg-white/[0.045] hover:text-white",
+                  )}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
-          ) : null}
 
-          <div className="rounded-[16px] border border-[#232938] bg-[#101726] p-4">
-            <div className="mb-3 flex items-center justify-between gap-3">
-              <Label>{copy.promptLabel}</Label>
-              <span className="text-[11px] text-white/36">{promptLength}/5000</span>
+            {localizedNotice ? (
+              <div className="flex items-center gap-3 rounded-[14px] border border-amber-300/15 bg-amber-300/8 px-4 py-3 text-sm text-amber-100/90">
+                <AlertCircle className="h-4 w-4 shrink-0" />
+                <span className="flex-1">{localizedNotice}</span>
+                <button
+                  type="button"
+                  onClick={actions.clearNotice}
+                  className="text-white/50 hover:text-white"
+                >
+                  ×
+                </button>
+              </div>
+            ) : null}
+
+            <div className="rounded-[16px] bg-[#101726] p-4 ring-1 ring-white/[0.04]">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <Label>{copy.promptLabel}</Label>
+                <span className="text-[11px] text-white/36">
+                  {promptLength}/5000
+                </span>
+              </div>
+              <Textarea
+                value={prompt}
+                onChange={(event) => actions.setPrompt(event.target.value)}
+                placeholder={copy.promptPlaceholder}
+                className="min-h-[128px] resize-none rounded-[12px] border-[#232938] bg-[#070b12] text-sm leading-7 text-white placeholder:text-white/32 focus-visible:ring-cyan-200/30"
+              />
+              <div className="mt-3 text-xs text-white/42">
+                {copy.promptCounter}
+              </div>
             </div>
-            <Textarea
-              value={prompt}
-              onChange={(event) => actions.setPrompt(event.target.value)}
-              placeholder={copy.promptPlaceholder}
-              className="min-h-[128px] resize-none rounded-[12px] border-[#232938] bg-[#070b12] text-sm leading-7 text-white placeholder:text-white/32 focus-visible:ring-cyan-200/30"
+
+            <ProviderParamsPanel
+              locale={locale}
+              copy={copy}
+              videoModel={videoModel}
+              videoModelMeta={videoModelMeta}
+              activeModel={activeModel}
+              resolution={resolution}
+              durationSeconds={durationSeconds}
+              aspectRatio={aspectRatio}
+              returnLastFrame={returnLastFrame}
+              generateAudio={generateAudio}
+              webSearch={webSearch}
+              onModelChange={actions.setVideoModel}
+              onResolutionChange={actions.setResolution}
+              onDurationChange={actions.setDurationSeconds}
+              onAspectRatioChange={actions.setAspectRatio}
+              onToggleReturnLastFrame={actions.toggleReturnLastFrame}
+              onToggleGenerateAudio={actions.toggleGenerateAudio}
+              onToggleWebSearch={actions.toggleWebSearch}
             />
-            <div className="mt-3 text-xs text-white/42">{copy.promptCounter}</div>
+
+            <div className="rounded-[14px] bg-[#0a0f1a] px-3.5 py-3 ring-1 ring-white/[0.04]">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="text-sm font-medium text-white">
+                  {currentUploadTitle}
+                </div>
+                <span className="rounded-full border border-white/8 bg-white/[0.04] px-2.5 py-1 text-[11px] text-white/42">
+                  {mode === "image_to_video"
+                    ? "first_frame_url / last_frame_url"
+                    : mode === "multi_modal_video"
+                      ? "reference_*_urls"
+                      : "prompt only"}
+                </span>
+              </div>
+              <p className="mt-2 text-xs leading-6 text-white/46">
+                {currentUploadHint}
+              </p>
+            </div>
+
+            {showImageLane || showVideoLane || showAudioLane ? (
+              <div className="space-y-3">
+                {showImageLane ? (
+                  <UploadLane
+                    locale={locale}
+                    kind="image"
+                    title={copy.laneTitle.image}
+                    hint={copy.laneHint.image}
+                    actionLabel={copy.laneAction.image}
+                    limitLabel={
+                      imageLimit === 2
+                        ? locale === "zh"
+                          ? "最多 2 张 / 首帧 + 尾帧"
+                          : "Up to 2 images / first + last frame"
+                        : copy.laneEmptyMeta.image
+                    }
+                    assets={assets.image}
+                    onAddFiles={actions.addFiles}
+                    onMove={actions.moveAsset}
+                    onRemove={actions.removeAsset}
+                    emptyLabel={copy.noAssets}
+                  />
+                ) : null}
+                {showVideoLane ? (
+                  <UploadLane
+                    locale={locale}
+                    kind="video"
+                    title={copy.laneTitle.video}
+                    hint={copy.laneHint.video}
+                    actionLabel={copy.laneAction.video}
+                    limitLabel={copy.laneEmptyMeta.video}
+                    assets={assets.video}
+                    onAddFiles={actions.addFiles}
+                    onMove={actions.moveAsset}
+                    onRemove={actions.removeAsset}
+                    emptyLabel={copy.noAssets}
+                  />
+                ) : null}
+                {showAudioLane ? (
+                  <UploadLane
+                    locale={locale}
+                    kind="audio"
+                    title={copy.laneTitle.audio}
+                    hint={copy.laneHint.audio}
+                    actionLabel={copy.laneAction.audio}
+                    limitLabel={copy.laneEmptyMeta.audio}
+                    assets={assets.audio}
+                    onAddFiles={actions.addFiles}
+                    onMove={actions.moveAsset}
+                    onRemove={actions.removeAsset}
+                    emptyLabel={copy.noAssets}
+                  />
+                ) : null}
+              </div>
+            ) : null}
           </div>
 
-          <ProviderParamsPanel
-            locale={locale}
-            copy={copy}
-            videoModel={videoModel}
-            videoModelMeta={videoModelMeta}
-            activeModel={activeModel}
-            resolution={resolution}
-            durationSeconds={durationSeconds}
-            aspectRatio={aspectRatio}
-            returnLastFrame={returnLastFrame}
-            generateAudio={generateAudio}
-            webSearch={webSearch}
-            onModelChange={actions.setVideoModel}
-            onResolutionChange={actions.setResolution}
-            onDurationChange={actions.setDurationSeconds}
-            onAspectRatioChange={actions.setAspectRatio}
-            onToggleReturnLastFrame={actions.toggleReturnLastFrame}
-            onToggleGenerateAudio={actions.toggleGenerateAudio}
-            onToggleWebSearch={actions.toggleWebSearch}
-          />
-
-          <div className="rounded-[14px] border border-[#232938] bg-[#0a0f1a] px-3.5 py-3">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="text-sm font-medium text-white">{currentUploadTitle}</div>
-              <span className="rounded-full border border-white/8 bg-white/[0.04] px-2.5 py-1 text-[11px] text-white/42">
-                {mode === "image_to_video"
-                  ? "first_frame_url / last_frame_url"
-                  : mode === "multi_modal_video"
-                    ? "reference_*_urls"
-                    : "prompt only"}
-              </span>
-            </div>
-            <p className="mt-2 text-xs leading-6 text-white/46">{currentUploadHint}</p>
-          </div>
-
-          {showImageLane || showVideoLane || showAudioLane ? (
-            <div className="space-y-3">
-              {showImageLane ? (
-                <UploadLane
-                  locale={locale}
-                  kind="image"
-                  title={copy.laneTitle.image}
-                  hint={copy.laneHint.image}
-                  actionLabel={copy.laneAction.image}
-                  limitLabel={imageLimit === 2 ? (locale === "zh" ? "最多 2 张 / 首帧 + 尾帧" : "Up to 2 images / first + last frame") : copy.laneEmptyMeta.image}
-                  assets={assets.image}
-                  onAddFiles={actions.addFiles}
-                  onMove={actions.moveAsset}
-                  onRemove={actions.removeAsset}
-                  emptyLabel={copy.noAssets}
-                />
-              ) : null}
-              {showVideoLane ? (
-                <UploadLane locale={locale} kind="video" title={copy.laneTitle.video} hint={copy.laneHint.video} actionLabel={copy.laneAction.video} limitLabel={copy.laneEmptyMeta.video} assets={assets.video} onAddFiles={actions.addFiles} onMove={actions.moveAsset} onRemove={actions.removeAsset} emptyLabel={copy.noAssets} />
-              ) : null}
-              {showAudioLane ? (
-                <UploadLane locale={locale} kind="audio" title={copy.laneTitle.audio} hint={copy.laneHint.audio} actionLabel={copy.laneAction.audio} limitLabel={copy.laneEmptyMeta.audio} assets={assets.audio} onAddFiles={actions.addFiles} onMove={actions.moveAsset} onRemove={actions.removeAsset} emptyLabel={copy.noAssets} />
-              ) : null}
-            </div>
-          ) : null}
-
-          <div className="sticky bottom-3 z-20 space-y-3 rounded-[18px] border border-[#232938] bg-[#0b1020]/96 p-3 shadow-[0_22px_60px_-44px_rgba(0,0,0,0.9)] xl:static xl:border-0 xl:bg-transparent xl:p-0 xl:shadow-none">
+          <div className="shrink-0 space-y-3 border-t border-[#232938]/80 bg-[#0b1020] p-4">
             <div className="flex flex-wrap items-center gap-3">
               <div className="rounded-lg border border-[#232938] bg-[#101726] px-4 py-2 text-sm text-white/74">
-                {copy.estimatedCredits}: <span className="font-semibold text-white">{estimatedCredits} credits</span>
+                {copy.estimatedCredits}:{" "}
+                <span className="font-semibold text-white">
+                  {estimatedCredits} credits
+                </span>
               </div>
               {activeGenerationId ? (
                 <div className="rounded-lg border border-[#2563ff]/20 bg-[#2563ff]/10 px-4 py-2 text-sm text-white">
-                  {locale === "zh" ? "任务" : "Job"} {activeGenerationStatus ?? "pending"} · {activeGenerationId.slice(0, 8)}
+                  {locale === "zh" ? "任务" : "Job"}{" "}
+                  {activeGenerationStatus ?? "pending"} ·{" "}
+                  {activeGenerationId.slice(0, 8)}
                 </div>
               ) : null}
             </div>
@@ -595,124 +701,172 @@ export function MultiModalWorkspace({ locale }: Props) {
             </Button>
           </div>
         </div>
-      </div>
 
-      <div className="space-y-4">
-        <div className="rounded-[22px] border border-[#232938] bg-[#0b1020] p-4">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-white/38">{copy.previewTitle}</p>
-              <h3 className="mt-2 text-lg font-semibold text-white">{copy.previewSubtitle}</h3>
-            </div>
-            <PlayCircle className="h-6 w-6 text-white/66" />
-          </div>
-
-          <div className="mt-4 grid gap-4 2xl:grid-cols-[minmax(0,1.42fr)_300px]">
-            <div className="rounded-[18px] border border-[#232938] bg-[#070b12] p-3">
-              <div className="flex items-center justify-between px-1 pb-3 pt-1 text-[11px] uppercase tracking-[0.16em] text-white/40">
-                <span>{activePreview.label}</span>
-                <span>{resolution} · {durationSeconds}s · {aspectRatio}</span>
-              </div>
-              <div className="overflow-hidden rounded-[16px] border border-white/6 bg-black">
-                <video
-                  key={activePreview.src}
-                  src={activePreview.src}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
-                  controls
-                  className="aspect-video w-full object-contain"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-4 rounded-[18px] border border-[#232938] bg-[#101726] p-4">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/76">
-                <CheckCircle2 className="h-3.5 w-3.5" />
-                {locale === "zh" ? "样例预览已就位" : "Preview reel loaded"}
-              </div>
-              <div className="text-xl font-semibold tracking-tight text-white">
-                {locale === "zh" ? activePreview.headlineZh : activePreview.headlineEn}
-              </div>
-              <p className="text-sm leading-7 text-white/58">
-                {locale === "zh" ? activePreview.bodyZh : activePreview.bodyEn}
-              </p>
-              <div className="grid gap-2">
-                {copy.stats.map((stat) => (
-                  <div key={stat.label} className="rounded-[12px] border border-[#232938] bg-[#070b12] p-3">
-                    <div className="text-[11px] uppercase tracking-[0.16em] text-white/36">{stat.label}</div>
-                    <div className="mt-2 text-sm font-medium text-white">{stat.value}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="space-y-4">
           <div className="rounded-[22px] border border-[#232938] bg-[#0b1020] p-4">
-            <div className="flex items-start justify-between gap-3">
+            <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs uppercase tracking-[0.16em] text-white/38">{copy.queueTitle}</p>
-                <h3 className="mt-2 text-base font-semibold text-white">{copy.queueEta}</h3>
+                <p className="text-xs uppercase tracking-[0.18em] text-white/38">
+                  {copy.previewTitle}
+                </p>
+                <h3 className="mt-2 text-lg font-semibold text-white">
+                  {copy.previewSubtitle}
+                </h3>
               </div>
-              <MonitorPlay className="h-5 w-5 text-white/40" />
+              <PlayCircle className="h-6 w-6 text-white/66" />
             </div>
-            <div className="mt-4 space-y-3">
-              <QueueItem title={copy.laneTitle.image} detail={locale === "zh" ? `${assets.image.length} 个图像素材用于角色与关键帧` : `${assets.image.length} image assets for identity and keyframes`} progress={assets.image.length > 0 ? "done" : "idle"} />
-              <QueueItem title={copy.laneTitle.video} detail={locale === "zh" ? `${assets.video.length} 个视频素材用于动作与运镜` : `${assets.video.length} motion clips for movement and camera`} progress={assets.video.length > 0 ? "active" : "idle"} />
-              <QueueItem title={copy.laneTitle.audio} detail={locale === "zh" ? `${assets.audio.length} 个音频素材用于节奏与氛围` : `${assets.audio.length} audio cues for rhythm and timing`} progress={assets.audio.length > 0 ? "done" : "idle"} />
-              {activeGenerationId ? (
+
+            <div className="mt-4 grid gap-4 2xl:grid-cols-[minmax(0,1.42fr)_300px]">
+              <div className="rounded-[18px] border border-[#232938] bg-[#070b12] p-3">
+                <div className="flex items-center justify-between px-1 pb-3 pt-1 text-[11px] uppercase tracking-[0.16em] text-white/40">
+                  <span>{activePreview.label}</span>
+                  <span>
+                    {resolution} · {durationSeconds}s · {aspectRatio}
+                  </span>
+                </div>
+                <div className="overflow-hidden rounded-[16px] border border-white/6 bg-black">
+                  <video
+                    key={activePreview.src}
+                    src={activePreview.src}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    controls
+                    className="aspect-video w-full object-contain"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-4 rounded-[18px] border border-[#232938] bg-[#101726] p-4">
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/76">
+                  <CheckCircle2 className="h-3.5 w-3.5" />
+                  {locale === "zh" ? "样例预览已就位" : "Preview reel loaded"}
+                </div>
+                <div className="text-xl font-semibold tracking-tight text-white">
+                  {locale === "zh"
+                    ? activePreview.headlineZh
+                    : activePreview.headlineEn}
+                </div>
+                <p className="text-sm leading-7 text-white/58">
+                  {locale === "zh"
+                    ? activePreview.bodyZh
+                    : activePreview.bodyEn}
+                </p>
+                <div className="grid gap-2">
+                  {copy.stats.map((stat) => (
+                    <div
+                      key={stat.label}
+                      className="rounded-[12px] border border-[#232938] bg-[#070b12] p-3"
+                    >
+                      <div className="text-[11px] uppercase tracking-[0.16em] text-white/36">
+                        {stat.label}
+                      </div>
+                      <div className="mt-2 text-sm font-medium text-white">
+                        {stat.value}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
+            <div className="rounded-[22px] border border-[#232938] bg-[#0b1020] p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.16em] text-white/38">
+                    {copy.queueTitle}
+                  </p>
+                  <h3 className="mt-2 text-base font-semibold text-white">
+                    {copy.queueEta}
+                  </h3>
+                </div>
+                <MonitorPlay className="h-5 w-5 text-white/40" />
+              </div>
+              <div className="mt-4 space-y-3">
                 <QueueItem
-                  title={locale === "zh" ? "当前任务" : "Current task"}
+                  title={copy.laneTitle.image}
                   detail={
                     locale === "zh"
-                      ? `任务 ${activeGenerationId.slice(0, 8)} 当前状态：${activeGenerationStatus ?? "pending"}`
-                      : `Job ${activeGenerationId.slice(0, 8)} is currently ${activeGenerationStatus ?? "pending"}`
+                      ? `${assets.image.length} 个图像素材用于角色与关键帧`
+                      : `${assets.image.length} image assets for identity and keyframes`
                   }
-                  progress="active"
+                  progress={assets.image.length > 0 ? "done" : "idle"}
                 />
-              ) : null}
+                <QueueItem
+                  title={copy.laneTitle.video}
+                  detail={
+                    locale === "zh"
+                      ? `${assets.video.length} 个视频素材用于动作与运镜`
+                      : `${assets.video.length} motion clips for movement and camera`
+                  }
+                  progress={assets.video.length > 0 ? "active" : "idle"}
+                />
+                <QueueItem
+                  title={copy.laneTitle.audio}
+                  detail={
+                    locale === "zh"
+                      ? `${assets.audio.length} 个音频素材用于节奏与氛围`
+                      : `${assets.audio.length} audio cues for rhythm and timing`
+                  }
+                  progress={assets.audio.length > 0 ? "done" : "idle"}
+                />
+                {activeGenerationId ? (
+                  <QueueItem
+                    title={locale === "zh" ? "当前任务" : "Current task"}
+                    detail={
+                      locale === "zh"
+                        ? `任务 ${activeGenerationId.slice(0, 8)} 当前状态：${activeGenerationStatus ?? "pending"}`
+                        : `Job ${activeGenerationId.slice(0, 8)} is currently ${activeGenerationStatus ?? "pending"}`
+                    }
+                    progress="active"
+                  />
+                ) : null}
+              </div>
+              <details className="mt-4 rounded-[14px] border border-[#232938] bg-[#070b12] p-3 text-sm leading-7 text-white/58">
+                <summary className="cursor-pointer select-none text-white/72">
+                  {locale === "zh" ? "展开参考素材建议" : "Reference guidance"}
+                </summary>
+                <p className="mt-3">{copy.queueHint}</p>
+                <ul className="mt-3 space-y-2">
+                  {copy.queueBullets.map((item) => (
+                    <li key={item} className="flex gap-3">
+                      <Check className="mt-1 h-4 w-4 shrink-0 text-cyan-200/80" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </details>
             </div>
-            <details className="mt-4 rounded-[14px] border border-[#232938] bg-[#070b12] p-3 text-sm leading-7 text-white/58">
-              <summary className="cursor-pointer select-none text-white/72">
-                {locale === "zh" ? "展开参考素材建议" : "Reference guidance"}
-              </summary>
-              <p className="mt-3">{copy.queueHint}</p>
-              <ul className="mt-3 space-y-2">
-                {copy.queueBullets.map((item) => (
-                  <li key={item} className="flex gap-3">
-                    <Check className="mt-1 h-4 w-4 shrink-0 text-cyan-200/80" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          </div>
 
-          <div className="rounded-[22px] border border-[#232938] bg-[#0b1020] p-4">
-            <Label>{copy.quickPresetsTitle}</Label>
-            <div className="mt-4 space-y-3">
-              {copy.presets.map((preset) => (
-                <button
-                  key={preset.name}
-                  type="button"
-                  onClick={() => actions.loadPreset(preset.prompt, preset.mode)}
-                  className="w-full rounded-[14px] border border-[#232938] bg-[#070b12] p-4 text-left transition-colors hover:border-cyan-100/24 hover:bg-[#101726] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/30"
-                >
-                  <div className="flex items-center gap-2 text-sm font-medium text-white">
-                    <Sparkles className="h-4 w-4 text-white/70" />
-                    {preset.name}
-                  </div>
-                  <p className="mt-2 text-sm leading-6 text-white/52">{preset.prompt}</p>
-                </button>
-              ))}
+            <div className="rounded-[22px] border border-[#232938] bg-[#0b1020] p-4">
+              <Label>{copy.quickPresetsTitle}</Label>
+              <div className="mt-4 space-y-3">
+                {copy.presets.map((preset) => (
+                  <button
+                    key={preset.name}
+                    type="button"
+                    onClick={() =>
+                      actions.loadPreset(preset.prompt, preset.mode)
+                    }
+                    className="w-full rounded-[14px] border border-[#232938] bg-[#070b12] p-4 text-left transition-colors hover:border-cyan-100/24 hover:bg-[#101726] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/30"
+                  >
+                    <div className="flex items-center gap-2 text-sm font-medium text-white">
+                      <Sparkles className="h-4 w-4 text-white/70" />
+                      {preset.name}
+                    </div>
+                    <p className="mt-2 text-sm leading-6 text-white/52">
+                      {preset.prompt}
+                    </p>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   );
@@ -741,7 +895,10 @@ function ProviderParamsPanel({
   locale: string;
   copy: WorkspaceCopy;
   videoModel: VideoModelId;
-  videoModelMeta: Record<VideoModelId, { name: string; description: string; badges: string[] }>;
+  videoModelMeta: Record<
+    VideoModelId,
+    { name: string; description: string; badges: string[] }
+  >;
   activeModel: { name: string; description: string; badges: string[] };
   resolution: string;
   durationSeconds: number;
@@ -761,9 +918,13 @@ function ProviderParamsPanel({
     <section className="rounded-[18px] border border-[#232938] bg-[#101726] p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-sm font-semibold text-white">{copy.providerParamsTitle}</div>
+          <div className="text-sm font-semibold text-white">
+            {copy.providerParamsTitle}
+          </div>
           <p className="mt-1 text-xs leading-5 text-white/42">
-            {locale === "zh" ? "按 Kie 当前稳定入参展示，提交前不会出现不可选参数。" : "Only currently stable Kie inputs are shown before submission."}
+            {locale === "zh"
+              ? "按 Kie 当前稳定入参展示，提交前不会出现不可选参数。"
+              : "Only currently stable Kie inputs are shown before submission."}
           </p>
         </div>
         <span className="shrink-0 rounded-full border border-[#232938] bg-[#070b12] px-2.5 py-1 text-[11px] text-cyan-100/58">
@@ -773,9 +934,16 @@ function ProviderParamsPanel({
 
       <div className="mt-4">
         <Label>{copy.modelLabel}</Label>
-        <Select value={videoModel} onValueChange={(value) => onModelChange(value as VideoModelId)}>
+        <Select
+          value={videoModel}
+          onValueChange={(value) => onModelChange(value as VideoModelId)}
+        >
           <SelectTrigger className="mt-2 h-11 rounded-[12px] border-[#232938] bg-[#070b12] text-left text-sm text-white focus:ring-cyan-200/30 focus:ring-offset-0">
-            <SelectValue placeholder={locale === "zh" ? "选择视频模型" : "Choose a video model"} />
+            <SelectValue
+              placeholder={
+                locale === "zh" ? "选择视频模型" : "Choose a video model"
+              }
+            />
           </SelectTrigger>
           <SelectContent className="border-[#232938] bg-[#101726] text-white">
             {VIDEO_MODEL_OPTIONS.map((modelOptionKey) => (
@@ -789,26 +957,63 @@ function ProviderParamsPanel({
             ))}
           </SelectContent>
         </Select>
-        <div className="mt-2 line-clamp-2 text-xs leading-5 text-white/46">{activeModel.description}</div>
+        <div className="mt-2 line-clamp-2 text-xs leading-5 text-white/46">
+          {activeModel.description}
+        </div>
       </div>
 
       <div className="mt-4 grid gap-3">
-        <CompactOptionGroup title={copy.resolution} options={RESOLUTIONS} value={resolution} onChange={onResolutionChange} />
-        <CompactOptionGroup title={copy.aspectRatio} options={RATIOS} value={aspectRatio} onChange={onAspectRatioChange} />
-        <CompactDurationGroup title={copy.duration} options={DURATIONS} value={durationSeconds} onChange={onDurationChange} />
+        <CompactOptionGroup
+          title={copy.resolution}
+          options={RESOLUTIONS}
+          value={resolution}
+          onChange={onResolutionChange}
+        />
+        <CompactOptionGroup
+          title={copy.aspectRatio}
+          options={RATIOS}
+          value={aspectRatio}
+          onChange={onAspectRatioChange}
+        />
+        <CompactDurationGroup
+          title={copy.duration}
+          options={DURATIONS}
+          value={durationSeconds}
+          onChange={onDurationChange}
+        />
       </div>
 
       <div className="mt-4 grid gap-2">
-        <CompactToggle active={generateAudio} onClick={onToggleGenerateAudio} label={copy.generateAudio} hint={copy.generateAudioHint} apiName="generate_audio" />
-        <CompactToggle active={returnLastFrame} onClick={onToggleReturnLastFrame} label={copy.returnLastFrame} hint={copy.returnLastFrameHint} apiName="return_last_frame" />
-        <CompactToggle active={webSearch} onClick={onToggleWebSearch} label={copy.webSearch} hint={copy.webSearchHint} apiName="web_search" />
+        <CompactToggle
+          active={generateAudio}
+          onClick={onToggleGenerateAudio}
+          label={copy.generateAudio}
+          hint={copy.generateAudioHint}
+          apiName="generate_audio"
+        />
+        <CompactToggle
+          active={returnLastFrame}
+          onClick={onToggleReturnLastFrame}
+          label={copy.returnLastFrame}
+          hint={copy.returnLastFrameHint}
+          apiName="return_last_frame"
+        />
+        <CompactToggle
+          active={webSearch}
+          onClick={onToggleWebSearch}
+          label={copy.webSearch}
+          hint={copy.webSearchHint}
+          apiName="web_search"
+        />
       </div>
 
       <details className="mt-3 rounded-[12px] border border-[#232938] bg-[#070b12] px-3 py-2">
         <summary className="cursor-pointer select-none text-xs text-white/48">
           {locale === "zh" ? "查看 API 字段映射" : "Show API field mapping"}
         </summary>
-        <p className="mt-2 text-xs leading-5 text-white/40">{copy.providerParamsHint}</p>
+        <p className="mt-2 text-xs leading-5 text-white/40">
+          {copy.providerParamsHint}
+        </p>
       </details>
     </section>
   );
@@ -836,7 +1041,11 @@ function UploadLane({
   assets: WorkspaceAsset[];
   emptyLabel: string;
   onAddFiles: (kind: WorkspaceAssetKind, files: File[]) => void;
-  onMove: (kind: WorkspaceAssetKind, id: string, direction: "up" | "down") => void;
+  onMove: (
+    kind: WorkspaceAssetKind,
+    id: string,
+    direction: "up" | "down",
+  ) => void;
   onRemove: (kind: WorkspaceAssetKind, id: string) => void;
 }) {
   const accept: Accept =
@@ -871,17 +1080,23 @@ function UploadLane({
         {...getRootProps()}
         className={cn(
           "mt-3 rounded-[14px] border border-dashed px-4 py-4 text-center transition-colors",
-          isDragActive ? "border-[#2563ff]/50 bg-[#2563ff]/8" : "border-white/12 bg-[#121318]"
+          isDragActive
+            ? "border-[#2563ff]/50 bg-[#2563ff]/8"
+            : "border-white/12 bg-[#121318]",
         )}
-        >
+      >
         <input {...getInputProps()} />
         <UploadCloud className="mx-auto h-5 w-5 text-[#76a3ff]" />
-        <div className="mt-3 text-sm font-medium text-white/86">{actionLabel}</div>
+        <div className="mt-3 text-sm font-medium text-white/86">
+          {actionLabel}
+        </div>
         <div className="mt-1 text-xs text-white/36">{limitLabel}</div>
       </div>
 
       <div className="mt-4 max-h-[260px] space-y-2 overflow-y-auto pr-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/12">
-        {assets.length === 0 ? <div className="text-sm text-white/38">{emptyLabel}</div> : null}
+        {assets.length === 0 ? (
+          <div className="text-sm text-white/38">{emptyLabel}</div>
+        ) : null}
         {assets.map((asset, index) => (
           <AssetRow
             key={asset.id}
@@ -921,7 +1136,9 @@ function AssetRow({
       <div className="flex gap-2.5">
         <AssetThumb asset={asset} icon={icon} />
         <div className="min-w-0 flex-1">
-          <div className="truncate text-xs font-medium text-white sm:text-sm">{asset.name}</div>
+          <div className="truncate text-xs font-medium text-white sm:text-sm">
+            {asset.name}
+          </div>
           <div className="mt-1 text-xs uppercase tracking-[0.18em] text-white/36">
             {asset.kind} · {asset.sizeLabel}
           </div>
@@ -1012,7 +1229,9 @@ function CompactOptionGroup({
     <div className="rounded-[13px] border border-[#232938] bg-[#070b12] p-3">
       <div className="flex items-center justify-between gap-3">
         <Label>{title}</Label>
-        <span className="rounded-full bg-white/[0.04] px-2 py-0.5 text-[11px] text-white/42">{value}</span>
+        <span className="rounded-full bg-white/[0.04] px-2 py-0.5 text-[11px] text-white/42">
+          {value}
+        </span>
       </div>
       <div className="mt-2 flex flex-wrap gap-1.5">
         {options.map((option) => (
@@ -1024,7 +1243,7 @@ function CompactOptionGroup({
               "rounded-lg border px-2.5 py-1.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/30",
               value === option
                 ? "border-cyan-100/25 bg-[#dbe7fb] text-[#07111d]"
-                : "border-white/8 bg-white/[0.03] text-white/62 hover:border-white/16 hover:text-white"
+                : "border-white/8 bg-white/[0.03] text-white/62 hover:border-white/16 hover:text-white",
             )}
           >
             {option}
@@ -1050,7 +1269,9 @@ function CompactDurationGroup({
     <div className="rounded-[13px] border border-[#232938] bg-[#070b12] p-3">
       <div className="flex items-center justify-between gap-3">
         <Label>{title}</Label>
-        <span className="rounded-full bg-white/[0.04] px-2 py-0.5 text-[11px] text-white/42">{value}s</span>
+        <span className="rounded-full bg-white/[0.04] px-2 py-0.5 text-[11px] text-white/42">
+          {value}s
+        </span>
       </div>
       <div className="mt-2 flex flex-wrap gap-1.5">
         {options.map((option) => (
@@ -1062,7 +1283,7 @@ function CompactDurationGroup({
               "rounded-lg border px-2.5 py-1.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/30",
               value === option
                 ? "border-cyan-100/25 bg-[#dbe7fb] text-[#07111d]"
-                : "border-white/8 bg-white/[0.03] text-white/62 hover:border-white/16 hover:text-white"
+                : "border-white/8 bg-white/[0.03] text-white/62 hover:border-white/16 hover:text-white",
             )}
           >
             {option}s
@@ -1092,25 +1313,45 @@ function CompactToggle({
       onClick={onClick}
       className={cn(
         "flex items-center justify-between gap-3 rounded-[13px] border px-3 py-2.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/30",
-        active ? "border-cyan-200/24 bg-cyan-200/[0.055]" : "border-[#232938] bg-white/[0.025] hover:border-white/16"
+        active
+          ? "border-cyan-200/24 bg-cyan-200/[0.055]"
+          : "border-[#232938] bg-white/[0.025] hover:border-white/16",
       )}
     >
       <span className="min-w-0">
         <span className="flex flex-wrap items-center gap-2">
           <span className="text-sm font-medium text-white">{label}</span>
-          <span className="rounded-full bg-black/24 px-1.5 py-0.5 text-[10px] text-white/34">{apiName}</span>
+          <span className="rounded-full bg-black/24 px-1.5 py-0.5 text-[10px] text-white/34">
+            {apiName}
+          </span>
         </span>
-        <span className="mt-1 line-clamp-1 block text-xs text-white/42">{hint}</span>
+        <span className="mt-1 line-clamp-1 block text-xs text-white/42">
+          {hint}
+        </span>
       </span>
-      <span className={cn("flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition-colors", active ? "bg-cyan-300/35" : "bg-white/10")}>
-        <span className={cn("h-4 w-4 rounded-full transition-transform", active ? "translate-x-4 bg-white" : "translate-x-0 bg-white/55")} />
+      <span
+        className={cn(
+          "flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition-colors",
+          active ? "bg-cyan-300/35" : "bg-white/10",
+        )}
+      >
+        <span
+          className={cn(
+            "h-4 w-4 rounded-full transition-transform",
+            active ? "translate-x-4 bg-white" : "translate-x-0 bg-white/55",
+          )}
+        />
       </span>
     </button>
   );
 }
 
 function Label({ children }: { children: ReactNode }) {
-  return <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-white/46">{children}</div>;
+  return (
+    <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-white/46">
+      {children}
+    </div>
+  );
 }
 
 function QueueItem({
@@ -1123,7 +1364,11 @@ function QueueItem({
   progress: "done" | "active" | "idle";
 }) {
   const dotClass =
-    progress === "done" ? "bg-emerald-300" : progress === "active" ? "bg-cyan-300" : "bg-white/20";
+    progress === "done"
+      ? "bg-emerald-300"
+      : progress === "active"
+        ? "bg-cyan-300"
+        : "bg-white/20";
 
   return (
     <div className="flex items-start gap-3 rounded-[12px] border border-[#232938] bg-[#101726] p-4">
@@ -1162,47 +1407,66 @@ function formatWorkspaceNotice(notice: string | null, locale: string) {
 
   const directMap: Record<string, string> = {
     "Prompt is required before generating.": "开始生成前请先补充提示词。",
-    "Upload at least one keyframe image before generating.": "图生视频模式下，请至少上传一张关键帧图片。",
-    "Upload at least one image or video reference before generating.": "开始生成前请至少准备一个图像或视频参考。",
-    "Please wait until all uploads finish before generating.": "请先等待所有素材上传完成，再开始生成。",
-    "Generation queued. You can continue editing or monitor progress in the dashboard.": "视频请求已经提交，你可以继续整理素材，或前往控制台查看进度。",
+    "Upload at least one keyframe image before generating.":
+      "图生视频模式下，请至少上传一张关键帧图片。",
+    "Upload at least one image or video reference before generating.":
+      "开始生成前请至少准备一个图像或视频参考。",
+    "Please wait until all uploads finish before generating.":
+      "请先等待所有素材上传完成，再开始生成。",
+    "Generation queued. You can continue editing or monitor progress in the dashboard.":
+      "视频请求已经提交，你可以继续整理素材，或前往控制台查看进度。",
     "Failed to create generation": "创建生成任务失败，请稍后再试。",
     "Upload failed": "素材上传失败，请稍后重试。",
     "Failed to prepare upload": "准备上传失败，请稍后重试。",
     "Network error during upload": "上传过程中发生网络错误，请稍后重试。",
-    "R2 upload request failed or was blocked by CORS": "R2 直传请求失败或被 CORS 拦截，请先应用 R2 CORS 配置。",
-    "Upload was cancelled before it finished": "上传在完成前被取消，请重新选择素材。",
+    "R2 upload request failed or was blocked by CORS":
+      "R2 直传请求失败或被 CORS 拦截，请先应用 R2 CORS 配置。",
+    "Upload was cancelled before it finished":
+      "上传在完成前被取消，请重新选择素材。",
     "Upload timed out before it finished": "上传超时，请检查网络后重试。",
     "Please sign in before uploading assets.": "请先登录，再上传参考素材。",
-    "R2 signing credentials are not configured.": "R2 上传签名密钥未配置，请检查 Cloudflare 环境变量。",
-    "R2_PUBLIC_BASE_URL is not configured.": "R2 公开访问地址未配置，请检查 R2_PUBLIC_BASE_URL。",
+    "R2 signing credentials are not configured.":
+      "R2 上传签名密钥未配置，请检查 Cloudflare 环境变量。",
+    "R2_PUBLIC_BASE_URL is not configured.":
+      "R2 公开访问地址未配置，请检查 R2_PUBLIC_BASE_URL。",
     "Failed to prepare R2 upload.": "准备 R2 上传失败，请检查存储配置。",
     "Invalid upload metadata": "上传信息无效，请重新选择文件。",
-    "This mode does not accept image references.": "当前模式不接受图片参考素材。",
-    "This mode does not accept video references.": "当前模式不接受视频参考素材。",
-    "This mode does not accept audio references.": "当前模式不接受音频参考素材。",
+    "This mode does not accept image references.":
+      "当前模式不接受图片参考素材。",
+    "This mode does not accept video references.":
+      "当前模式不接受视频参考素材。",
+    "This mode does not accept audio references.":
+      "当前模式不接受音频参考素材。",
   };
 
   if (directMap[notice]) return directMap[notice];
 
-  const laneLimitMatch = notice.match(/^Only (\d+) (\w+)s? allowed in this lane\.$/);
+  const laneLimitMatch = notice.match(
+    /^Only (\d+) (\w+)s? allowed in this lane\.$/,
+  );
   if (laneLimitMatch) {
     return `这里最多只能添加 ${laneLimitMatch[1]} 个素材。`;
   }
 
-  const addedMatch = notice.match(/^Added (\d+) (\w+)s?\. (\d+) exceeded the lane limit\.$/);
+  const addedMatch = notice.match(
+    /^Added (\d+) (\w+)s?\. (\d+) exceeded the lane limit\.$/,
+  );
   if (addedMatch) {
     return `已加入 ${addedMatch[1]} 个素材，另外 ${addedMatch[3]} 个超过了当前上限。`;
   }
 
-  const uploadStatusMatch = notice.match(/^Upload failed with status (\d+)(?::\s*(.+))?$/);
+  const uploadStatusMatch = notice.match(
+    /^Upload failed with status (\d+)(?::\s*(.+))?$/,
+  );
   if (uploadStatusMatch) {
     return uploadStatusMatch[2]
       ? `素材上传失败，服务器返回状态 ${uploadStatusMatch[1]}：${uploadStatusMatch[2]}`
       : `素材上传失败，服务器返回状态 ${uploadStatusMatch[1]}。`;
   }
 
-  const prepareStatusMatch = notice.match(/^Failed to prepare upload \((\d+)\)$/);
+  const prepareStatusMatch = notice.match(
+    /^Failed to prepare upload \((\d+)\)$/,
+  );
   if (prepareStatusMatch) {
     return `准备上传失败，接口返回状态 ${prepareStatusMatch[1]}。`;
   }

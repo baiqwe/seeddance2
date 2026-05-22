@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Paperclip, Sparkles } from "lucide-react";
-import type { VideoGenerationMode, VideoModelId } from "@/utils/video-generation";
+import { ArrowRight, Paperclip, SlidersHorizontal } from "lucide-react";
+import type {
+  VideoGenerationMode,
+  VideoModelId,
+} from "@/utils/video-generation";
 
 type LandingPromptBarProps = {
   locale: string;
@@ -40,7 +43,12 @@ function getPlaceholder(locale: string, mode: VideoGenerationMode) {
     : "Start with one shot idea, then add image, video, or audio references in the creation center...";
 }
 
-export function LandingPromptBar({ locale, mode, title, summary }: LandingPromptBarProps) {
+export function LandingPromptBar({
+  locale,
+  mode,
+  title,
+  summary,
+}: LandingPromptBarProps) {
   const router = useRouter();
   const isZh = locale === "zh";
   const [prompt, setPrompt] = useState("");
@@ -57,58 +65,84 @@ export function LandingPromptBar({ locale, mode, title, summary }: LandingPrompt
       params.set("prompt", prompt.trim());
     }
 
-    router.push(`/${locale}/creative-center?${params.toString()}#creation-workspace`);
+    router.push(
+      `/${locale}/creative-center?${params.toString()}#creation-workspace`,
+    );
   };
 
   return (
-    <div className="relative overflow-hidden rounded-[34px] border border-white/12 bg-[linear-gradient(145deg,rgba(255,255,255,0.12),rgba(255,255,255,0.035))] p-4 shadow-[0_34px_120px_-68px_rgba(59,130,246,0.95)] backdrop-blur-2xl">
-      <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(147,197,253,0.8),transparent)]" />
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-stretch">
-        <div className="rounded-[26px] border border-white/10 bg-black/24 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-          <div className="mb-3 flex flex-wrap items-center gap-2">
-            <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/54">
-              Seedance 2
-            </span>
-            <span className="rounded-full border border-cyan-200/15 bg-cyan-200/[0.06] px-3 py-1 text-xs text-cyan-100/78">
-              720p · 16:9 · 15s
-            </span>
-            <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/66">
+    <div className="rounded-[28px] bg-[#0b1020] p-3 ring-1 ring-[#232938]/80">
+      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_280px]">
+        <div className="rounded-[22px] bg-[#070b12] p-4 ring-1 ring-white/[0.05]">
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            {["Seedance 2", "720p", "16:9", "15s"].map((item) => (
+              <span
+                key={item}
+                className="rounded-full bg-[#101726] px-3 py-1 text-xs text-white/62 ring-1 ring-white/[0.05]"
+              >
+                {item}
+              </span>
+            ))}
+            <span className="rounded-full bg-[#101726] px-3 py-1 text-xs text-cyan-100/74 ring-1 ring-cyan-200/10">
               {title}
             </span>
           </div>
 
+          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/38">
+            <SlidersHorizontal className="h-3.5 w-3.5" />
+            {isZh ? "生成意图" : "Generation intent"}
+          </div>
           <textarea
             value={prompt}
             onChange={(event) => setPrompt(event.target.value)}
-            className="min-h-[132px] w-full resize-none border-0 bg-transparent text-lg leading-8 text-white outline-none placeholder:text-white/32"
+            className="mt-3 min-h-[132px] w-full resize-none rounded-[16px] border border-[#232938]/70 bg-[#0b1020] px-4 py-3 text-base leading-8 text-white outline-none placeholder:text-white/34 focus:border-cyan-100/25"
             placeholder={getPlaceholder(locale, mode)}
           />
 
-          <p className="mt-3 max-w-3xl text-sm leading-7 text-white/58">{summary}</p>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-white/56">
+            {summary}
+          </p>
         </div>
 
-        <div className="flex flex-col justify-between gap-3 lg:w-[228px]">
-          <button
-            type="button"
-            onClick={openCreationCenter}
-            className="group flex min-h-[88px] items-center justify-between rounded-[24px] border border-white/10 bg-white/[0.06] px-5 py-4 text-left text-sm font-medium text-white/82 transition-colors hover:bg-white/[0.1] hover:text-white"
-          >
-            <span className="flex items-center gap-3">
-              <Paperclip className="h-5 w-5 text-white/58" />
-              {isZh ? "添加参考素材" : "Add references"}
-            </span>
-            <ArrowRight className="h-4 w-4 opacity-50 transition-transform group-hover:translate-x-0.5 group-hover:opacity-80" />
-          </button>
+        <aside className="flex flex-col justify-between rounded-[22px] bg-[#101726] p-4 ring-1 ring-white/[0.05]">
+          <div className="space-y-3">
+            <div className="text-xs uppercase tracking-[0.18em] text-white/36">
+              {isZh ? "进入前会带入" : "Carried into workspace"}
+            </div>
+            {[
+              isZh ? "Prompt 草稿" : "Prompt draft",
+              isZh ? "当前模式" : "Selected mode",
+              isZh ? "默认 720p / 16:9 / 15s" : "Default 720p / 16:9 / 15s",
+              isZh ? "素材上传入口" : "Reference upload lanes",
+            ].map((item) => (
+              <div
+                key={item}
+                className="rounded-[14px] bg-[#0b1020] px-3 py-2 text-sm text-white/62 ring-1 ring-white/[0.04]"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
 
-          <button
-            type="button"
-            onClick={openCreationCenter}
-            className="flex min-h-[88px] items-center justify-center gap-2 rounded-[24px] bg-[linear-gradient(90deg,#2563ff,#6d28d9)] px-5 py-4 text-sm font-semibold text-white shadow-[0_22px_42px_-22px_rgba(59,130,246,0.75)] transition-transform hover:scale-[1.01]"
-          >
-            <Sparkles className="h-4 w-4" />
-            {isZh ? "带入创作中心" : "Open Creation Center"}
-          </button>
-        </div>
+          <div className="mt-5 grid gap-2">
+            <button
+              type="button"
+              onClick={openCreationCenter}
+              className="group flex h-12 items-center justify-center gap-2 rounded-[16px] bg-[#dbe7fb] px-4 text-sm font-semibold text-[#07111d] transition-colors hover:bg-[#eef4ff]"
+            >
+              {isZh ? "带入创作中心" : "Open Creation Center"}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </button>
+            <button
+              type="button"
+              onClick={openCreationCenter}
+              className="flex h-11 items-center justify-center gap-2 rounded-[16px] bg-[#0b1020] px-4 text-sm font-medium text-white/70 ring-1 ring-white/[0.05] transition-colors hover:text-white"
+            >
+              <Paperclip className="h-4 w-4" />
+              {isZh ? "先补参考素材" : "Add references first"}
+            </button>
+          </div>
+        </aside>
       </div>
     </div>
   );

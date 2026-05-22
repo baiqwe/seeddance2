@@ -1,7 +1,12 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
-import { landingPageSlugs, getLocalizedLandingPage, landingPages, getLandingPageInsights } from "@/config/landing-pages";
+import {
+  landingPageSlugs,
+  getLocalizedLandingPage,
+  landingPages,
+  getLandingPageInsights,
+} from "@/config/landing-pages";
 import { site } from "@/config/site";
 import { locales } from "@/i18n/routing";
 import Link from "next/link";
@@ -23,11 +28,13 @@ export async function generateStaticParams() {
     landingPageSlugs.map((slug) => ({
       locale,
       slug,
-    }))
+    })),
   );
 }
 
-export async function generateMetadata(props: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
   const params = await props.params;
   const { locale, slug } = params;
 
@@ -58,7 +65,9 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
   };
 }
 
-export default async function LandingPage(props: { params: Promise<{ locale: string; slug: string }> }) {
+export default async function LandingPage(props: {
+  params: Promise<{ locale: string; slug: string }>;
+}) {
   const params = await props.params;
   const { locale, slug } = params;
 
@@ -76,50 +85,125 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
     { name: locale === "zh" ? "首页" : "Home", href: `${localePrefix}` },
     { name: page.h1, href: `${localePrefix}/${page.slug}` },
   ];
-  const howToSteps = page.executionSteps.map((step) => ({ name: step, text: step }));
+  const howToSteps = page.executionSteps.map((step) => ({
+    name: step,
+    text: step,
+  }));
   const insightBlock = getLandingPageInsights(page.slug, locale);
   const creationCenterHref = getCreationCenterHref(locale, page.mode);
-  const updatedLabel = new Intl.DateTimeFormat(locale === "zh" ? "zh-CN" : "en-US", {
-    dateStyle: "medium",
-    timeZone: "UTC",
-  }).format(new Date(page.lastUpdated));
+  const updatedLabel = new Intl.DateTimeFormat(
+    locale === "zh" ? "zh-CN" : "en-US",
+    {
+      dateStyle: "medium",
+      timeZone: "UTC",
+    },
+  ).format(new Date(page.lastUpdated));
 
   return (
     <div className="bg-background">
-      <section id="creation-workspace" className="relative overflow-hidden py-12 lg:py-20">
+      <section
+        id="creation-workspace"
+        className="relative overflow-hidden py-12 lg:py-20"
+      >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(58,92,255,0.08),transparent_22%),linear-gradient(180deg,rgba(14,14,18,0.28),rgba(17,17,22,0.14))]" />
         <div className="relative z-10 container px-4 md:px-6">
           <Breadcrumbs items={breadcrumbItems} className="mb-6" />
           <FAQSchema items={page.faqs} />
-          <HowToSchema name={page.h1} description={page.description} steps={howToSteps} />
+          <HowToSchema
+            name={page.h1}
+            description={page.description}
+            steps={howToSteps}
+          />
           <ImageGallerySchema locale={locale} useCase={page.slug} />
           <div className="mb-10 max-w-4xl space-y-4">
             <div className="flex flex-wrap items-center gap-2">
-              <div className="section-kicker">{locale === "zh" ? "独立工作流 · Powered by Seedance 2" : "Independent workflow · Powered by Seedance 2"}</div>
+              <div className="section-kicker">
+                {locale === "zh"
+                  ? "独立工作流 · Powered by Seedance 2"
+                  : "Independent workflow · Powered by Seedance 2"}
+              </div>
               <div className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/52">
-                {locale === "zh" ? `更新于 ${updatedLabel}` : `Updated ${updatedLabel}`}
+                {locale === "zh"
+                  ? `更新于 ${updatedLabel}`
+                  : `Updated ${updatedLabel}`}
               </div>
             </div>
-            <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl">{page.h1}</h1>
-            <p className="max-w-3xl text-lg leading-8 text-white/76">{page.subtitle}</p>
+            <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl">
+              {page.h1}
+            </h1>
+            <p className="max-w-3xl text-lg leading-8 text-white/76">
+              {page.subtitle}
+            </p>
             <p className="max-w-3xl text-sm leading-7 text-white/54">
               {locale === "zh"
                 ? "这是一个面向创作者的第三方多模态工作流页面，用来帮助你把具体任务组织进创作中心。"
                 : "This is an independent workflow page for creators who want to organize a specific video task before opening the creation center."}
             </p>
           </div>
-          <LandingPromptBar locale={locale} mode={page.mode} title={page.h1} summary={page.workflowSummary} />
+          <LandingPromptBar
+            locale={locale}
+            mode={page.mode}
+            title={page.h1}
+            summary={page.workflowSummary}
+          />
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {[
+              {
+                title: locale === "zh" ? "真实任务输入" : "Real Task Inputs",
+                body:
+                  locale === "zh"
+                    ? "先把主体、关键帧、镜头方向和参考素材分清楚，再进入创作中心上传文件。这样比只写一段很长的 Prompt 更容易复盘。"
+                    : "Separate subject, keyframes, camera direction, and references before uploading files in the creation center. That is easier to review than one oversized prompt.",
+              },
+              {
+                title: locale === "zh" ? "结果判断标准" : "Review Criteria",
+                body:
+                  locale === "zh"
+                    ? "评估时优先看主体稳定、动作连贯、光线一致和镜头节奏，而不是只看第一帧是否惊艳。"
+                    : "Review subject stability, motion continuity, lighting consistency, and camera rhythm instead of judging only the first impressive frame.",
+              },
+              {
+                title:
+                  locale === "zh" ? "独立工具说明" : "Independent Tool Note",
+                body:
+                  locale === "zh"
+                    ? "这是独立多模态工作流页面，重点帮助你组织可付费生成前的信息、成本和素材准备。"
+                    : "This independent workflow page helps you organize generation intent, references, and cost expectations before paid rendering.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-[20px] bg-[#0b1020] p-5 ring-1 ring-[#232938]/65"
+              >
+                <h2 className="text-base font-semibold text-white">
+                  {item.title}
+                </h2>
+                <p className="mt-3 text-sm leading-7 text-white/58">
+                  {item.body}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <InspirationGallery locale={locale} useCase={page.slug} anchorHrefPrefix={creationCenterHref} maxItems={3} />
+      <InspirationGallery
+        locale={locale}
+        useCase={page.slug}
+        anchorHrefPrefix={creationCenterHref}
+        maxItems={6}
+      />
 
       <section className="border-t border-white/8 bg-[linear-gradient(180deg,#101117_0%,#0d1018_100%)] py-20">
         <div className="container px-4 md:px-6">
           <div className="max-w-4xl mx-auto space-y-10">
             <div className="space-y-4">
-              <div className="section-kicker">{locale === "zh" ? "执行路径" : "Execution Flow"}</div>
-              <h2 className="text-3xl font-bold tracking-tight">{t("how_title", { keyword: page.targetKeyword })}</h2>
+              <div className="section-kicker">
+                {locale === "zh" ? "执行路径" : "Execution Flow"}
+              </div>
+              <h2 className="text-3xl font-bold tracking-tight">
+                {t("how_title", { keyword: page.targetKeyword })}
+              </h2>
               <ol className="grid gap-3 list-decimal pl-5 text-white/72">
                 {page.executionSteps.map((step) => (
                   <li key={step}>{step}</li>
@@ -142,9 +226,13 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
             {insightBlock ? (
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="surface-card border-white/8 bg-[#1d1f26] p-6">
-                  <div className="section-kicker">{locale === "zh" ? "Best For" : "Best For"}</div>
+                  <div className="section-kicker">
+                    {locale === "zh" ? "Best For" : "Best For"}
+                  </div>
                   <h2 className="mt-3 text-2xl font-bold tracking-tight">
-                    {locale === "zh" ? "哪些团队和场景最适合这条工作流" : "Which teams and scenarios this workflow fits best"}
+                    {locale === "zh"
+                      ? "哪些团队和场景最适合这条工作流"
+                      : "Which teams and scenarios this workflow fits best"}
                   </h2>
                   <ul className="mt-5 space-y-3 text-sm leading-7 text-white/68">
                     {insightBlock.bestFor.map((item) => (
@@ -156,9 +244,13 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
                   </ul>
                 </div>
                 <div className="surface-card border-white/8 bg-[#1d1f26] p-6">
-                  <div className="section-kicker">{locale === "zh" ? "Input Checklist" : "Input Checklist"}</div>
+                  <div className="section-kicker">
+                    {locale === "zh" ? "Input Checklist" : "Input Checklist"}
+                  </div>
                   <h2 className="mt-3 text-2xl font-bold tracking-tight">
-                    {locale === "zh" ? "开始生成前建议先准备这些素材" : "Prepare these inputs before you start generating"}
+                    {locale === "zh"
+                      ? "开始生成前建议先准备这些素材"
+                      : "Prepare these inputs before you start generating"}
                   </h2>
                   <ul className="mt-5 space-y-3 text-sm leading-7 text-white/68">
                     {insightBlock.inputChecklist.map((item) => (
@@ -175,9 +267,13 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
             {insightBlock ? (
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="surface-card border-white/8 bg-[#1d1f26] p-6">
-                  <div className="section-kicker">{locale === "zh" ? "Common Pitfalls" : "Common Pitfalls"}</div>
+                  <div className="section-kicker">
+                    {locale === "zh" ? "Common Pitfalls" : "Common Pitfalls"}
+                  </div>
                   <h2 className="mt-3 text-2xl font-bold tracking-tight">
-                    {locale === "zh" ? "为什么很多结果会看起来“不像想要的那个视频”" : "Why outputs often miss the video you had in mind"}
+                    {locale === "zh"
+                      ? "为什么很多结果会看起来“不像想要的那个视频”"
+                      : "Why outputs often miss the video you had in mind"}
                   </h2>
                   <ul className="mt-5 space-y-3 text-sm leading-7 text-white/68">
                     {insightBlock.commonPitfalls.map((item) => (
@@ -189,9 +285,13 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
                   </ul>
                 </div>
                 <div className="surface-card border-white/8 bg-[#1d1f26] p-6">
-                  <div className="section-kicker">{locale === "zh" ? "Output Notes" : "Output Notes"}</div>
+                  <div className="section-kicker">
+                    {locale === "zh" ? "Output Notes" : "Output Notes"}
+                  </div>
                   <h2 className="mt-3 text-2xl font-bold tracking-tight">
-                    {locale === "zh" ? "更像真实团队在评估结果时会关注的点" : "What real teams usually watch for when reviewing outputs"}
+                    {locale === "zh"
+                      ? "更像真实团队在评估结果时会关注的点"
+                      : "What real teams usually watch for when reviewing outputs"}
                   </h2>
                   <ul className="mt-5 space-y-3 text-sm leading-7 text-white/68">
                     {insightBlock.outputNotes.map((item) => (
@@ -208,9 +308,13 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
             <div className="surface-card border-white/8 bg-[#1d1f26] p-6">
               <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
                 <div>
-                  <div className="section-kicker">{locale === "zh" ? "准备开始" : "Ready to try it"}</div>
+                  <div className="section-kicker">
+                    {locale === "zh" ? "准备开始" : "Ready to try it"}
+                  </div>
                   <h2 className="mt-3 text-2xl font-bold tracking-tight">
-                    {locale === "zh" ? "把这条任务带进创作中心，而不是在文章页里硬学完整面板。" : "Bring this task into the creation center instead of learning a full panel inside an article page."}
+                    {locale === "zh"
+                      ? "把这条任务带进创作中心，而不是在文章页里硬学完整面板。"
+                      : "Bring this task into the creation center instead of learning a full panel inside an article page."}
                   </h2>
                   <p className="mt-3 text-sm leading-7 text-white/66">
                     {locale === "zh"
@@ -229,12 +333,19 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
 
             <div className="space-y-4">
               <div className="section-kicker">FAQ</div>
-              <h2 className="text-3xl font-bold tracking-tight">{t("faq_title")}</h2>
+              <h2 className="text-3xl font-bold tracking-tight">
+                {t("faq_title")}
+              </h2>
               <div className="grid gap-6">
                 {page.faqs.map((faq, idx) => (
-                  <div key={idx} className="surface-card border-white/8 bg-[#1d1f26] p-6">
+                  <div
+                    key={idx}
+                    className="surface-card border-white/8 bg-[#1d1f26] p-6"
+                  >
                     <div className="text-lg font-bold">{faq.question}</div>
-                    <div className="mt-2 leading-8 text-white/68">{faq.answer}</div>
+                    <div className="mt-2 leading-8 text-white/68">
+                      {faq.answer}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -243,9 +354,16 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
             <div className="space-y-4">
               <div className="surface-card border-white/8 bg-[#1d1f26] p-5">
                 <p className="text-sm leading-7 text-white/68">
-                  {locale === "zh" ? "如果你已经准备好开始做自己的版本，" : "If you are ready to build your own version, "}{" "}
-                  <Link href={`${localePrefix}`} className="font-medium text-primary hover:underline">
-                    {locale === "zh" ? "先回到 Seedance 2 首页" : "go back to the Seedance 2 homepage"}
+                  {locale === "zh"
+                    ? "如果你已经准备好开始做自己的版本，"
+                    : "If you are ready to build your own version, "}{" "}
+                  <Link
+                    href={`${localePrefix}`}
+                    className="font-medium text-primary hover:underline"
+                  >
+                    {locale === "zh"
+                      ? "先回到 Seedance 2 首页"
+                      : "go back to the Seedance 2 homepage"}
                   </Link>
                   {locale === "zh"
                     ? "，再根据任务类型进入创作中心或继续看这个场景页。"
@@ -263,7 +381,9 @@ export default async function LandingPage(props: { params: Promise<{ locale: str
                     className="surface-card border-white/8 bg-[#1d1f26] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30"
                   >
                     <div className="text-lg font-semibold">{related.h1}</div>
-                    <div className="mt-2 text-sm leading-7 text-white/64">{related.subtitle}</div>
+                    <div className="mt-2 text-sm leading-7 text-white/64">
+                      {related.subtitle}
+                    </div>
                   </Link>
                 ))}
               </div>

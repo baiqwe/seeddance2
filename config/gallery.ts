@@ -42,32 +42,38 @@ const showcaseCategoryById: Record<string, string> = {
   "text-concept": "Concept",
 };
 
-const showcaseGalleryItems: GalleryItem[] = showcaseTemplates.map((template, index) => {
-  const useCase = showcaseUseCaseById[template.id] ?? "reference-video-generator";
+const showcaseGalleryItems: GalleryItem[] = showcaseTemplates.map(
+  (template, index) => {
+    const useCase =
+      showcaseUseCaseById[template.id] ?? "reference-video-generator";
 
-  return {
-    id: `showcase-${template.id}`,
-    useCase,
-    slug: useCase,
-    category: showcaseCategoryById[template.id] ?? "Workflow",
-    title: template.title,
-    titleZh: template.titleZh,
-    description: template.subtitle,
-    descriptionZh: template.subtitleZh,
-    alt: `${template.title} Seedance 2 preview template result.`,
-    altZh: `${template.titleZh} Seedance 2 预览模板结果。`,
-    afterImage: template.poster,
-    beforeThumb: template.references[0]?.thumbnail ?? SHARED_BEFORE,
-    videoUrl: template.outputVideo ?? "",
-    durationLabel: template.duration,
-    aspectRatioLabel: template.ratio,
-    promptLabel: template.references.length > 0 ? "Prompt + refs" : "Prompt only",
-    resolutionLabel: template.resolution,
-    uploadDate: `2026-05-${String(9 + index).padStart(2, "0")}T10:00:00+08:00`,
-  };
-});
+    return {
+      id: `showcase-${template.id}`,
+      useCase,
+      slug: useCase,
+      category: showcaseCategoryById[template.id] ?? "Workflow",
+      title: template.title,
+      titleZh: template.titleZh,
+      description: template.subtitle,
+      descriptionZh: template.subtitleZh,
+      alt: `${template.title} Seedance 2 preview template result.`,
+      altZh: `${template.titleZh} Seedance 2 预览模板结果。`,
+      afterImage: template.poster,
+      beforeThumb: template.references[0]?.thumbnail ?? SHARED_BEFORE,
+      videoUrl: template.outputVideo ?? "",
+      durationLabel: template.duration,
+      aspectRatioLabel: template.ratio,
+      promptLabel:
+        template.references.length > 0 ? "Prompt + refs" : "Prompt only",
+      resolutionLabel: template.resolution,
+      uploadDate: `2026-05-${String(9 + index).padStart(2, "0")}T10:00:00+08:00`,
+    };
+  },
+);
 
-const showcaseVideoUrls = new Set(showcaseGalleryItems.map((item) => item.videoUrl).filter(Boolean));
+const showcaseVideoUrls = new Set(
+  showcaseGalleryItems.map((item) => item.videoUrl).filter(Boolean),
+);
 
 const kieSeedanceSamples: GalleryItem[] = [
   {
@@ -77,8 +83,10 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Character",
     title: "Silver-haired character close-up",
     titleZh: "银发角色特写",
-    description: "A tight character shot for testing Seedance 2 identity, lighting, and facial-detail continuity.",
-    descriptionZh: "用于观察 Seedance 2 在角色身份、光影和面部细节连续性上的表现。",
+    description:
+      "A tight character shot for testing Seedance 2 identity, lighting, and facial-detail continuity.",
+    descriptionZh:
+      "用于观察 Seedance 2 在角色身份、光影和面部细节连续性上的表现。",
     alt: "Kie Seedance 2 sample showing a silver-haired character close-up.",
     altZh: "Kie Seedance 2 银发角色特写视频样例。",
     afterImage: mediaAsset("/images/gallery/kie/kie-seedance-01.jpg"),
@@ -95,7 +103,8 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Motion",
     title: "Action replication workflow",
     titleZh: "动作复刻工作流",
-    description: "A reference-led sample that shows how motion, pose, and character intent can be separated during generation.",
+    description:
+      "A reference-led sample that shows how motion, pose, and character intent can be separated during generation.",
     descriptionZh: "展示如何把动作、姿态和角色意图拆开控制的参考驱动样例。",
     alt: "Kie Seedance 2 sample showing an action replication workflow.",
     altZh: "Kie Seedance 2 动作复刻工作流视频样例。",
@@ -113,7 +122,8 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Action",
     title: "Studio fight motion reference",
     titleZh: "棚拍动作参考",
-    description: "A fast movement clip for evaluating timing, body mechanics, and action continuity.",
+    description:
+      "A fast movement clip for evaluating timing, body mechanics, and action continuity.",
     descriptionZh: "适合观察节奏、肢体运动和动作连续性的快速动作样例。",
     alt: "Kie Seedance 2 sample showing a studio fight motion reference.",
     altZh: "Kie Seedance 2 棚拍动作参考视频样例。",
@@ -131,8 +141,10 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Sci-fi",
     title: "Sci-fi visor close-up",
     titleZh: "科幻目镜特写",
-    description: "A cinematic close-up for testing Seedance 2 mood, reflective surfaces, and micro camera movement.",
-    descriptionZh: "用于测试 Seedance 2 在氛围、反光材质和细微镜头运动上的表现。",
+    description:
+      "A cinematic close-up for testing Seedance 2 mood, reflective surfaces, and micro camera movement.",
+    descriptionZh:
+      "用于测试 Seedance 2 在氛围、反光材质和细微镜头运动上的表现。",
     alt: "Kie Seedance 2 sample showing a sci-fi visor close-up.",
     altZh: "Kie Seedance 2 科幻目镜特写视频样例。",
     afterImage: mediaAsset("/images/gallery/kie/kie-seedance-04.jpg"),
@@ -149,7 +161,8 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Anime",
     title: "Anime portrait motion",
     titleZh: "动漫角色动态特写",
-    description: "A stylized portrait example for turning a strong still-frame look into a moving Seedance 2 clip.",
+    description:
+      "A stylized portrait example for turning a strong still-frame look into a moving Seedance 2 clip.",
     descriptionZh: "适合展示如何把强风格静帧角色推进成动态视频的动漫样例。",
     alt: "Kie Seedance 2 sample showing anime portrait motion.",
     altZh: "Kie Seedance 2 动漫角色动态特写视频样例。",
@@ -167,7 +180,8 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Cinematic",
     title: "Neon city drive",
     titleZh: "霓虹城市车窗镜头",
-    description: "A moody city shot that works well for extending atmosphere, lighting, and camera direction.",
+    description:
+      "A moody city shot that works well for extending atmosphere, lighting, and camera direction.",
     descriptionZh: "适合观察氛围、灯光和镜头方向延展能力的城市夜景样例。",
     alt: "Kie Seedance 2 sample showing a neon city drive.",
     altZh: "Kie Seedance 2 霓虹城市车窗镜头视频样例。",
@@ -185,7 +199,8 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Action",
     title: "Autumn battle chase",
     titleZh: "秋林追逐战斗",
-    description: "A full action sample for judging blocking, camera travel, and scene momentum.",
+    description:
+      "A full action sample for judging blocking, camera travel, and scene momentum.",
     descriptionZh: "适合判断走位、运镜和场景动势的完整动作样例。",
     alt: "Kie Seedance 2 sample showing an autumn battle chase.",
     altZh: "Kie Seedance 2 秋林追逐战斗视频样例。",
@@ -203,7 +218,8 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Sci-fi",
     title: "Reflective visor alternate",
     titleZh: "反光目镜变化镜头",
-    description: "A second sci-fi close-up that is useful for comparing shot consistency and visual texture.",
+    description:
+      "A second sci-fi close-up that is useful for comparing shot consistency and visual texture.",
     descriptionZh: "另一条科幻特写样例，适合对比镜头一致性和画面材质。",
     alt: "Kie Seedance 2 sample showing an alternate reflective visor close-up.",
     altZh: "Kie Seedance 2 反光目镜变化镜头视频样例。",
@@ -221,7 +237,8 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Lifestyle",
     title: "Balcony fabric reveal",
     titleZh: "阳台布料生活镜头",
-    description: "A soft lifestyle shot for exploring natural light, fabric movement, and product-ad pacing.",
+    description:
+      "A soft lifestyle shot for exploring natural light, fabric movement, and product-ad pacing.",
     descriptionZh: "适合探索自然光、布料运动和生活方式广告节奏的柔和样例。",
     alt: "Kie Seedance 2 sample showing a balcony fabric reveal.",
     altZh: "Kie Seedance 2 阳台布料生活镜头视频样例。",
@@ -239,7 +256,8 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Storyboard",
     title: "Ink fashion storyboard",
     titleZh: "水墨时装分镜",
-    description: "A stylized storyboard example for converting illustration language into video direction.",
+    description:
+      "A stylized storyboard example for converting illustration language into video direction.",
     descriptionZh: "用于展示如何把插画语言转换成视频镜头方向的风格化分镜样例。",
     alt: "Kie Seedance 2 sample showing an ink fashion storyboard.",
     altZh: "Kie Seedance 2 水墨时装分镜视频样例。",
@@ -257,7 +275,8 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Motion",
     title: "Fencing motion transfer",
     titleZh: "击剑动作迁移",
-    description: "A controlled motion-transfer sample for testing opposing movement, timing, and clear silhouettes.",
+    description:
+      "A controlled motion-transfer sample for testing opposing movement, timing, and clear silhouettes.",
     descriptionZh: "用于测试对抗动作、时机和清晰轮廓的受控动作迁移样例。",
     alt: "Kie Seedance 2 sample showing fencing motion transfer.",
     altZh: "Kie Seedance 2 击剑动作迁移视频样例。",
@@ -275,7 +294,8 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Motion",
     title: "Fencing timing variation",
     titleZh: "击剑节奏变化",
-    description: "A timing variation that helps compare how reference motion behaves across similar action setups.",
+    description:
+      "A timing variation that helps compare how reference motion behaves across similar action setups.",
     descriptionZh: "用于对比相似动作场景下参考动作和节奏变化的样例。",
     alt: "Kie Seedance 2 sample showing a fencing timing variation.",
     altZh: "Kie Seedance 2 击剑节奏变化视频样例。",
@@ -293,7 +313,8 @@ const kieSeedanceSamples: GalleryItem[] = [
     category: "Drama",
     title: "Cinematic eye close-up",
     titleZh: "电影感眼部特写",
-    description: "A dramatic close-up for evaluating mood, focus shifts, and story tension in short-form clips.",
+    description:
+      "A dramatic close-up for evaluating mood, focus shifts, and story tension in short-form clips.",
     descriptionZh: "适合观察情绪、焦点变化和短片叙事张力的电影感特写样例。",
     alt: "Kie Seedance 2 sample showing a cinematic eye close-up.",
     altZh: "Kie Seedance 2 电影感眼部特写视频样例。",
@@ -315,8 +336,10 @@ export const galleryItems: GalleryItem[] = [
     category: "Action",
     title: "Autumn duel sequence",
     titleZh: "秋林决斗完整片段",
-    description: "A complete cinematic action sample with stronger blocking, camera travel, and character momentum.",
-    descriptionZh: "一条完整的动作型样片，镜头调度、走位关系和人物动势都更完整。",
+    description:
+      "A complete cinematic action sample with stronger blocking, camera travel, and character momentum.",
+    descriptionZh:
+      "一条完整的动作型样片，镜头调度、走位关系和人物动势都更完整。",
     alt: "Seedance 2 full action video showing a duel in an autumn forest.",
     altZh: "用于展示 Seedance 2 秋林决斗镜头的完整动作视频案例。",
     afterImage: mediaAsset("/images/gallery/custom/seedance-autumn-duel.png"),
@@ -327,118 +350,15 @@ export const galleryItems: GalleryItem[] = [
     promptLabel: "Full clip",
   },
   ...kieSeedanceSamples.filter((item) => !showcaseVideoUrls.has(item.videoUrl)),
-  {
-    id: "product-cinematic",
-    useCase: "product-ad-generator",
-    slug: "product-ad-generator",
-    category: "Commercial",
-    title: "Product reveal sequence",
-    titleZh: "产品广告揭幕镜头",
-    description: "Turn still product shots and one motion reference into a polished campaign-ready reveal.",
-    descriptionZh: "把静态产品图和一段参考运镜，转成更像广告片开场的揭幕镜头。",
-    alt: "AI video showcase card for a product reveal workflow.",
-    altZh: "用于展示产品广告生成工作流的 AI 视频案例卡片。",
-    afterImage: mediaAsset("/images/gallery/generated/ghibli.jpg"),
-    beforeThumb: SHARED_BEFORE,
-    videoUrl: mediaAsset("/videos/gallery/product-reveal.mp4"),
-    durationLabel: "05s",
-    aspectRatioLabel: "4:5",
-    promptLabel: "Prompt + refs",
-  },
-  {
-    id: "dance-transfer",
-    useCase: "dance-motion-transfer",
-    slug: "dance-motion-transfer",
-    category: "Motion",
-    title: "Dance motion transfer",
-    titleZh: "舞蹈动作迁移",
-    description: "Clone choreography timing from reference footage while preserving a fresh character identity.",
-    descriptionZh: "沿用参考视频里的舞蹈节奏和动作语言，同时保持新的角色设定。",
-    alt: "AI video showcase card for dance motion transfer.",
-    altZh: "用于展示舞蹈动作迁移工作流的 AI 视频案例卡片。",
-    afterImage: mediaAsset("/images/gallery/generated/webtoon.jpg"),
-    beforeThumb: SHARED_BEFORE,
-    videoUrl: mediaAsset("/videos/gallery/dance-motion.mp4"),
-    durationLabel: "05s",
-    aspectRatioLabel: "9:16",
-    promptLabel: "Motion ref",
-  },
-  {
-    id: "storyboard-previs",
-    useCase: "storyboard-to-video",
-    slug: "storyboard-to-video",
-    category: "Previs",
-    title: "Storyboard to previs",
-    titleZh: "分镜到预演视频",
-    description: "Extend still frames into continuous camera moves for previs, blocking, and scene timing tests.",
-    descriptionZh: "把静态分镜延展成连续镜头，用于影视预演、走位和节奏验证。",
-    alt: "AI video showcase card for storyboard to video previs.",
-    altZh: "用于展示分镜到预演视频工作流的 AI 视频案例卡片。",
-    afterImage: mediaAsset("/images/gallery/generated/retro_90s.jpg"),
-    beforeThumb: SHARED_BEFORE,
-    videoUrl: mediaAsset("/videos/gallery/storyboard-previs.mp4"),
-    durationLabel: "05s",
-    aspectRatioLabel: "4:5",
-    promptLabel: "Storyboard",
-  },
-  {
-    id: "image-video-seed",
-    useCase: "image-to-video",
-    slug: "image-to-video",
-    category: "Conversion",
-    title: "Image to video seed shot",
-    titleZh: "图像转视频起始镜头",
-    description: "Use still imagery as a locked visual seed, then push into motion with camera direction and timing.",
-    descriptionZh: "先把静态图片当成锁定起始画面，再用运镜和节奏把它推成视频镜头。",
-    alt: "AI video showcase card for image to video generation.",
-    altZh: "用于展示图像转视频工作流的 AI 视频案例卡片。",
-    afterImage: mediaAsset("/images/gallery/generated/cyberpunk.jpg"),
-    beforeThumb: SHARED_BEFORE,
-    videoUrl: mediaAsset("/videos/gallery/image-to-video.mp4"),
-    durationLabel: "05s",
-    aspectRatioLabel: "16:9",
-    promptLabel: "Image seed",
-  },
-  {
-    id: "reference-anything",
-    useCase: "reference-video-generator",
-    slug: "reference-video-generator",
-    category: "Reference",
-    title: "Reference-led video generation",
-    titleZh: "多参考视频生成",
-    description: "Blend images, clips, and audio into a single prompt-driven job instead of relying on text alone.",
-    descriptionZh: "把图片、视频和音频一起融入单个任务，而不是只靠一句文字描述。",
-    alt: "AI video showcase card for multi-reference video generation.",
-    altZh: "用于展示多参考视频生成工作流的 AI 视频案例卡片。",
-    afterImage: mediaAsset("/images/gallery/generated/standard.jpg"),
-    beforeThumb: SHARED_BEFORE,
-    videoUrl: mediaAsset("/videos/gallery/reference-led.mp4"),
-    durationLabel: "05s",
-    aspectRatioLabel: "4:5",
-    promptLabel: "Audio + refs",
-  },
-  {
-    id: "video-extension",
-    useCase: "video-extension",
-    slug: "video-extension",
-    category: "Extension",
-    title: "Scene extension workflow",
-    titleZh: "视频平滑扩写",
-    description: "Continue an existing clip with the same scene logic, motion direction, and tonal continuity.",
-    descriptionZh: "沿着原视频的场景逻辑、动作方向和画面气质，继续把镜头平滑扩写下去。",
-    alt: "AI video showcase card for video extension.",
-    altZh: "用于展示视频平滑扩写工作流的 AI 视频案例卡片。",
-    afterImage: mediaAsset("/images/gallery/generated/cosplay.jpg"),
-    beforeThumb: SHARED_BEFORE,
-    videoUrl: mediaAsset("/videos/gallery/video-extension.mp4"),
-    durationLabel: "05s",
-    aspectRatioLabel: "9:16",
-    promptLabel: "Scene extend",
-  },
 ];
 
-export function getLocalizedGalleryItems(locale: string, useCase?: LandingPageSlug) {
-  const filtered = useCase ? galleryItems.filter((item) => item.useCase === useCase) : galleryItems;
+export function getLocalizedGalleryItems(
+  locale: string,
+  useCase?: LandingPageSlug,
+) {
+  const filtered = useCase
+    ? galleryItems.filter((item) => item.useCase === useCase)
+    : galleryItems;
   const resolved = filtered.length > 0 ? filtered : galleryItems;
 
   return resolved.map((item) => ({
