@@ -40,6 +40,8 @@ export function GalleryVideoCard({ locale, href, item }: GalleryVideoCardProps) 
       return;
     }
     video.currentTime = 0;
+    video.muted = true;
+    video.load();
     void video.play().catch(() => {
       setIsPreviewing(false);
     });
@@ -84,7 +86,11 @@ export function GalleryVideoCard({ locale, href, item }: GalleryVideoCardProps) 
           </span>
           <div className="flex items-center gap-2 rounded-full border border-white/10 bg-black/55 px-3 py-1 text-xs text-white/86 backdrop-blur-xl">
             {isPreviewing ? <VolumeX className="h-3.5 w-3.5" /> : <PlayCircle className="h-3.5 w-3.5" />}
-            {isPreviewing ? (locale === "zh" ? "静音预览中" : "Muted preview") : (locale === "zh" ? "悬停播放" : "Hover to play")}
+            {isPreviewing
+              ? (locale === "zh" ? "静音预览中" : "Muted preview")
+              : canHoverPreview
+                ? (locale === "zh" ? "悬停播放" : "Hover to play")
+                : (locale === "zh" ? "点开查看" : "Open to view")}
           </div>
         </div>
         <div className="absolute inset-x-0 bottom-0 p-5 text-white">

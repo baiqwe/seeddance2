@@ -463,9 +463,9 @@ export function MultiModalWorkspace({ locale }: Props) {
   }
 
   return (
-    <div id="workspace" className="mx-auto max-w-7xl rounded-[30px] border border-cyan-200/10 bg-[#0e1724]/96 p-4 shadow-[0_34px_90px_-44px_rgba(0,0,0,0.8)] backdrop-blur-xl md:p-5">
-      <div className="grid gap-5 xl:grid-cols-[390px_minmax(0,1fr)]">
-      <div className="rounded-[22px] border border-cyan-200/10 bg-[#101827] p-4 xl:sticky xl:top-24 xl:self-start">
+    <div id="workspace" className="mx-auto max-w-[1500px] rounded-[28px] border border-[#232938] bg-[#060811] p-3 shadow-[0_30px_80px_-58px_rgba(0,0,0,0.95)] md:p-4">
+      <div className="grid gap-4 xl:grid-cols-[420px_minmax(0,1fr)]">
+      <div className="rounded-[22px] border border-[#232938] bg-[#0b1020] p-4 xl:sticky xl:top-20 xl:max-h-[calc(100vh-6rem)] xl:self-start xl:overflow-y-auto">
         <div className="space-y-4">
           <div className="grid grid-cols-3 gap-2">
             {copy.tabs.map((tab) => (
@@ -474,10 +474,10 @@ export function MultiModalWorkspace({ locale }: Props) {
                 type="button"
                 onClick={() => actions.setMode(tab.mode)}
                 className={cn(
-                  "rounded-lg border px-3 py-2 text-xs font-medium transition-all",
+                  "rounded-lg border px-3 py-2.5 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/35",
                   mode === tab.mode
-                    ? "border-white/20 bg-white text-black"
-                    : "border-white/10 bg-[#2a2b33] text-white/82 hover:border-white/16 hover:bg-white/[0.05]"
+                    ? "border-cyan-100/25 bg-[#dbe7fb] text-[#07111d]"
+                    : "border-[#232938] bg-[#101726] text-white/70 hover:border-white/16 hover:bg-white/[0.045] hover:text-white"
                 )}
               >
                 {tab.label}
@@ -495,7 +495,7 @@ export function MultiModalWorkspace({ locale }: Props) {
             </div>
           ) : null}
 
-          <div className="rounded-[16px] border border-white/8 bg-[#0b1220] p-4">
+          <div className="rounded-[16px] border border-[#232938] bg-[#101726] p-4">
             <div className="mb-3 flex items-center justify-between gap-3">
               <Label>{copy.promptLabel}</Label>
               <span className="text-[11px] text-white/36">{promptLength}/5000</span>
@@ -504,7 +504,7 @@ export function MultiModalWorkspace({ locale }: Props) {
               value={prompt}
               onChange={(event) => actions.setPrompt(event.target.value)}
               placeholder={copy.promptPlaceholder}
-              className="min-h-[130px] resize-none rounded-[12px] border-white/10 bg-[#070b12] text-sm leading-7 text-white placeholder:text-white/32 focus-visible:ring-[#2563ff]/40"
+              className="min-h-[128px] resize-none rounded-[12px] border-[#232938] bg-[#070b12] text-sm leading-7 text-white placeholder:text-white/32 focus-visible:ring-cyan-200/30"
             />
             <div className="mt-3 text-xs text-white/42">{copy.promptCounter}</div>
           </div>
@@ -530,7 +530,7 @@ export function MultiModalWorkspace({ locale }: Props) {
             onToggleWebSearch={actions.toggleWebSearch}
           />
 
-          <div className="rounded-[14px] border border-white/8 bg-white/[0.025] px-3.5 py-3">
+          <div className="rounded-[14px] border border-[#232938] bg-[#0a0f1a] px-3.5 py-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="text-sm font-medium text-white">{currentUploadTitle}</div>
               <span className="rounded-full border border-white/8 bg-white/[0.04] px-2.5 py-1 text-[11px] text-white/42">
@@ -570,9 +570,9 @@ export function MultiModalWorkspace({ locale }: Props) {
             </div>
           ) : null}
 
-          <div className="sticky bottom-3 z-20 space-y-3 rounded-[18px] border border-white/10 bg-[#101827]/92 p-3 shadow-[0_22px_60px_-36px_rgba(0,0,0,0.85)] backdrop-blur-xl xl:static xl:border-0 xl:bg-transparent xl:p-0 xl:shadow-none xl:backdrop-blur-0">
+          <div className="sticky bottom-3 z-20 space-y-3 rounded-[18px] border border-[#232938] bg-[#0b1020]/96 p-3 shadow-[0_22px_60px_-44px_rgba(0,0,0,0.9)] xl:static xl:border-0 xl:bg-transparent xl:p-0 xl:shadow-none">
             <div className="flex flex-wrap items-center gap-3">
-              <div className="rounded-lg border border-white/10 bg-[#1d1f26] px-4 py-2 text-sm text-white/78">
+              <div className="rounded-lg border border-[#232938] bg-[#101726] px-4 py-2 text-sm text-white/74">
                 {copy.estimatedCredits}: <span className="font-semibold text-white">{estimatedCredits} credits</span>
               </div>
               {activeGenerationId ? (
@@ -584,7 +584,7 @@ export function MultiModalWorkspace({ locale }: Props) {
             <Button
               onClick={() => void handleGenerate()}
               disabled={isSubmitting || isUploadingAssets}
-              className="h-12 w-full rounded-[12px] bg-[linear-gradient(90deg,#8b8b95,#6d28d9)] text-sm font-medium text-white hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
+              className="h-12 w-full rounded-[12px] bg-[#dbe7fb] text-sm font-semibold text-[#07111d] hover:bg-[#eef4ff] disabled:cursor-not-allowed disabled:opacity-65"
             >
               {isSubmitting || isUploadingAssets ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -597,18 +597,18 @@ export function MultiModalWorkspace({ locale }: Props) {
         </div>
       </div>
 
-      <div className="space-y-6">
-        <div className="rounded-[22px] border border-white/8 bg-[#24252c] p-4">
+      <div className="space-y-4">
+        <div className="rounded-[22px] border border-[#232938] bg-[#0b1020] p-4">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-white/38">{copy.previewTitle}</p>
-              <h3 className="mt-2 text-xl font-semibold text-white">{copy.previewSubtitle}</h3>
+              <h3 className="mt-2 text-lg font-semibold text-white">{copy.previewSubtitle}</h3>
             </div>
             <PlayCircle className="h-6 w-6 text-white/66" />
           </div>
 
-          <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_320px]">
-            <div className="rounded-[18px] border border-white/8 bg-[#1d1f26] p-3">
+          <div className="mt-4 grid gap-4 2xl:grid-cols-[minmax(0,1.42fr)_300px]">
+            <div className="rounded-[18px] border border-[#232938] bg-[#070b12] p-3">
               <div className="flex items-center justify-between px-1 pb-3 pt-1 text-[11px] uppercase tracking-[0.16em] text-white/40">
                 <span>{activePreview.label}</span>
                 <span>{resolution} · {durationSeconds}s · {aspectRatio}</span>
@@ -623,25 +623,25 @@ export function MultiModalWorkspace({ locale }: Props) {
                   playsInline
                   preload="metadata"
                   controls
-                  className="aspect-[16/10] w-full object-contain"
+                  className="aspect-video w-full object-contain"
                 />
               </div>
             </div>
 
-            <div className="space-y-4 rounded-[18px] border border-white/8 bg-[#1d1f26] p-4">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] px-3 py-1 text-xs text-white/92">
+            <div className="space-y-4 rounded-[18px] border border-[#232938] bg-[#101726] p-4">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/76">
                 <CheckCircle2 className="h-3.5 w-3.5" />
                 {locale === "zh" ? "样例预览已就位" : "Preview reel loaded"}
               </div>
-              <div className="text-2xl font-semibold tracking-tight text-white">
+              <div className="text-xl font-semibold tracking-tight text-white">
                 {locale === "zh" ? activePreview.headlineZh : activePreview.headlineEn}
               </div>
-              <p className="text-sm leading-7 text-white/74">
+              <p className="text-sm leading-7 text-white/58">
                 {locale === "zh" ? activePreview.bodyZh : activePreview.bodyEn}
               </p>
-              <div className="grid gap-3">
+              <div className="grid gap-2">
                 {copy.stats.map((stat) => (
-                  <div key={stat.label} className="rounded-[14px] border border-white/8 bg-[#14161c] p-4">
+                  <div key={stat.label} className="rounded-[12px] border border-[#232938] bg-[#070b12] p-3">
                     <div className="text-[11px] uppercase tracking-[0.16em] text-white/36">{stat.label}</div>
                     <div className="mt-2 text-sm font-medium text-white">{stat.value}</div>
                   </div>
@@ -651,25 +651,14 @@ export function MultiModalWorkspace({ locale }: Props) {
           </div>
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-          <div className="rounded-[22px] border border-white/8 bg-[#24252c] p-4">
+        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="rounded-[22px] border border-[#232938] bg-[#0b1020] p-4">
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-white/38">{copy.queueTitle}</p>
-                <h3 className="mt-2 text-base font-semibold text-white">{locale === "zh" ? "让每一类参考素材都承担自己最擅长的工作。" : "Let each reference type carry the part it handles best."}</h3>
+                <h3 className="mt-2 text-base font-semibold text-white">{copy.queueEta}</h3>
               </div>
               <MonitorPlay className="h-5 w-5 text-white/40" />
-            </div>
-            <div className="mt-4 rounded-[14px] border border-white/8 bg-[#1d1f26] p-4 text-sm leading-7 text-white/74">
-              <p>{copy.queueHint}</p>
-              <ul className="mt-3 space-y-2">
-                {copy.queueBullets.map((item) => (
-                  <li key={item} className="flex gap-3">
-                    <Check className="mt-1 h-4 w-4 shrink-0 text-cyan-300" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
             <div className="mt-4 space-y-3">
               <QueueItem title={copy.laneTitle.image} detail={locale === "zh" ? `${assets.image.length} 个图像素材用于角色与关键帧` : `${assets.image.length} image assets for identity and keyframes`} progress={assets.image.length > 0 ? "done" : "idle"} />
@@ -687,9 +676,23 @@ export function MultiModalWorkspace({ locale }: Props) {
                 />
               ) : null}
             </div>
+            <details className="mt-4 rounded-[14px] border border-[#232938] bg-[#070b12] p-3 text-sm leading-7 text-white/58">
+              <summary className="cursor-pointer select-none text-white/72">
+                {locale === "zh" ? "展开参考素材建议" : "Reference guidance"}
+              </summary>
+              <p className="mt-3">{copy.queueHint}</p>
+              <ul className="mt-3 space-y-2">
+                {copy.queueBullets.map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <Check className="mt-1 h-4 w-4 shrink-0 text-cyan-200/80" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
           </div>
 
-          <div className="rounded-[22px] border border-white/8 bg-[#24252c] p-4">
+          <div className="rounded-[22px] border border-[#232938] bg-[#0b1020] p-4">
             <Label>{copy.quickPresetsTitle}</Label>
             <div className="mt-4 space-y-3">
               {copy.presets.map((preset) => (
@@ -697,7 +700,7 @@ export function MultiModalWorkspace({ locale }: Props) {
                   key={preset.name}
                   type="button"
                   onClick={() => actions.loadPreset(preset.prompt, preset.mode)}
-                  className="w-full rounded-[14px] border border-white/6 bg-[#151518] p-4 text-left transition-colors hover:border-white/14 hover:bg-white/[0.04]"
+                  className="w-full rounded-[14px] border border-[#232938] bg-[#070b12] p-4 text-left transition-colors hover:border-cyan-100/24 hover:bg-[#101726] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/30"
                 >
                   <div className="flex items-center gap-2 text-sm font-medium text-white">
                     <Sparkles className="h-4 w-4 text-white/70" />
@@ -755,13 +758,15 @@ function ProviderParamsPanel({
   onToggleWebSearch: () => void;
 }) {
   return (
-    <section className="rounded-[18px] border border-cyan-200/10 bg-[linear-gradient(180deg,rgba(93,211,255,0.055),rgba(255,255,255,0.02))] p-4">
+    <section className="rounded-[18px] border border-[#232938] bg-[#101726] p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-sm font-semibold text-white">{copy.providerParamsTitle}</div>
-          <p className="mt-1 text-xs leading-5 text-white/42">{copy.providerParamsHint}</p>
+          <p className="mt-1 text-xs leading-5 text-white/42">
+            {locale === "zh" ? "按 Kie 当前稳定入参展示，提交前不会出现不可选参数。" : "Only currently stable Kie inputs are shown before submission."}
+          </p>
         </div>
-        <span className="shrink-0 rounded-full border border-cyan-200/12 bg-cyan-200/[0.05] px-2.5 py-1 text-[11px] text-cyan-100/58">
+        <span className="shrink-0 rounded-full border border-[#232938] bg-[#070b12] px-2.5 py-1 text-[11px] text-cyan-100/58">
           API
         </span>
       </div>
@@ -769,10 +774,10 @@ function ProviderParamsPanel({
       <div className="mt-4">
         <Label>{copy.modelLabel}</Label>
         <Select value={videoModel} onValueChange={(value) => onModelChange(value as VideoModelId)}>
-          <SelectTrigger className="mt-2 h-11 rounded-[12px] border-white/10 bg-[#070b12] text-left text-sm text-white focus:ring-[#2563ff]/35 focus:ring-offset-0">
+          <SelectTrigger className="mt-2 h-11 rounded-[12px] border-[#232938] bg-[#070b12] text-left text-sm text-white focus:ring-cyan-200/30 focus:ring-offset-0">
             <SelectValue placeholder={locale === "zh" ? "选择视频模型" : "Choose a video model"} />
           </SelectTrigger>
-          <SelectContent className="border-white/10 bg-[#101827] text-white">
+          <SelectContent className="border-[#232938] bg-[#101726] text-white">
             {VIDEO_MODEL_OPTIONS.map((modelOptionKey) => (
               <SelectItem
                 key={modelOptionKey}
@@ -798,6 +803,13 @@ function ProviderParamsPanel({
         <CompactToggle active={returnLastFrame} onClick={onToggleReturnLastFrame} label={copy.returnLastFrame} hint={copy.returnLastFrameHint} apiName="return_last_frame" />
         <CompactToggle active={webSearch} onClick={onToggleWebSearch} label={copy.webSearch} hint={copy.webSearchHint} apiName="web_search" />
       </div>
+
+      <details className="mt-3 rounded-[12px] border border-[#232938] bg-[#070b12] px-3 py-2">
+        <summary className="cursor-pointer select-none text-xs text-white/48">
+          {locale === "zh" ? "查看 API 字段映射" : "Show API field mapping"}
+        </summary>
+        <p className="mt-2 text-xs leading-5 text-white/40">{copy.providerParamsHint}</p>
+      </details>
     </section>
   );
 }
@@ -841,7 +853,7 @@ function UploadLane({
   });
 
   return (
-    <div className="rounded-[16px] border border-white/8 bg-[#1d1f26] p-3.5">
+    <div className="rounded-[16px] border border-[#232938] bg-[#101726] p-3.5">
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="text-sm font-medium text-white">{title}</div>
@@ -858,7 +870,7 @@ function UploadLane({
       <div
         {...getRootProps()}
         className={cn(
-          "mt-3 rounded-[14px] border border-dashed px-4 py-5 text-center transition-colors",
+          "mt-3 rounded-[14px] border border-dashed px-4 py-4 text-center transition-colors",
           isDragActive ? "border-[#2563ff]/50 bg-[#2563ff]/8" : "border-white/12 bg-[#121318]"
         )}
         >
@@ -868,7 +880,7 @@ function UploadLane({
         <div className="mt-1 text-xs text-white/36">{limitLabel}</div>
       </div>
 
-      <div className="mt-4 max-h-[360px] space-y-2 overflow-y-auto pr-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/12">
+      <div className="mt-4 max-h-[260px] space-y-2 overflow-y-auto pr-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/12">
         {assets.length === 0 ? <div className="text-sm text-white/38">{emptyLabel}</div> : null}
         {assets.map((asset, index) => (
           <AssetRow
@@ -997,7 +1009,7 @@ function CompactOptionGroup({
   onChange: (next: string) => void;
 }) {
   return (
-    <div className="rounded-[13px] border border-white/8 bg-[#080d16]/70 p-3">
+    <div className="rounded-[13px] border border-[#232938] bg-[#070b12] p-3">
       <div className="flex items-center justify-between gap-3">
         <Label>{title}</Label>
         <span className="rounded-full bg-white/[0.04] px-2 py-0.5 text-[11px] text-white/42">{value}</span>
@@ -1009,9 +1021,9 @@ function CompactOptionGroup({
             type="button"
             onClick={() => onChange(option)}
             className={cn(
-              "rounded-lg border px-2.5 py-1.5 text-xs transition-colors",
+              "rounded-lg border px-2.5 py-1.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/30",
               value === option
-                ? "border-cyan-200/28 bg-white text-slate-950"
+                ? "border-cyan-100/25 bg-[#dbe7fb] text-[#07111d]"
                 : "border-white/8 bg-white/[0.03] text-white/62 hover:border-white/16 hover:text-white"
             )}
           >
@@ -1035,7 +1047,7 @@ function CompactDurationGroup({
   onChange: (next: number) => void;
 }) {
   return (
-    <div className="rounded-[13px] border border-white/8 bg-[#080d16]/70 p-3">
+    <div className="rounded-[13px] border border-[#232938] bg-[#070b12] p-3">
       <div className="flex items-center justify-between gap-3">
         <Label>{title}</Label>
         <span className="rounded-full bg-white/[0.04] px-2 py-0.5 text-[11px] text-white/42">{value}s</span>
@@ -1047,9 +1059,9 @@ function CompactDurationGroup({
             type="button"
             onClick={() => onChange(option)}
             className={cn(
-              "rounded-lg border px-2.5 py-1.5 text-xs transition-colors",
+              "rounded-lg border px-2.5 py-1.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/30",
               value === option
-                ? "border-cyan-200/28 bg-white text-slate-950"
+                ? "border-cyan-100/25 bg-[#dbe7fb] text-[#07111d]"
                 : "border-white/8 bg-white/[0.03] text-white/62 hover:border-white/16 hover:text-white"
             )}
           >
@@ -1079,8 +1091,8 @@ function CompactToggle({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex items-center justify-between gap-3 rounded-[13px] border px-3 py-2.5 text-left transition-colors",
-        active ? "border-cyan-200/24 bg-cyan-200/[0.055]" : "border-white/8 bg-white/[0.025] hover:border-white/16"
+        "flex items-center justify-between gap-3 rounded-[13px] border px-3 py-2.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/30",
+        active ? "border-cyan-200/24 bg-cyan-200/[0.055]" : "border-[#232938] bg-white/[0.025] hover:border-white/16"
       )}
     >
       <span className="min-w-0">
@@ -1114,7 +1126,7 @@ function QueueItem({
     progress === "done" ? "bg-emerald-300" : progress === "active" ? "bg-cyan-300" : "bg-white/20";
 
   return (
-    <div className="flex items-start gap-3 rounded-[12px] border border-white/8 bg-[#1d1f26] p-4">
+    <div className="flex items-start gap-3 rounded-[12px] border border-[#232938] bg-[#101726] p-4">
       <span className={cn("mt-1 h-2.5 w-2.5 rounded-full", dotClass)} />
       <div>
         <div className="font-medium text-white">{title}</div>
@@ -1138,7 +1150,7 @@ function IconButton({
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className="rounded-lg border border-white/8 bg-white/[0.03] p-2 text-white/54 transition-colors hover:bg-white/[0.07] hover:text-white disabled:cursor-not-allowed disabled:opacity-35"
+      className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/8 bg-white/[0.03] text-white/54 transition-colors hover:bg-white/[0.07] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/30 disabled:cursor-not-allowed disabled:opacity-35"
     >
       {children}
     </button>

@@ -13,7 +13,7 @@ export default async function HomeHeroContent({ locale }: Props) {
       <div className="space-y-4">
         <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
           <span className="text-white">Seedance 2</span>
-          <span className="block bg-[linear-gradient(90deg,#f8fbff_0%,#93c5fd_42%,#c4b5fd_72%,#f8fbff_100%)] bg-clip-text text-transparent">
+          <span className="block text-white/88">
             {isZh ? "AI 视频生成器" : "AI Video Generator"}
           </span>
         </h1>
