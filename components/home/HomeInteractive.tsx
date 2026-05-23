@@ -166,7 +166,7 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                         <div className="mb-4 flex items-center justify-between gap-3">
                             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/22 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-white/52">
                                 <LockKeyhole className="h-3.5 w-3.5 text-white/62" />
-                                {isZh ? '02 只读参数单' : '02 Locked setup'}
+                                {isZh ? '02 输入拆解' : '02 Input breakdown'}
                             </div>
                             <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-white/48">
                                 {isZh ? '不可编辑 · 用于判断效果' : 'Read-only · effect preview'}
@@ -180,7 +180,7 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                             <div>
                                 <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/14 bg-emerald-200/[0.06] px-3 py-1.5 text-xs text-emerald-100/76">
                                     <BadgeCheck className="h-3.5 w-3.5" />
-                                    {isZh ? '可复用生成前置信息' : 'Reusable generation setup'}
+                                {isZh ? '右侧视频的生成前置信息' : 'Generation setup behind the preview'}
                                 </div>
                                 <h3 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-4xl">
                                     {title}
@@ -201,10 +201,10 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                             <div className="mb-3 flex items-center justify-between gap-3">
                                 <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
                                     <WandSparkles className="h-3.5 w-3.5 text-cyan-200/80" />
-                                    Prompt
+                                    {isZh ? '输入给模型的 Prompt' : 'Prompt sent to the model'}
                                 </div>
                                 <span className="rounded-full border border-white/8 bg-white/[0.04] px-2.5 py-1 text-[11px] text-white/44">
-                                    {isZh ? '真实任务写法' : 'Production-style prompt'}
+                                    {isZh ? '与右侧视频一一对应' : 'Mapped to the preview video'}
                                 </span>
                             </div>
                             <p className="text-sm leading-7 text-white/76 md:text-base md:leading-8">
@@ -216,7 +216,7 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                             <div className="rounded-[24px] border border-white/10 bg-white/[0.035] p-4">
                                 <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
                                     <Clapperboard className="h-3.5 w-3.5 text-blue-200/80" />
-                                    {isZh ? '参考素材与职责' : 'References and roles'}
+                                    {isZh ? '参考素材如何参与生成' : 'How references influence the output'}
                                 </div>
                                 <div className="mt-4 grid gap-3">
                                     {activeTemplate.references.length > 0 ? (
@@ -236,7 +236,7 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                             <div className="rounded-[24px] border border-white/10 bg-white/[0.035] p-4">
                                 <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
                                     <Settings2 className="h-3.5 w-3.5 text-violet-200/80" />
-                                    {isZh ? '生成逻辑' : 'Generation logic'}
+                                    {isZh ? '为什么这些输入会得到右侧结果' : 'Why these inputs create this result'}
                                 </div>
                                 <p className="mt-4 text-sm leading-7 text-white/64">{intent}</p>
                                 <div className="mt-4 space-y-2">

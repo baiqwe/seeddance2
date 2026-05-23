@@ -527,6 +527,8 @@ export const workspaceActions = {
         id?: string;
         status?: string;
         error?: string;
+        code?: string;
+        required?: number;
       };
 
       const response = await fetch("/api/ai/generate", {
@@ -548,21 +550,32 @@ export const workspaceActions = {
           images: readyAssets.image.map((asset) => ({
             id: asset.id,
             url: asset.remoteUrl,
+            objectKey: asset.storagePath,
           })),
           videos: readyAssets.video.map((asset) => ({
             id: asset.id,
             url: asset.remoteUrl,
+            objectKey: asset.storagePath,
           })),
           audios: readyAssets.audio.map((asset) => ({
             id: asset.id,
             url: asset.remoteUrl,
+            objectKey: asset.storagePath,
           })),
         }),
       });
 
       const payload = (await response.json().catch(() => null)) as SubmitGenerationResponse | null;
       if (!response.ok || !payload?.id) {
-        throw new Error(payload?.error || "Failed to create generation");
+        const error = new Error(payload?.error || "Failed to create generation") as Error & {
+          code?: string;
+          status?: number;
+          required?: number;
+        };
+        error.code = payload?.code;
+        error.status = response.status;
+        error.required = payload?.required;
+        throw error;
       }
 
       setState((current) => ({
@@ -575,12 +588,24 @@ export const workspaceActions = {
 
       return { ok: true as const, id: payload.id };
     } catch (error: any) {
+      const code =
+        error?.code ||
+        (error?.status === 401
+          ? "UNAUTHORIZED"
+          : error?.status === 402
+            ? "INSUFFICIENT_CREDITS"
+            : undefined);
       setState((current) => ({
         ...current,
         isSubmitting: false,
         notice: error?.message || "Failed to create generation",
       }));
-      return { ok: false as const, error: error?.message || "submit_failed" };
+      return {
+        ok: false as const,
+        error: code || error?.message || "submit_failed",
+        message: error?.message,
+        required: error?.required,
+      };
     }
   },
 };

@@ -5,8 +5,19 @@ import { getCustomerByUserId } from "@/utils/d1/customers";
 type CreateGenerationAssetInput = {
   kind: "image" | "video" | "audio";
   url: string;
+  objectKey?: string | null;
   sortOrder: number;
 };
+
+function objectKeyFromPublicUrl(url: string) {
+  try {
+    const parsed = new URL(url);
+    const key = decodeURIComponent(parsed.pathname.replace(/^\/+/, ""));
+    return key || url;
+  } catch {
+    return url;
+  }
+}
 
 export async function createGenerationWithCredits(input: {
   userId: string;
@@ -93,7 +104,7 @@ export async function createGenerationWithCredits(input: {
           generationId,
           asset.kind,
           null,
-          null,
+          asset.objectKey?.trim() || objectKeyFromPublicUrl(asset.url),
           asset.url,
           asset.sortOrder,
           now

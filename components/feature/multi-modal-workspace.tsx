@@ -30,6 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { ToastAction } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/hooks/use-user";
@@ -112,17 +113,17 @@ const COPY: Record<string, WorkspaceCopy> = {
     modelDescription:
       "优先理解图像、视频、音频与文字之间的关系，适合做角色一致性、动作继承和镜头延展。",
     modelBadges: ["参考优先", "动作理解", "镜头延展"],
-    returnLastFrame: "返回尾帧",
+    returnLastFrame: "保存结尾画面",
     returnLastFrameHint:
-      "让 Kie 在结果里返回最后一帧，方便继续做延展或下一轮关键帧控制。",
+      "生成完成后额外保存最后一帧。适合继续做视频延展，或把结尾画面当作下一段的关键帧；如果只是生成单条视频，可以关闭。",
     generateAudio: "生成音频",
     generateAudioHint:
       "让模型同步生成音频；如果你已上传音频参考，建议保持开启。",
     webSearch: "启用联网增强",
     webSearchHint: "允许模型参考网络信息增强语义理解；不需要真实信息时可关闭。",
-    providerParamsTitle: "Kie Seedance 2 参数",
+    providerParamsTitle: "生成参数",
     providerParamsHint:
-      "这里对应 API 入参：model、resolution、aspect_ratio、duration、generate_audio、return_last_frame、web_search。",
+      "只展示当前模型可稳定使用的选项，提交前会自动校验素材、时长、比例和分辨率。",
     promptLabel: "Prompt",
     promptPlaceholder:
       "例如：以 image-01 作为首帧角色，沿用 video-02 的推轨与镜头节奏，5 秒内从中景推进到近景，保留冷色夜景霓虹和电子鼓点推进感。",
@@ -209,18 +210,18 @@ const COPY: Record<string, WorkspaceCopy> = {
     modelDescription:
       "Built to interpret images, clips, audio, and text together, with stronger control over identity, motion transfer, and shot extension.",
     modelBadges: ["Reference-first", "Motion-aware", "Extendable"],
-    returnLastFrame: "Return last frame",
+    returnLastFrame: "Save final frame",
     returnLastFrameHint:
-      "Ask Kie to return the final frame so you can continue an extension or use it as the next keyframe.",
+      "Save the final frame after generation. Use it to extend the clip or continue with a new keyframe. Turn it off for one-off videos.",
     generateAudio: "Generate audio",
     generateAudioHint:
       "Generate synchronized audio with the video. Keep this on when audio references should guide rhythm.",
     webSearch: "Use web search",
     webSearchHint:
       "Allow model-side web context when the prompt needs factual or external context.",
-    providerParamsTitle: "Kie Seedance 2 parameters",
+    providerParamsTitle: "Generation settings",
     providerParamsHint:
-      "Mapped to API fields: model, resolution, aspect_ratio, duration, generate_audio, return_last_frame, web_search.",
+      "Only stable options for the selected model are shown. Assets, duration, ratio, and resolution are checked before submission.",
     promptLabel: "Prompt",
     promptPlaceholder:
       "Example: use image-01 as the opening character frame, borrow the push-in and pacing from video-02, move from medium shot to close-up in 5 seconds, and keep the cold neon night tone with an electronic beat ramp.",
@@ -468,13 +469,26 @@ export function MultiModalWorkspace({ locale }: Props) {
       : copy.generate;
 
   async function handleGenerate() {
+    const signInHref = `/${locale}/sign-in?callbackUrl=${encodeURIComponent(`/${locale}/creative-center`)}`;
+    const pricingHref = `/${locale}/pricing`;
+
     if (!user) {
       toast({
         title: locale === "zh" ? "请先登录" : "Sign in required",
         description:
           locale === "zh"
-            ? "登录后才能创建视频任务并记录积分消耗。"
-            : "Sign in before creating a generation job and tracking credits.",
+            ? "登录后才能提交视频任务、保存生成记录并管理渲染额度。"
+            : "Sign in to submit video jobs, save generation history, and manage render credits.",
+        action: (
+          <ToastAction
+            altText={locale === "zh" ? "去登录" : "Sign in"}
+            onClick={() => {
+              window.location.href = signInHref;
+            }}
+          >
+            {locale === "zh" ? "去登录" : "Sign in"}
+          </ToastAction>
+        ),
       });
       return;
     }
@@ -492,7 +506,18 @@ export function MultiModalWorkspace({ locale }: Props) {
     }
 
     toast({
-      title: locale === "zh" ? "生成未启动" : "Generation not started",
+      title:
+        result.error === "INSUFFICIENT_CREDITS"
+          ? locale === "zh"
+            ? "需要先购买渲染额度"
+            : "Render credits required"
+          : result.error === "UNAUTHORIZED"
+            ? locale === "zh"
+              ? "请先登录"
+              : "Sign in required"
+            : locale === "zh"
+              ? "生成未启动"
+              : "Generation not started",
       description:
         result.error === "missing_prompt"
           ? locale === "zh"
@@ -510,9 +535,37 @@ export function MultiModalWorkspace({ locale }: Props) {
                 ? locale === "zh"
                   ? "还有素材在上传中，等上传完成后再生成。"
                   : "Some assets are still uploading. Wait for them to finish first."
-                : locale === "zh"
-                  ? "创建任务时出错，请稍后再试。"
-                  : "Something went wrong while creating the generation.",
+                : result.error === "INSUFFICIENT_CREDITS"
+                  ? locale === "zh"
+                    ? `这次生成预计需要 ${estimatedCredits} 渲染额度。请先选择套餐或补充额度。`
+                    : `This render needs about ${estimatedCredits} credits. Choose a plan or add credits before starting.`
+                  : result.error === "UNAUTHORIZED"
+                    ? locale === "zh"
+                      ? "登录后才能提交视频任务并保存生成记录。"
+                      : "Sign in to submit video jobs and save generation history."
+                    : locale === "zh"
+                      ? "创建任务时出错，请稍后再试。"
+                      : "Something went wrong while creating the generation.",
+      action:
+        result.error === "INSUFFICIENT_CREDITS" ? (
+          <ToastAction
+            altText={locale === "zh" ? "查看套餐" : "View pricing"}
+            onClick={() => {
+              window.location.href = pricingHref;
+            }}
+          >
+            {locale === "zh" ? "查看套餐" : "View pricing"}
+          </ToastAction>
+        ) : result.error === "UNAUTHORIZED" ? (
+          <ToastAction
+            altText={locale === "zh" ? "去登录" : "Sign in"}
+            onClick={() => {
+              window.location.href = signInHref;
+            }}
+          >
+            {locale === "zh" ? "去登录" : "Sign in"}
+          </ToastAction>
+        ) : undefined,
       variant: "destructive",
     });
   }
@@ -928,7 +981,7 @@ function ProviderParamsPanel({
           </p>
         </div>
         <span className="shrink-0 rounded-full border border-[#232938] bg-[#070b12] px-2.5 py-1 text-[11px] text-cyan-100/58">
-          API
+          {locale === "zh" ? "已校验" : "Validated"}
         </span>
       </div>
 
@@ -989,32 +1042,24 @@ function ProviderParamsPanel({
           onClick={onToggleGenerateAudio}
           label={copy.generateAudio}
           hint={copy.generateAudioHint}
-          apiName="generate_audio"
         />
         <CompactToggle
           active={returnLastFrame}
           onClick={onToggleReturnLastFrame}
           label={copy.returnLastFrame}
           hint={copy.returnLastFrameHint}
-          apiName="return_last_frame"
         />
         <CompactToggle
           active={webSearch}
           onClick={onToggleWebSearch}
           label={copy.webSearch}
           hint={copy.webSearchHint}
-          apiName="web_search"
         />
       </div>
 
-      <details className="mt-3 rounded-[12px] border border-[#232938] bg-[#070b12] px-3 py-2">
-        <summary className="cursor-pointer select-none text-xs text-white/48">
-          {locale === "zh" ? "查看 API 字段映射" : "Show API field mapping"}
-        </summary>
-        <p className="mt-2 text-xs leading-5 text-white/40">
-          {copy.providerParamsHint}
-        </p>
-      </details>
+      <p className="mt-3 text-xs leading-5 text-white/40">
+        {copy.providerParamsHint}
+      </p>
     </section>
   );
 }
@@ -1299,13 +1344,11 @@ function CompactToggle({
   onClick,
   label,
   hint,
-  apiName,
 }: {
   active: boolean;
   onClick: () => void;
   label: ReactNode;
   hint: ReactNode;
-  apiName: string;
 }) {
   return (
     <button
@@ -1321,9 +1364,6 @@ function CompactToggle({
       <span className="min-w-0">
         <span className="flex flex-wrap items-center gap-2">
           <span className="text-sm font-medium text-white">{label}</span>
-          <span className="rounded-full bg-black/24 px-1.5 py-0.5 text-[10px] text-white/34">
-            {apiName}
-          </span>
         </span>
         <span className="mt-1 line-clamp-1 block text-xs text-white/42">
           {hint}

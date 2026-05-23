@@ -11,6 +11,7 @@ export type VideoAsset = {
   id: string;
   kind: VideoAssetKind;
   url: string;
+  objectKey?: string;
 };
 
 export type VideoGenerationRequest = {
@@ -108,6 +109,9 @@ export function normalizeVideoGenerationRequest(payload: any): VideoGenerationRe
             id: typeof asset.id === "string" && asset.id.trim() ? asset.id : `${kind}-${index + 1}`,
             kind,
             url: asset.url.trim(),
+            ...(typeof asset.objectKey === "string" && asset.objectKey.trim()
+              ? { objectKey: asset.objectKey.trim() }
+              : {}),
           }))
       : [];
 

@@ -170,9 +170,24 @@ export async function POST(request: NextRequest) {
           },
         },
         assets: [
-          ...payload.images.map((asset, index) => ({ kind: "image" as const, url: asset.url, sortOrder: index })),
-          ...payload.videos.map((asset, index) => ({ kind: "video" as const, url: asset.url, sortOrder: index })),
-          ...payload.audios.map((asset, index) => ({ kind: "audio" as const, url: asset.url, sortOrder: index })),
+          ...payload.images.map((asset, index) => ({
+            kind: "image" as const,
+            url: asset.url,
+            objectKey: asset.objectKey,
+            sortOrder: index,
+          })),
+          ...payload.videos.map((asset, index) => ({
+            kind: "video" as const,
+            url: asset.url,
+            objectKey: asset.objectKey,
+            sortOrder: index,
+          })),
+          ...payload.audios.map((asset, index) => ({
+            kind: "audio" as const,
+            url: asset.url,
+            objectKey: asset.objectKey,
+            sortOrder: index,
+          })),
         ],
       });
     } catch (error: any) {
