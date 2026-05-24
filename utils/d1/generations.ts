@@ -143,9 +143,35 @@ export async function listProcessingGenerationsByUserId(userId: string, limit = 
   return result.results ?? [];
 }
 
-export async function listProcessingGenerationViewsByUserId(userId: string, limit = 10) {
-  const rows = await listProcessingGenerationsByUserId(userId, limit);
-  return rows.map((row) => ({
+export async function countGenerationsByUserId(userId: string) {
+  const result = await getD1()
+    .prepare("SELECT COUNT(*) as total FROM generations WHERE user_id = ?")
+    .bind(userId)
+    .first<{ total: number } | null>();
+
+  return result?.total ?? 0;
+}
+
+export async function listRecentGenerationsByUserId(userId: string, limit = 10, offset = 0) {
+  const result = await getD1()
+    .prepare(
+      `
+      SELECT *
+      FROM generations
+      WHERE user_id = ?
+      ORDER BY created_at DESC
+      LIMIT ?
+      OFFSET ?
+      `
+    )
+    .bind(userId, limit, offset)
+    .all<D1Generation>();
+
+  return result.results ?? [];
+}
+
+function toGenerationView(row: D1Generation) {
+  return {
     id: row.id,
     status: row.status,
     status_detail: row.status_detail,
@@ -159,7 +185,17 @@ export async function listProcessingGenerationViewsByUserId(userId: string, limi
     provider_job_id: row.provider_job_id,
     output_video_url: row.output_video_url,
     metadata: safeJsonParse<Record<string, unknown>>(row.metadata_json, {}),
-  }));
+  };
+}
+
+export async function listProcessingGenerationViewsByUserId(userId: string, limit = 10) {
+  const rows = await listProcessingGenerationsByUserId(userId, limit);
+  return rows.map(toGenerationView);
+}
+
+export async function listRecentGenerationViewsByUserId(userId: string, limit = 10, offset = 0) {
+  const rows = await listRecentGenerationsByUserId(userId, limit, offset);
+  return rows.map(toGenerationView);
 }
 
 export async function getGenerationViewByIdForUser(generationId: string, userId: string) {

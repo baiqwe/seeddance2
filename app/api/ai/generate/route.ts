@@ -7,7 +7,13 @@ import { estimateGenerationCredits, normalizeVideoGenerationRequest } from "@/ut
 import { buildKieCallbackUrl, createKieSeedanceTask } from "@/utils/kie";
 import { isCloudflareDataBackend } from "@/utils/backend/runtime";
 import { requireSessionUser } from "@/utils/backend/auth";
-import { createGenerationWithCredits, listProcessingGenerationViewsByUserId, updateGenerationProviderState } from "@/utils/d1/generations";
+import {
+  countGenerationsByUserId,
+  createGenerationWithCredits,
+  listProcessingGenerationViewsByUserId,
+  listRecentGenerationViewsByUserId,
+  updateGenerationProviderState,
+} from "@/utils/d1/generations";
 import { provisionCustomerIfMissing } from "@/utils/d1/customers";
 
 export const runtime = "nodejs";
@@ -34,16 +40,32 @@ export async function GET(request: NextRequest) {
     }
 
     const url = new URL(request.url);
-    const limit = Math.min(Number(url.searchParams.get("limit") || "10"), 20);
-    const generations = await listProcessingGenerationViewsByUserId(user.id, limit);
-    return NextResponse.json({ generations });
+    const limit = Math.min(Math.max(Number(url.searchParams.get("limit") || "10"), 1), 20);
+    const page = Math.max(Number(url.searchParams.get("page") || "1"), 1);
+    const offset = (page - 1) * limit;
+    const [generations, total] = await Promise.all([
+      listRecentGenerationViewsByUserId(user.id, limit, offset),
+      countGenerationsByUserId(user.id),
+    ]);
+
+    return NextResponse.json({
+      generations,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.max(1, Math.ceil(total / limit)),
+      },
+    });
   }
 
   const supabase = await createClient();
   const serviceSupabase = createServiceRoleClient();
   const projectId = await getProjectId(serviceSupabase);
   const url = new URL(request.url);
-  const limit = Math.min(Number(url.searchParams.get("limit") || "10"), 20);
+  const limit = Math.min(Math.max(Number(url.searchParams.get("limit") || "10"), 1), 20);
+  const page = Math.max(Number(url.searchParams.get("page") || "1"), 1);
+  const offset = (page - 1) * limit;
 
   const {
     data: { user },
@@ -61,15 +83,28 @@ export async function GET(request: NextRequest) {
     )
     .eq("project_id", projectId)
     .eq("user_id", user.id)
-    .in("status", ["pending", "processing"])
     .order("created_at", { ascending: false })
-    .limit(limit);
+    .range(offset, offset + limit - 1);
 
   if (error) {
     return NextResponse.json({ error: "Failed to load generations" }, { status: 500 });
   }
 
-  return NextResponse.json({ generations: data || [] });
+  const { count } = await serviceSupabase
+    .from("generations")
+    .select("id", { count: "exact", head: true })
+    .eq("project_id", projectId)
+    .eq("user_id", user.id);
+
+  return NextResponse.json({
+    generations: data || [],
+    pagination: {
+      page,
+      limit,
+      total: count ?? 0,
+      totalPages: Math.max(1, Math.ceil((count ?? 0) / limit)),
+    },
+  });
 }
 
 export async function POST(request: NextRequest) {

@@ -24,12 +24,18 @@ export async function GET(request: Request) {
             const durationSeconds = Number(searchParams.get("durationSeconds") || "5") as 5 | 10 | 15;
             const mode = (searchParams.get("mode") || "multi_modal_video") as "multi_modal_video" | "image_to_video" | "text_to_video" | "video_extension";
             const audioCount = Number(searchParams.get("audioCount") || "0");
+            const videoCount = Number(searchParams.get("videoCount") || "0");
 
             return jsonWithCache({
                 estimate: estimateGenerationCredits({
                     mode,
                     resolution,
                     durationSeconds,
+                    videos: Array.from({ length: videoCount }, (_, index) => ({
+                        id: `video-${index + 1}`,
+                        kind: "video" as const,
+                        url: `placeholder://${index + 1}`,
+                    })),
                     audios: Array.from({ length: audioCount }, (_, index) => ({
                         id: `audio-${index + 1}`,
                         kind: "audio" as const,

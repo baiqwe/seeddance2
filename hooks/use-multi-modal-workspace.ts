@@ -645,6 +645,11 @@ export function useMultiModalWorkspace() {
       mode: current.mode,
       resolution: current.resolution,
       durationSeconds: current.durationSeconds,
+      videos: current.assets.video.map((asset) => ({
+        id: asset.id,
+        kind: "video" as const,
+        url: asset.remoteUrl || asset.previewUrl || asset.name,
+      })),
       audios: current.assets.audio.map((asset) => ({
         id: asset.id,
         kind: "audio" as const,

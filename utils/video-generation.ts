@@ -67,24 +67,47 @@ export function getAssetLimitForMode(mode: VideoGenerationMode, kind: VideoAsset
   return KIE_MODE_ASSET_LIMITS[mode][kind];
 }
 
-const RESOLUTION_COST_PER_SECOND: Record<VideoGenerationRequest["resolution"], number> = {
-  "480p": 4,
-  "720p": 8,
-  "1080p": 16,
+export const KIE_SEEDANCE_CREDIT_RATES_PER_SECOND = {
+  withoutVideoInput: {
+    "480p": 19,
+    "720p": 41,
+    "1080p": 102,
+  },
+  withVideoInput: {
+    "480p": 11.5,
+    "720p": 25,
+    "1080p": 62,
+  },
+} satisfies Record<"withoutVideoInput" | "withVideoInput", Record<VideoGenerationRequest["resolution"], number>>;
+
+/**
+ * Kie bills video-reference tasks with output duration plus reference-video time.
+ * Until we persist exact client-side media durations, reserve the documented max
+ * reference-video budget so our balance check never undercharges GPU usage.
+ */
+export const KIE_REFERENCE_VIDEO_BILLING_FALLBACK_SECONDS = 15;
+
+type CreditEstimateInput = Pick<
+  VideoGenerationRequest,
+  "mode" | "resolution" | "durationSeconds" | "audios"
+> & {
+  videos?: Pick<VideoAsset, "url">[];
 };
 
-const MODE_MULTIPLIER: Record<VideoGenerationMode, number> = {
-  multi_modal_video: 1.25,
-  image_to_video: 1,
-  text_to_video: 0.85,
-  video_extension: 1.35,
-};
+function includesVideoInput(input: CreditEstimateInput) {
+  return input.mode === "video_extension" || (input.videos?.length ?? 0) > 0;
+}
 
-export function estimateGenerationCredits(input: Pick<VideoGenerationRequest, "mode" | "resolution" | "durationSeconds" | "audios">) {
-  const base = RESOLUTION_COST_PER_SECOND[input.resolution] * input.durationSeconds;
-  const modeAdjusted = Math.ceil(base * MODE_MULTIPLIER[input.mode]);
-  const audioSurcharge = input.audios.length > 0 ? 6 : 0;
-  return modeAdjusted + audioSurcharge;
+export function estimateGenerationCredits(input: CreditEstimateInput) {
+  const hasVideoInput = includesVideoInput(input);
+  const rates = hasVideoInput
+    ? KIE_SEEDANCE_CREDIT_RATES_PER_SECOND.withVideoInput
+    : KIE_SEEDANCE_CREDIT_RATES_PER_SECOND.withoutVideoInput;
+  const billableSeconds =
+    input.durationSeconds +
+    (hasVideoInput ? KIE_REFERENCE_VIDEO_BILLING_FALLBACK_SECONDS : 0);
+
+  return Math.ceil(rates[input.resolution] * billableSeconds);
 }
 
 export function normalizeVideoGenerationRequest(payload: any): VideoGenerationRequest {
