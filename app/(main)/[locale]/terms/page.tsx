@@ -20,7 +20,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
   const ogImage = new URL(site.ogImagePath, site.siteUrl).toString();
 
   return {
-    title,
+    title: { absolute: title },
     description,
     robots: {
       index: false,

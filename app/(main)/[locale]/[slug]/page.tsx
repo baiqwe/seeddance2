@@ -44,7 +44,7 @@ export async function generateMetadata(props: {
   const canonical = `/${locale}/${page.slug}`;
   const ogImage = new URL(site.ogImagePath, site.siteUrl).toString();
   return {
-    title: page.title,
+    title: { absolute: page.title },
     description: page.description,
     alternates: buildLocaleAlternates(canonical),
     openGraph: {

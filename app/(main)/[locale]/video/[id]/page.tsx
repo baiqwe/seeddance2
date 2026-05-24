@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       : generation.prompt || "Watch this public video created with Seedance 2.0.";
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: buildLocaleAlternates(canonical),
     openGraph: {

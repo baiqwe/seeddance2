@@ -20,7 +20,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     const ogImage = new URL(site.ogImagePath, site.siteUrl).toString();
 
     return {
-        title: messages.metadata.title,
+        title: { absolute: messages.metadata.title },
         description: messages.metadata.description,
         keywords: messages.metadata.keywords.split(",").map((keyword) => keyword.trim()),
         alternates: buildLocaleAlternates(canonical),

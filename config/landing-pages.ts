@@ -267,7 +267,7 @@ export type LandingPageSlug = keyof typeof landingPages;
 const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
   "image-to-video": {
     titleZh: "图生视频 AI 生成器 | 基于 Seedance 2",
-    descriptionZh: "从一张静态图片出发，加入运镜、节奏和画面意图，把它变成更可控的 AI 视频工作流。",
+    descriptionZh: "从一张静态图片出发，加入运镜、节奏、主体连续性和画面意图，把关键帧变成更可控的 AI 视频工作流，适合先做镜头验证再进入完整创作。",
     h1Zh: "图生视频 AI 生成器",
     subtitleZh: "把静帧推进成有节奏的镜头，而不是随机动起来的短片段。",
     workflowSummaryZh: "先用一张清晰关键帧锁住画面，再描述镜头如何推进。需要补参考图、角色一致性或更细节的镜头控制时，再带入创作中心。",
@@ -280,7 +280,7 @@ const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
   },
   "reference-video-generator": {
     titleZh: "参考视频生成器 | 基于 Seedance 2",
-    descriptionZh: "把图片、视频和音频参考放在一起，让结果跟随真实创作意图，而不是依赖模糊的文字描述。",
+    descriptionZh: "把图片、视频和音频参考放在一起，让结果跟随真实创作意图、动作节奏和镜头语言，而不是只依赖模糊文字描述。",
     h1Zh: "参考视频生成器",
     subtitleZh: "把参考图、参考视频和音频节奏一起交给系统，生成更可控的视频结果。",
     workflowSummaryZh: "当一句 Prompt 不够准确时，用一个主参考先定方向，再按需加入图片、视频或音频线索，最后进入创作中心继续细化。",
@@ -293,7 +293,7 @@ const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
   },
   "dance-motion-transfer": {
     titleZh: "AI 动作迁移 | 基于 Seedance 2",
-    descriptionZh: "把参考舞蹈视频里的动作节奏和能量迁移到新的角色或新的视频设定上。",
+    descriptionZh: "把参考舞蹈视频里的动作节奏、身体能量和镜头节拍迁移到新的角色或新的视频设定上，同时更容易保持身份与造型控制。",
     h1Zh: "AI 动作迁移",
     subtitleZh: "让动作参考带走节奏和编舞，同时把主体替换成新的角色或造型。",
     workflowSummaryZh: "先准备一段动作清晰的参考视频，再补角色图或造型说明。进入创作中心后，可以把身份、动作和节奏拆开控制。",
@@ -306,7 +306,7 @@ const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
   },
   "product-ad-generator": {
     titleZh: "产品广告生成器 | 基于 Seedance 2",
-    descriptionZh: "用产品静帧、运镜参考和商业化 Prompt，生成更像 campaign shot 的产品视频片段。",
+    descriptionZh: "用产品静帧、运镜参考、灯光说明和商业化 Prompt，生成更像 campaign shot 的产品视频片段，适合先验证广告镜头质感。",
     h1Zh: "产品广告生成器",
     subtitleZh: "从产品静图出发，快速生成揭幕镜头、发售预告和视觉提案片段。",
     workflowSummaryZh: "从一张干净产品图和一个明确商业镜头开始。需要揭幕运镜、材质高光或多角度参考时，再进入创作中心。",
@@ -319,7 +319,7 @@ const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
   },
   "storyboard-to-video": {
     titleZh: "分镜转视频 AI | 基于 Seedance 2",
-    descriptionZh: "把分镜稿或关键帧扩成可移动的预演视频，用来测试运镜、节奏和场景连续性。",
+    descriptionZh: "把分镜稿或关键帧扩成可移动的预演视频，用来测试运镜、走位、节奏和场景连续性，再决定是否进入更完整制作。",
     h1Zh: "分镜转视频 AI",
     subtitleZh: "让静态分镜不再只是平面图，而是可以用于预演和走位验证的动态镜头。",
     workflowSummaryZh: "先把一张分镜变成明确的镜头意图。需要多关键帧、动作参考或连续性控制时，再把任务带入创作中心。",
@@ -332,7 +332,7 @@ const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
   },
   "video-extension": {
     titleZh: "视频扩写 | 基于 Seedance 2",
-    descriptionZh: "沿着原始视频的运动方向、场景逻辑和情绪基调，把镜头继续自然延长。",
+    descriptionZh: "沿着原始视频的运动方向、场景逻辑、光线状态和情绪基调，把镜头继续自然延长，而不是重新生成一个新镜头。",
     h1Zh: "视频扩写",
     subtitleZh: "不是重新生成一个新镜头，而是沿着原镜头的逻辑继续往前走。",
     workflowSummaryZh: "这条流程适合继续已有片段，而不是从零重写创意。进入创作中心后，再处理源视频、尾帧目标和连续性要求。",
@@ -345,7 +345,7 @@ const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
   },
   "ai-music-video-generator": {
     titleZh: "AI 音乐视频生成器 | 基于 Seedance 2",
-    descriptionZh: "用 Seedance 2 把提示词、情绪图、动作参考和节奏 cue 组合成更像音乐视频的镜头序列。",
+    descriptionZh: "用 Seedance 2 把提示词、情绪图、动作参考和节奏 cue 组合成更像音乐视频的镜头序列，让画面跟着节拍和情绪推进。",
     h1Zh: "AI 音乐视频生成器",
     subtitleZh: "把节奏、动作和氛围组织起来，让画面不是随机动，而是沿着音乐感推进。",
     workflowSummaryZh: "先写清楚氛围、主体和节奏目标。需要音频线索、动作参考和视觉身份共同工作时，再进入创作中心。",
@@ -358,7 +358,7 @@ const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
   },
   "ecommerce-product-video-ai": {
     titleZh: "电商产品视频生成 | 基于 Seedance 2",
-    descriptionZh: "用 Seedance 2 把产品静图、揭幕参考和商业化 Prompt 组织成更适合电商和投放的产品视频。",
+    descriptionZh: "用 Seedance 2 把产品静图、揭幕参考、材质说明和商业化 Prompt 组织成更适合电商详情页、投放素材和上新预告的产品视频。",
     h1Zh: "电商产品视频生成",
     subtitleZh: "把产品主图变成发售片段、展示镜头和更适合销售场景的动态内容。",
     workflowSummaryZh: "先用产品主图明确商品本身，再决定是否加入揭幕参考、材质描述和电商节奏，最后进入创作中心生成。",
@@ -371,7 +371,7 @@ const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
   },
   "ai-short-drama-maker": {
     titleZh: "AI 短剧预演工具 | 基于 Seedance 2",
-    descriptionZh: "用 Seedance 2 探索短剧场景、情绪节点和镜头连续性，把静态想法转成可以验证的动态预演。",
+    descriptionZh: "用 Seedance 2 探索短剧场景、情绪节点、人物走位和镜头连续性，把静态想法转成可以快速验证的动态预演。",
     h1Zh: "AI 短剧预演工具",
     subtitleZh: "先把戏剧情绪、镜头节奏和场景连续性跑通，再决定要不要进入更完整的制作流程。",
     workflowSummaryZh: "先从一个明确戏剧节点开始，而不是直接塞完整剧情。需要分镜、运镜和情绪连续性时，再进入创作中心。",
@@ -384,7 +384,7 @@ const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
   },
   "cinematic-product-reveal-generator": {
     titleZh: "电影感产品揭幕生成器 | 基于 Seedance 2",
-    descriptionZh: "用 Seedance 2 生成更有电影感的产品揭幕镜头，把材质、高光、运镜和发售氛围组织得更完整。",
+    descriptionZh: "用 Seedance 2 生成更有电影感的产品揭幕镜头，把材质、高光、运镜、最终定格和发售氛围组织得更完整。",
     h1Zh: "电影感产品揭幕生成器",
     subtitleZh: "更适合高质感产品发布、主视觉揭幕和需要精细运镜设计的品牌内容。",
     workflowSummaryZh: "从一张高质感产品图和一个克制揭幕方向开始。需要光线扫过、运镜参考和最终定格时，再进入创作中心。",

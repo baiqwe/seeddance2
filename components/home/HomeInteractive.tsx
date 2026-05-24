@@ -284,7 +284,11 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                                 />
                             ) : (
                                 <div className={cn(getVideoAspectClass(previewRatio), 'relative w-full overflow-hidden bg-[radial-gradient(circle_at_50%_26%,rgba(103,232,249,0.16),transparent_32%),linear-gradient(180deg,#111827,#020617)]')}>
-                                    <img src={activeTemplate.poster} alt="" className="h-full w-full object-cover opacity-42 blur-[1px]" />
+                                    <img
+                                        src={activeTemplate.poster}
+                                        alt={isZh ? `${title} 视频预览封面` : `${title} video preview poster`}
+                                        className="h-full w-full object-cover opacity-42 blur-[1px]"
+                                    />
                                     <div className="absolute inset-0 flex items-center justify-center p-8 text-center">
                                         <div className="rounded-[24px] border border-white/10 bg-black/36 p-5 backdrop-blur-xl">
                                             <Film className="mx-auto h-8 w-8 text-cyan-100/70" />
@@ -352,7 +356,11 @@ function ReferenceCard({ reference, isZh }: { reference: ShowcaseReference; isZh
         <div className="grid gap-3 rounded-[18px] border border-white/8 bg-black/18 p-3 md:grid-cols-[72px_minmax(0,1fr)]">
             <div className="flex h-[72px] items-center justify-center overflow-hidden rounded-[14px] border border-white/8 bg-white/[0.04]">
                 {reference.thumbnail ? (
-                    <img src={reference.thumbnail} alt="" className="h-full w-full object-cover" />
+                    <img
+                        src={reference.thumbnail}
+                        alt={isZh ? `${reference.labelZh} 参考素材缩略图` : `${reference.label} reference thumbnail`}
+                        className="h-full w-full object-cover"
+                    />
                 ) : (
                     <Icon className="h-6 w-6 text-white/50" />
                 )}

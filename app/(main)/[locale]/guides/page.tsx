@@ -17,7 +17,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     : "Browse Seedance 2 guides covering image to video, text to video, reference motion, video extension, multi-modal asset prep, output review, and usage boundaries.";
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: buildLocaleAlternates(`/${locale}/guides`),
     openGraph: {

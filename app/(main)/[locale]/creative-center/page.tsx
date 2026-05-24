@@ -17,10 +17,12 @@ export async function generateMetadata(props: {
   const canonical = `/${locale}/creative-center`;
 
   return {
-    title:
-      locale === "zh"
-        ? `创作中心 | ${messages.metadata.title}`
-        : `Creation Center | ${messages.metadata.title}`,
+    title: {
+      absolute:
+        locale === "zh"
+          ? `创作中心 | ${site.siteName}`
+          : `Creation Center | ${site.siteName}`,
+    },
     description:
       locale === "zh"
         ? "进入 Seedance 2 创作中心，使用完整多模态工作台处理图生视频、文生视频、参考动作、音频节奏和视频延展。"
@@ -34,6 +36,26 @@ export async function generateMetadata(props: {
           ? "完整多模态工作台，用于处理图片、视频、音频参考和更精细的生成控制。"
           : "The full multi-modal workspace for references, motion control, pacing, and deeper generation controls.",
       url: new URL(canonical, site.siteUrl).toString(),
+      type: "website",
+      siteName: site.siteName,
+      images: [
+        {
+          url: new URL(site.ogImagePath, site.siteUrl).toString(),
+          width: 512,
+          height: 512,
+          alt: site.siteName,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title:
+        locale === "zh" ? "Seedance 2 创作中心" : "Seedance 2 Creation Center",
+      description:
+        locale === "zh"
+          ? "完整多模态工作台，用于处理图片、视频、音频参考和更精细的生成控制。"
+          : "The full multi-modal workspace for references, motion control, pacing, and deeper generation controls.",
+      images: [new URL(site.ogImagePath, site.siteUrl).toString()],
     },
   };
 }
@@ -55,6 +77,9 @@ export default async function CreativeCenterPage(props: {
   return (
     <div className="relative isolate flex-1 overflow-hidden bg-[#060811] px-3 py-4 md:px-4 lg:py-6">
       <div className="mx-auto max-w-[1500px] space-y-4">
+        <h1 className="sr-only">
+          {locale === "zh" ? "Seedance 2 创作中心" : "Seedance 2 Creation Center"}
+        </h1>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Breadcrumbs items={breadcrumbs} />
           <div className="rounded-full border border-[#232938] bg-[#0b1020] px-3 py-1.5 text-xs text-white/54">

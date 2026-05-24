@@ -26,10 +26,7 @@ export function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
       "@type": "ListItem",
       "position": index + 1,
       "name": item.name,
-      "item": {
-        "@id": toAbsoluteUrl(item.url),
-        "name": item.name
-      }
+      "item": toAbsoluteUrl(item.url)
     }))
   };
 
@@ -106,4 +103,3 @@ export function HowToSchema({ name, description, steps }: HowToSchemaProps) {
     />
   );
 }
-

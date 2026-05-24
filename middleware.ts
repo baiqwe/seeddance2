@@ -10,19 +10,39 @@ const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '0.0.0.0'])
 export async function middleware(request: NextRequest) {
   const hostname = request.nextUrl.hostname
   const forwardedProto = request.headers.get('x-forwarded-proto') || request.nextUrl.protocol.replace(':', '')
+  const isLocalHost = LOCAL_HOSTNAMES.has(hostname)
+  const redirectUrl = request.nextUrl.clone()
+  let shouldCanonicalRedirect = false
 
-  if (!LOCAL_HOSTNAMES.has(hostname) && hostname === APEX_HOSTNAME) {
-    const redirectUrl = request.nextUrl.clone()
+  if (!isLocalHost && request.nextUrl.pathname === '/sitemap.xml') {
+    redirectUrl.pathname = '/xml/sitemap.xml'
+    shouldCanonicalRedirect = true
+  }
+
+  if (!isLocalHost && request.nextUrl.pathname === '/page-sitemap.xml') {
+    redirectUrl.pathname = '/xml/page-sitemap.xml'
+    shouldCanonicalRedirect = true
+  }
+
+  if (!isLocalHost && request.nextUrl.pathname === '/video-sitemap.xml') {
+    redirectUrl.pathname = '/xml/video-sitemap.xml'
+    shouldCanonicalRedirect = true
+  }
+
+  if (!isLocalHost && hostname === APEX_HOSTNAME) {
     redirectUrl.hostname = WWW_HOSTNAME
     redirectUrl.protocol = 'https:'
     redirectUrl.port = ''
-    return NextResponse.redirect(redirectUrl, 301)
+    shouldCanonicalRedirect = true
   }
 
-  if (!LOCAL_HOSTNAMES.has(hostname) && hostname === WWW_HOSTNAME && forwardedProto !== 'https') {
-    const redirectUrl = request.nextUrl.clone()
+  if (!isLocalHost && hostname === WWW_HOSTNAME && forwardedProto !== 'https') {
     redirectUrl.protocol = 'https:'
     redirectUrl.port = ''
+    shouldCanonicalRedirect = true
+  }
+
+  if (shouldCanonicalRedirect) {
     return NextResponse.redirect(redirectUrl, 301)
   }
 
@@ -39,5 +59,13 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   // Exclude auth route handlers so next-intl does not prefix them with /en or /zh.
-  matcher: ['/((?!api|_next|_vercel|auth/callback|auth/google|.*\\..*).*)', '/(en|zh)/:path*']
+  matcher: [
+    '/((?!api|_next|_vercel|auth/callback|auth/google|.*\\..*).*)',
+    '/(en|zh)/:path*',
+    '/sitemap.xml',
+    '/page-sitemap.xml',
+    '/video-sitemap.xml',
+    '/robots.txt',
+    '/xml/:path*',
+  ]
 }

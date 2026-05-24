@@ -16,7 +16,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     const ogImage = new URL(site.ogImagePath, site.siteUrl).toString();
 
     return {
-        title,
+        title: { absolute: title },
         description,
         alternates: buildLocaleAlternates(`/${locale}/pricing`),
         openGraph: {
