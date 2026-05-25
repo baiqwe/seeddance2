@@ -5,7 +5,6 @@ import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
@@ -16,7 +15,8 @@ import { useTranslations } from "next-intl";
 import { useUser } from "@/hooks/use-user";
 import { getLocaleFromPathname, Link, stripLocalePrefix } from "@/i18n/routing";
 import { Skeleton } from "./ui/skeleton";
-import { ChevronDown } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
+import { getLocalizedWorkflowGroups } from "@/config/workflow-navigation";
 
 interface NavItem {
   id: string;
@@ -40,13 +40,15 @@ export default function Header() {
     { id: "pricing", label: t('pricing'), href: '/pricing' },
   ];
   const workflowNavItems: NavItem[] = [
-    { id: "image-to-video", label: currentLocale === "zh" ? "图生视频" : "Image to Video", href: "/image-to-video" },
-    { id: "reference-video", label: currentLocale === "zh" ? "参考视频" : "Reference Video", href: "/ai-video-generator-with-reference-video" },
-    { id: "audio-sync", label: currentLocale === "zh" ? "音频同步" : "Audio Sync", href: "/ai-video-generator-with-audio-sync" },
-    { id: "motion-control", label: currentLocale === "zh" ? "运动控制" : "Motion Control", href: "/motion-control-ai-video-generator" },
-    { id: "character", label: currentLocale === "zh" ? "角色一致性" : "Consistent Character", href: "/consistent-character-ai-video-generator" },
-    { id: "fast", label: currentLocale === "zh" ? "Seedance 2 Fast" : "Seedance 2 Fast", href: "/seedance-2-fast" },
+    ...getLocalizedWorkflowGroups(currentLocale).flatMap((group) =>
+      group.items.map((item) => ({
+        id: item.id,
+        label: item.labelText,
+        href: item.href,
+      })),
+    ),
   ];
+  const workflowGroups = getLocalizedWorkflowGroups(currentLocale);
 
   // Dashboard items
   const dashboardItems: NavItem[] = [];
@@ -62,7 +64,7 @@ export default function Header() {
       ];
 
   return (
-    <header className="sticky top-0 z-[100] w-full border-b border-white/6 bg-black/70 backdrop-blur-xl supports-[backdrop-filter]:bg-black/55">
+    <header className="sticky top-0 z-[200] w-full border-b border-white/6 bg-black/70 backdrop-blur-xl supports-[backdrop-filter]:bg-black/55">
       <div className="container flex h-16 items-center justify-between px-4">
         <div className="flex items-center">
           <Logo />
@@ -76,15 +78,55 @@ export default function Header() {
                 {currentLocale === "zh" ? "工作流" : "Workflows"}
                 <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="center" className="w-64 border-white/10 bg-[#0b1020]/95 text-white shadow-2xl shadow-black/50 backdrop-blur-xl">
-                <DropdownMenuLabel className="text-xs font-medium uppercase tracking-[0.2em] text-white/46">
-                  {currentLocale === "zh" ? "核心内页" : "Core pages"}
+              <DropdownMenuContent
+                align="center"
+                sideOffset={18}
+                collisionPadding={16}
+                className="z-[260] max-h-[min(72vh,620px)] w-[min(760px,calc(100vw-2rem))] overflow-y-auto rounded-[28px] border-white/10 bg-[#0b1020]/98 p-3 text-white shadow-[0_32px_90px_-38px_rgba(0,0,0,0.9)] backdrop-blur-xl"
+              >
+                <DropdownMenuLabel className="px-3 pb-2 pt-1 text-xs font-medium uppercase tracking-[0.28em] text-white/42">
+                  {currentLocale === "zh" ? "工作流地图" : "Workflow map"}
                 </DropdownMenuLabel>
-                {workflowNavItems.map((item) => (
-                  <DropdownMenuItem key={item.id} asChild className="cursor-pointer text-white/72 focus:bg-white/[0.06] focus:text-white">
-                    <Link href={item.href}>{item.label}</Link>
-                  </DropdownMenuItem>
-                ))}
+                <div className="grid gap-2 md:grid-cols-3">
+                  {workflowGroups.map((group) => (
+                    <div
+                      key={group.id}
+                      className="rounded-[22px] border border-white/8 bg-white/[0.025] p-3"
+                    >
+                      <div className="px-2">
+                        <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-cyan-200/62">
+                          {group.eyebrowLabel}
+                        </div>
+                        <div className="mt-2 text-sm font-semibold text-white">
+                          {group.titleLabel}
+                        </div>
+                        <p className="mt-1 text-xs leading-5 text-white/50">
+                          {group.descriptionLabel}
+                        </p>
+                      </div>
+                      <div className="mt-3 space-y-1">
+                        {group.items.map((item) => (
+                          <Link
+                            key={item.id}
+                            href={item.href}
+                            className="group flex gap-3 rounded-2xl px-2 py-2.5 text-left transition-colors hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/45"
+                          >
+                            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-white/28 transition-colors group-hover:bg-cyan-200" />
+                            <span className="min-w-0">
+                              <span className="flex items-center gap-1.5 text-sm font-medium text-white/80 group-hover:text-white">
+                                {item.labelText}
+                                <ArrowUpRight className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-70" />
+                              </span>
+                              <span className="mt-1 block text-xs leading-5 text-white/48">
+                                {item.descriptionText}
+                              </span>
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : null}

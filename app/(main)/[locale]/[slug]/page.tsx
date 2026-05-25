@@ -16,6 +16,7 @@ import { buildLocaleAlternates } from "@/utils/seo/metadata";
 import { InspirationGallery } from "@/components/gallery/InspirationGallery";
 import { ImageGallerySchema } from "@/components/gallery/ImageGallerySchema";
 import { LandingPromptBar } from "@/components/landing/LandingPromptBar";
+import { getLocalizedWorkflowGroups } from "@/config/workflow-navigation";
 
 function getCreationCenterHref(locale: string, mode: string, model?: string) {
   const params = new URLSearchParams();
@@ -100,6 +101,12 @@ export default async function LandingPage(props: {
     .slice(0, 3)
     .map((item) => getLocalizedLandingPage(item.slug, locale))
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
+  const workflowGroups = getLocalizedWorkflowGroups(locale);
+  const currentWorkflowGroup = workflowGroups.find((group) =>
+    group.items.some((item) => item.slug === page.slug),
+  );
+  const currentWorkflowItems =
+    currentWorkflowGroup?.items.filter((item) => item.slug !== page.slug) ?? [];
   const breadcrumbItems = [
     { name: locale === "zh" ? "首页" : "Home", href: `${localePrefix}` },
     { name: page.h1, href: `${localePrefix}/${page.slug}` },
@@ -326,6 +333,40 @@ export default async function LandingPage(props: {
                       </li>
                     ))}
                   </ul>
+                </div>
+              </div>
+            ) : null}
+
+            {currentWorkflowGroup ? (
+              <div className="surface-card border-white/8 bg-[#151923] p-6">
+                <div className="section-kicker">
+                  {currentWorkflowGroup.eyebrowLabel}
+                </div>
+                <div className="mt-3 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+                  <div>
+                    <h2 className="text-2xl font-bold tracking-tight text-white">
+                      {currentWorkflowGroup.titleLabel}
+                    </h2>
+                    <p className="mt-3 text-sm leading-7 text-white/64">
+                      {currentWorkflowGroup.descriptionLabel}
+                    </p>
+                  </div>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {currentWorkflowItems.map((item) => (
+                      <Link
+                        key={item.id}
+                        href={`${localePrefix}/${item.slug}`}
+                        className="rounded-[18px] border border-white/8 bg-white/[0.035] p-4 transition-colors hover:border-cyan-200/30 hover:bg-white/[0.06]"
+                      >
+                        <div className="text-sm font-semibold text-white">
+                          {item.labelText}
+                        </div>
+                        <p className="mt-2 text-xs leading-6 text-white/56">
+                          {item.descriptionText}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             ) : null}
