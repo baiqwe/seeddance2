@@ -268,5 +268,195 @@
         "answer": "Yes. A polished still can anchor the shot, and motion references can then define how the reveal unfolds."
       }
     ]
+  },
+  "ai-video-generator-with-reference-video": {
+    "slug": "ai-video-generator-with-reference-video",
+    "targetKeyword": "ai video generator with reference video",
+    "title": "AI Video Generator with Reference Video | Powered by Seedance 2",
+    "description": "Use a reference video to guide camera movement, character motion, visual effects, and pacing inside an independent Seedance 2 workflow.",
+    "h1": "AI Video Generator with Reference Video",
+    "subtitle": "Copy motion logic, camera rhythm, and scene timing from a reference clip without relying on prompt guesswork alone.",
+    "workflowSummary": "Use this workflow when you already know how the shot should move. A reference clip can define camera travel, body motion, edit rhythm, or effects timing while the prompt explains what should change.",
+    "lastUpdated": "2026-05-25T00:00:00+08:00",
+    "executionSteps": [
+      "Choose one primary reference clip that clearly shows the motion, camera move, or rhythm you want to borrow.",
+      "Write a prompt that names what the reference controls and what the new output should replace or preserve.",
+      "Open the creation center to upload the reference video, add optional image keyframes, and review whether the generated shot follows the intended motion."
+    ],
+    "ctaText": "Open reference-video workflow",
+    "mode": "multi_modal_video",
+    "faqs": [
+      {
+        "question": "What can a reference video control?",
+        "answer": "It can guide camera movement, body motion, scene rhythm, effects timing, and shot energy. The prompt should still explain what subject or setting should change."
+      },
+      {
+        "question": "Can I use any video as a reference?",
+        "answer": "Use only clips you own or have permission to use. Clear, short, single-purpose references usually work better than long edits with many cuts."
+      }
+    ]
+  },
+  "ai-video-generator-with-audio-sync": {
+    "slug": "ai-video-generator-with-audio-sync",
+    "targetKeyword": "ai video generator with audio sync",
+    "title": "AI Video Generator with Audio Sync | Powered by Seedance 2",
+    "description": "Plan AI video generation around music, beat cues, sound effects, and narration timing with an audio-aware Seedance 2 workflow.",
+    "h1": "AI Video Generator with Audio Sync",
+    "subtitle": "Use audio cues to shape pacing, beat drops, transitions, and emotional timing before moving into multi-modal generation.",
+    "workflowSummary": "Use this workflow when rhythm matters. Audio can describe when the visual energy should rise, hold, cut, or resolve, while images and prompts define the subject and world.",
+    "lastUpdated": "2026-05-25T00:00:00+08:00",
+    "executionSteps": [
+      "Start with a short audio cue, beat section, narration moment, or sound effect pattern.",
+      "Describe what should happen visually at the important timing points instead of asking for a generic music video.",
+      "Open the creation center to combine audio, prompt, and optional references, then review timing before judging visual polish."
+    ],
+    "ctaText": "Open audio-sync workflow",
+    "mode": "multi_modal_video",
+    "faqs": [
+      {
+        "question": "What does audio sync mean in this workflow?",
+        "answer": "It means using rhythm, beat changes, narration, or sound effects to guide visual pacing and scene changes, not simply placing music under a finished clip."
+      },
+      {
+        "question": "Do I need an audio file for every video?",
+        "answer": "No. Use audio when timing is central to the result, such as music videos, product impact moments, dance edits, or narration-led scenes."
+      }
+    ]
+  },
+  "ai-video-extension": {
+    "slug": "ai-video-extension",
+    "targetKeyword": "ai video extension",
+    "title": "AI Video Extension Tool | Powered by Seedance 2",
+    "description": "Extend an existing clip while preserving motion direction, scene continuity, lighting, and optional end-frame targets in a Seedance 2 workflow.",
+    "h1": "AI Video Extension Tool",
+    "subtitle": "Continue a source clip with better control over motion, continuity, and where the extended shot should land.",
+    "workflowSummary": "Use this workflow when the source clip is already close but too short. The task is to respect existing momentum, not restart the shot from scratch.",
+    "lastUpdated": "2026-05-25T00:00:00+08:00",
+    "executionSteps": [
+      "Choose a source clip with stable scene geography and a clear motion direction.",
+      "Describe what must continue, what must not change, and whether the shot should move toward a specific end-frame target.",
+      "Open the creation center to upload the source video and review whether the extension keeps lighting, subject state, and camera momentum consistent."
+    ],
+    "ctaText": "Open video-extension workflow",
+    "mode": "video_extension",
+    "faqs": [
+      {
+        "question": "When should I use video extension instead of generating a new clip?",
+        "answer": "Use extension when you like the existing shot and need more time, a smoother ending, or a continuation that preserves the same scene logic."
+      },
+      {
+        "question": "What is an end frame?",
+        "answer": "An end frame is an optional target image that tells the model where the extended shot should arrive. It is useful when you need a specific final composition."
+      }
+    ]
+  },
+  "seedance-2-fast": {
+    "slug": "seedance-2-fast",
+    "targetKeyword": "seedance 2 fast",
+    "title": "Seedance 2 Fast Workflow Guide | Speed vs Quality",
+    "description": "Understand when to use Seedance 2 Fast for quick direction tests, pacing checks, and lower-friction iteration before committing to a higher-cost render.",
+    "h1": "Seedance 2 Fast Workflow Guide",
+    "subtitle": "Use Fast for early motion, pacing, and composition checks before spending more on final-quality generation.",
+    "workflowSummary": "Seedance 2 Fast is best used as a creative scouting pass. It helps you test prompt direction, reference fit, and camera rhythm before sending the same idea into the standard model.",
+    "lastUpdated": "2026-05-25T00:00:00+08:00",
+    "executionSteps": [
+      "Use Fast when you need to validate direction, not when you need final review quality.",
+      "Keep the prompt and references close to the final plan so the test result teaches you something useful.",
+      "Open the creation center with the Fast model, inspect motion and framing, then switch to the standard model for stronger output when ready."
+    ],
+    "ctaText": "Open Seedance 2 Fast workflow",
+    "mode": "multi_modal_video",
+    "model": "bytedance/seedance-2-fast",
+    "faqs": [
+      {
+        "question": "Is Seedance 2 Fast lower quality?",
+        "answer": "Fast is designed for quicker iteration and direction testing. Use it to check ideas, then move to the standard model when the shot needs stronger fidelity."
+      },
+      {
+        "question": "When should teams avoid Fast?",
+        "answer": "Avoid using Fast as the final pass for client-facing shots, detail-heavy product work, or outputs where identity consistency is the main concern."
+      }
+    ]
+  },
+  "motion-control-ai-video-generator": {
+    "slug": "motion-control-ai-video-generator",
+    "targetKeyword": "motion control ai video generator",
+    "title": "Motion Control AI Video Generator | Powered by Seedance 2",
+    "description": "Plan AI video shots around controlled camera motion, subject movement, pacing, and reference-driven direction instead of loose text prompts.",
+    "h1": "Motion Control AI Video Generator",
+    "subtitle": "Turn motion intent into a clearer workflow: what moves, how fast it moves, and what the camera should do.",
+    "workflowSummary": "Use this workflow when a visually impressive frame is not enough. Motion control means separating camera movement, subject action, pacing, and continuity so each part can be reviewed.",
+    "lastUpdated": "2026-05-25T00:00:00+08:00",
+    "executionSteps": [
+      "Describe the camera path, subject movement, and pacing as separate instructions.",
+      "Add a motion reference only when the move is easier to show than explain.",
+      "Open the creation center and review whether movement serves the shot instead of creating random animation."
+    ],
+    "ctaText": "Open motion-control workflow",
+    "mode": "multi_modal_video",
+    "faqs": [
+      {
+        "question": "What should I write for motion control?",
+        "answer": "Name the subject action, camera path, speed, and ending state. Avoid vague phrases like cinematic motion without explaining what should move."
+      },
+      {
+        "question": "Do reference videos help motion control?",
+        "answer": "Yes, especially for dolly moves, orbit shots, choreography, and transitions where timing is hard to capture in text."
+      }
+    ]
+  },
+  "consistent-character-ai-video-generator": {
+    "slug": "consistent-character-ai-video-generator",
+    "targetKeyword": "consistent character ai video generator",
+    "title": "Consistent Character AI Video Generator | Powered by Seedance 2",
+    "description": "Use character references, keyframes, and prompts to improve identity consistency across AI video shots in a Seedance 2 workflow.",
+    "h1": "Consistent Character AI Video Generator",
+    "subtitle": "Keep face, wardrobe, silhouette, and scene role stable while adding motion and camera direction.",
+    "workflowSummary": "Use this workflow when identity drift is the main risk. Start by locking the character with clean references, then add motion and scene instructions only after the identity is clear.",
+    "lastUpdated": "2026-05-25T00:00:00+08:00",
+    "executionSteps": [
+      "Prepare one or more clean character references with clear face, wardrobe, and silhouette.",
+      "Describe which identity traits must stay fixed and which motion or camera details may change.",
+      "Open the creation center to combine character references with motion direction, then review identity before judging style."
+    ],
+    "ctaText": "Open character-consistency workflow",
+    "mode": "multi_modal_video",
+    "faqs": [
+      {
+        "question": "What causes character drift?",
+        "answer": "Drift often happens when the prompt asks for strong motion or style changes before the character identity is clearly anchored."
+      },
+      {
+        "question": "How many character images should I use?",
+        "answer": "Use enough to clarify face, wardrobe, and silhouette, but avoid conflicting references that describe different versions of the same character."
+      }
+    ]
+  },
+  "product-ad-ai-video-generator": {
+    "slug": "product-ad-ai-video-generator",
+    "targetKeyword": "product ad ai video generator",
+    "title": "Product Ad AI Video Generator | Powered by Seedance 2",
+    "description": "Create product ad video concepts with still product imagery, lighting notes, reveal references, and campaign-ready motion prompts.",
+    "h1": "Product Ad AI Video Generator",
+    "subtitle": "Turn product stills into commercial video concepts with clearer material, lighting, and camera direction.",
+    "workflowSummary": "Use this workflow when the goal is not just a moving product image, but a paid-media-ready shot with readable materials, a clear reveal, and a controlled ending frame.",
+    "lastUpdated": "2026-05-25T00:00:00+08:00",
+    "executionSteps": [
+      "Start from a clean product still where shape, label, and material are already readable.",
+      "Define one advertising motion idea such as push-in, orbit, reveal, light sweep, or usage scene.",
+      "Open the creation center to add optional camera references and review whether the product remains legible throughout the shot."
+    ],
+    "ctaText": "Open product-ad workflow",
+    "mode": "image_to_video",
+    "faqs": [
+      {
+        "question": "What makes a product ad video usable?",
+        "answer": "The product must stay readable while the lighting, camera motion, and final frame reinforce the selling angle."
+      },
+      {
+        "question": "Should product ads use images or video references?",
+        "answer": "Use a strong product image to lock the item, then add a video reference only when you need a specific camera move or reveal rhythm."
+      }
+    ]
   }
 }

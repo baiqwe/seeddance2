@@ -1,5 +1,5 @@
 import rawLandingPages from "./landing-pages.json";
-import type { VideoGenerationMode } from "@/utils/video-generation";
+import type { VideoGenerationMode, VideoModelId } from "@/utils/video-generation";
 
 // Legacy compatibility for still-present image editor components that are no longer mounted.
 export type AnimeStyleId = "standard" | "ghibli" | "cyberpunk" | "retro_90s" | "webtoon" | "cosplay";
@@ -24,6 +24,7 @@ export type LandingPageConfig = {
   executionSteps: string[];
   ctaText: string;
   mode: VideoGenerationMode;
+  model?: VideoModelId;
   faqs: LandingPageFaq[];
 };
 
@@ -259,6 +260,160 @@ const landingPageInsights: Record<LandingPageSlug, LandingPageInsightBlock> = {
       "The final frame should still sell the product clearly, not just the effect",
     ],
   },
+  "ai-video-generator-with-reference-video": {
+    bestFor: [
+      "Teams that can show the motion they want more clearly than they can describe it",
+      "Camera-copy, choreography, action, and effects-timing workflows",
+      "Creators who need a new subject to inherit a known rhythm or lens behavior",
+    ],
+    inputChecklist: [
+      "One primary reference video with clear motion and few cuts",
+      "A prompt that states what the reference controls and what should change",
+      "Optional image keyframes when identity or composition must stay locked",
+    ],
+    commonPitfalls: [
+      "Using a long edit with many unrelated cuts as the primary reference",
+      "Expecting the reference to control everything without prompt boundaries",
+      "Borrowing clips without checking rights or usage permission",
+    ],
+    outputNotes: [
+      "Motion fidelity matters more than one attractive still frame",
+      "Short, readable references usually outperform complex montages",
+      "Review whether the generated clip follows the motion role you assigned",
+    ],
+  },
+  "ai-video-generator-with-audio-sync": {
+    bestFor: [
+      "Music videos, beat-led social clips, narration-led edits, and ad impact moments",
+      "Creators who need timing cues to drive visual energy",
+      "Teams testing how sound changes pacing before final production",
+    ],
+    inputChecklist: [
+      "A short audio cue, beat section, narration moment, or sound effect pattern",
+      "Prompt notes that name the visual action around timing points",
+      "Optional visual references for identity, world, and composition",
+    ],
+    commonPitfalls: [
+      "Uploading audio without explaining which moments matter",
+      "Expecting every beat to become a cut in a short video",
+      "Judging visual polish before checking whether the timing works",
+    ],
+    outputNotes: [
+      "Audio-led work should be reviewed by rhythm first, then image quality",
+      "A few clear timing targets are more useful than a full track with no notes",
+      "This workflow is strongest when sound has a visible job",
+    ],
+  },
+  "ai-video-extension": {
+    bestFor: [
+      "Continuing existing shots without changing the creative direction",
+      "Adding endings, exits, transition tails, or smoother scene continuation",
+      "Teams that already have a useful source clip and need more usable duration",
+    ],
+    inputChecklist: [
+      "A source clip with stable geography and readable camera momentum",
+      "Continuity notes for subject state, lighting, and scene logic",
+      "An optional end frame if the extension must land on a specific composition",
+    ],
+    commonPitfalls: [
+      "Trying to turn an extension into an entirely new scene",
+      "Using a source clip with unclear motion and expecting a clean continuation",
+      "Forgetting to specify what must remain unchanged",
+    ],
+    outputNotes: [
+      "A good extension should feel like the next few seconds of the same shot",
+      "End-frame targets help when the final composition matters",
+      "Review lighting and camera momentum before judging extra detail",
+    ],
+  },
+  "seedance-2-fast": {
+    bestFor: [
+      "Early prompt scouting and fast direction tests",
+      "Teams comparing multiple camera or pacing ideas before final rendering",
+      "Creators who need a cheaper first read on motion logic",
+    ],
+    inputChecklist: [
+      "A prompt close enough to the final idea to make the test meaningful",
+      "Only the references needed to validate the direction",
+      "A clear rule for when to graduate the idea to the standard model",
+    ],
+    commonPitfalls: [
+      "Treating a scouting pass as final client-facing output",
+      "Testing with loose prompts that will never be used in production",
+      "Using Fast for identity-critical or detail-heavy work without a review pass",
+    ],
+    outputNotes: [
+      "Fast is most valuable when it saves expensive final-model attempts",
+      "The test should answer whether direction, motion, and pacing are viable",
+      "Switch models after the workflow is stable, not before the idea is clear",
+    ],
+  },
+  "motion-control-ai-video-generator": {
+    bestFor: [
+      "Shots where camera path, speed, and subject movement matter more than style words",
+      "Reference-led dolly, orbit, push-in, transition, and action workflows",
+      "Teams reviewing motion as a production variable",
+    ],
+    inputChecklist: [
+      "Separate instructions for subject action, camera path, pacing, and end state",
+      "Reference clips when the motion is easier to show than write",
+      "A simple scene objective so motion serves the shot",
+    ],
+    commonPitfalls: [
+      "Writing cinematic movement without saying what moves",
+      "Stacking multiple camera moves into one short clip",
+      "Judging only beauty instead of whether motion communicates the intended idea",
+    ],
+    outputNotes: [
+      "Motion control should make the shot more legible, not simply busier",
+      "One clear camera action often beats several competing movements",
+      "The best review question is: did the motion do the job?",
+    ],
+  },
+  "consistent-character-ai-video-generator": {
+    bestFor: [
+      "Character-driven clips where identity must remain recognizable",
+      "Digital human, mascot, avatar, and narrative continuity workflows",
+      "Teams separating identity references from motion references",
+    ],
+    inputChecklist: [
+      "Clean character references for face, wardrobe, silhouette, and proportions",
+      "Prompt notes naming which traits must remain fixed",
+      "Motion or camera references only after the identity is well anchored",
+    ],
+    commonPitfalls: [
+      "Adding strong motion before the character is visually anchored",
+      "Using conflicting references that describe different versions of the character",
+      "Overloading the prompt with style changes that fight identity stability",
+    ],
+    outputNotes: [
+      "Review identity before reviewing effects or environment detail",
+      "Wardrobe and silhouette are often as important as the face",
+      "Consistency improves when each input has a separate responsibility",
+    ],
+  },
+  "product-ad-ai-video-generator": {
+    bestFor: [
+      "Paid-social product shots, launch tests, and campaign concepting",
+      "Teams turning still product imagery into commercial motion",
+      "Products where materials, labels, lighting, and final frame clarity matter",
+    ],
+    inputChecklist: [
+      "A clean product still with readable shape, label, and material",
+      "One advertising motion idea, such as push-in, orbit, reveal, or light sweep",
+      "Optional camera references when a specific commercial rhythm matters",
+    ],
+    commonPitfalls: [
+      "Starting from weak product photography and expecting premium output",
+      "Adding too many sales ideas into one short shot",
+      "Letting motion hide the product instead of selling it",
+    ],
+    outputNotes: [
+      "Product readability is the first approval gate",
+      "Material language beats generic premium adjectives",
+      "The final frame should still work as a product image",
+    ],
+  },
 };
 
 export const landingPages = rawLandingPages as Record<string, LandingPageConfig>;
@@ -393,6 +548,97 @@ const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
     faqsZh: [
       { question: "什么决定产品揭幕镜头看起来够不够高级？", answer: "运镜克制、材质清晰、高光控制得当，以及注意力能否在镜头结尾稳定落到产品上。" },
       { question: "可以只从一张产品图开始吗？", answer: "可以。一张好的产品图可以锁定主体，再通过参考和 Prompt 去定义镜头如何展开。" }
+    ]
+  },
+  "ai-video-generator-with-reference-video": {
+    titleZh: "参考视频 AI 生成器 | 基于 Seedance 2",
+    descriptionZh: "用参考视频控制运镜、动作节奏、特效时机和画面能量，再用 Prompt 说明新主体、新场景和必须保留的内容。",
+    h1Zh: "参考视频 AI 生成器",
+    subtitleZh: "把参考视频里的动作逻辑、镜头节奏和场景推进，迁移到新的生成任务里。",
+    workflowSummaryZh: "当你已经知道镜头应该怎么动时，这条工作流比纯文本更稳定。参考视频负责动作、运镜或节奏，Prompt 负责说明要替换什么、保留什么。",
+    executionStepsZh: ["选择一段动作、运镜或节奏很清楚的主参考视频。", "在 Prompt 里明确参考视频负责什么，新视频应该替换或保留什么。", "进入创作中心上传参考视频和可选关键帧，再检查生成结果是否跟随目标动作。"],
+    ctaTextZh: "打开参考视频工作流",
+    faqsZh: [
+      { question: "参考视频可以控制哪些内容？", answer: "它可以帮助控制运镜、身体动作、镜头节奏、特效时机和整体能量，但 Prompt 仍然要说明主体和场景如何变化。" },
+      { question: "任何视频都能拿来参考吗？", answer: "建议只使用你拥有或有权使用的素材。短、清晰、单一任务的视频通常比多段混剪更好。" }
+    ]
+  },
+  "ai-video-generator-with-audio-sync": {
+    titleZh: "音频同步 AI 视频生成器 | 基于 Seedance 2",
+    descriptionZh: "围绕音乐节拍、音效、旁白节奏和情绪变化来组织 AI 视频生成，让画面不是随机动，而是跟着声音推进。",
+    h1Zh: "音频同步 AI 视频生成器",
+    subtitleZh: "用音频线索控制节奏、转场、情绪变化和画面能量。",
+    workflowSummaryZh: "当节奏是结果的关键时，用音频来说明画面应该何时增强、停顿、切换或收束，再用图片和 Prompt 锁定主体与世界观。",
+    executionStepsZh: ["准备一段短音频、节拍段落、旁白节点或音效节奏。", "说明重要时间点上画面应该发生什么，而不是只写一个泛泛的音乐视频 Prompt。", "进入创作中心组合音频、Prompt 和可选视觉参考，并先检查节奏再看画面精修。"],
+    ctaTextZh: "打开音频同步工作流",
+    faqsZh: [
+      { question: "音频同步在这里指什么？", answer: "它指用节奏、重音、旁白或音效来控制画面推进和转场，而不是简单给视频加背景音乐。" },
+      { question: "每条视频都需要音频吗？", answer: "不需要。只有当音乐、音效、舞蹈、旁白或广告节奏是核心时，音频参考才特别重要。" }
+    ]
+  },
+  "ai-video-extension": {
+    titleZh: "AI 视频延展工具 | 基于 Seedance 2",
+    descriptionZh: "沿着原视频的动作方向、场景连续性、光线和可选尾帧目标继续扩写，让镜头自然延长。",
+    h1Zh: "AI 视频延展工具",
+    subtitleZh: "把已有片段继续往前推进，同时保留运动、光线和空间逻辑。",
+    workflowSummaryZh: "这条工作流适合原片段已经接近目标但时长不够的情况。重点是尊重已有镜头动势，而不是重新生成一个新场景。",
+    executionStepsZh: ["选择一段运动方向清楚、空间关系稳定的源视频。", "说明哪些内容必须继续、哪些不能变化，以及是否需要到达某个尾帧目标。", "进入创作中心上传源视频，并检查扩写是否保留光线、主体状态和镜头惯性。"],
+    ctaTextZh: "打开视频延展工作流",
+    faqsZh: [
+      { question: "什么时候该用视频延展？", answer: "当你喜欢现有镜头，只是需要更长时长、更自然结尾或同一场景的继续推进时，就适合用延展。" },
+      { question: "尾帧是什么意思？", answer: "尾帧是可选的目标画面，用来告诉模型扩展后的镜头最终应该到达什么构图。" }
+    ]
+  },
+  "seedance-2-fast": {
+    titleZh: "Seedance 2 Fast 工作流指南",
+    descriptionZh: "了解什么时候用 Seedance 2 Fast 快速试方向、试节奏和试运镜，再决定是否切换到标准模型做高成本生成。",
+    h1Zh: "Seedance 2 Fast 工作流指南",
+    subtitleZh: "先用 Fast 检查方向、节奏和构图，再把确定的镜头交给标准模型精修。",
+    workflowSummaryZh: "Seedance 2 Fast 更像创意侦察阶段。它适合快速验证 Prompt、参考素材和运镜节奏，再把稳定方案切到标准模型。",
+    executionStepsZh: ["当你要验证方向而不是最终交付质量时，先用 Fast。", "保持 Prompt 和参考素材接近最终方案，这样测试结果才有参考价值。", "进入创作中心使用 Fast 模型，检查运动和构图，再决定是否切换标准模型。"],
+    ctaTextZh: "打开 Seedance 2 Fast 工作流",
+    faqsZh: [
+      { question: "Seedance 2 Fast 是不是质量更低？", answer: "Fast 更适合快速迭代和方向测试。需要客户可审阅质量时，再切到标准模型。" },
+      { question: "什么时候不建议用 Fast？", answer: "细节很多的产品广告、强角色一致性或正式交付镜头，不建议直接把 Fast 当最终版本。" }
+    ]
+  },
+  "motion-control-ai-video-generator": {
+    titleZh: "运镜控制 AI 视频生成器 | 基于 Seedance 2",
+    descriptionZh: "把 AI 视频生成拆成镜头路径、主体动作、节奏和连续性，让运镜不再只靠模糊 Prompt 猜测。",
+    h1Zh: "运镜控制 AI 视频生成器",
+    subtitleZh: "明确什么在动、怎么动、镜头怎么跟，以及最后应该落在哪里。",
+    workflowSummaryZh: "当一张好看的图还不够时，需要把镜头运动、主体动作、节奏和连续性拆开写清楚，让每一层都可以被检查。",
+    executionStepsZh: ["把镜头路径、主体动作和节奏分开描述。", "当某种运动很难用文字说清楚时，再加入参考视频。", "进入创作中心检查运动是否服务于镜头，而不是随机动起来。"],
+    ctaTextZh: "打开运镜控制工作流",
+    faqsZh: [
+      { question: "运镜控制 Prompt 应该怎么写？", answer: "要写清楚主体动作、镜头路径、速度和结尾状态，不要只写“电影感运镜”这种泛词。" },
+      { question: "参考视频对运镜控制有帮助吗？", answer: "有，尤其是推进、环绕、舞蹈、转场和其他很难只靠文字描述的节奏。" }
+    ]
+  },
+  "consistent-character-ai-video-generator": {
+    titleZh: "角色一致性 AI 视频生成器 | 基于 Seedance 2",
+    descriptionZh: "用角色参考、关键帧和 Prompt 提高 AI 视频里的脸、服装、轮廓和身份稳定性。",
+    h1Zh: "角色一致性 AI 视频生成器",
+    subtitleZh: "在加入动作和运镜之前，先锁定脸、服装、轮廓和角色身份。",
+    workflowSummaryZh: "当身份漂移是最大风险时，先用干净角色参考锁定人物，再补动作、镜头和场景指令。",
+    executionStepsZh: ["准备一到多张能看清脸、服装和轮廓的角色参考。", "说明哪些身份特征必须保持，哪些动作或镜头可以变化。", "进入创作中心组合角色参考和动作方向，并先检查身份稳定性。"],
+    ctaTextZh: "打开角色一致性工作流",
+    faqsZh: [
+      { question: "为什么角色会漂移？", answer: "常见原因是还没锁定身份，就要求强动作、强风格或复杂镜头变化。" },
+      { question: "应该上传几张角色图？", answer: "够说明脸、服装和轮廓即可。不要上传彼此冲突的角色版本。" }
+    ]
+  },
+  "product-ad-ai-video-generator": {
+    titleZh: "产品广告 AI 视频生成器 | 基于 Seedance 2",
+    descriptionZh: "用产品静图、灯光说明、揭幕参考和广告 Prompt 生成更像商业投放素材的产品视频概念。",
+    h1Zh: "产品广告 AI 视频生成器",
+    subtitleZh: "把产品静图转成更有材质、灯光和运镜控制的广告视频概念。",
+    workflowSummaryZh: "这条工作流不是让产品随便动起来，而是围绕材质、揭幕、卖点和最终定格，做可用于付费投放前验证的镜头。",
+    executionStepsZh: ["从一张形状、标签和材质都清楚的产品图开始。", "只定义一个广告镜头动作，例如推进、环绕、揭幕、扫光或使用场景。", "进入创作中心补可选运镜参考，并检查产品在整段视频里是否清楚。"],
+    ctaTextZh: "打开产品广告工作流",
+    faqsZh: [
+      { question: "什么样的产品广告视频才算可用？", answer: "产品要始终清楚，同时灯光、运镜和最终画面都能强化卖点。" },
+      { question: "产品广告更适合图片还是视频参考？", answer: "先用产品图锁定商品本身；如果需要特定运镜，再加视频参考。" }
     ]
   }
 };
@@ -641,6 +887,48 @@ const landingPageInsightsZh: Record<LandingPageSlug, LandingPageInsightBlock> = 
       "高光扫过和缓慢推进，通常比过度复杂的镜头更高级",
       "最后一帧必须仍然把产品卖清楚，而不只是效果好看",
     ],
+  },
+  "ai-video-generator-with-reference-video": {
+    bestFor: ["能用视频更清楚说明动作和运镜的团队", "镜头复刻、舞蹈动作、动作戏和特效节奏工作流", "希望新主体继承已有镜头节奏的创作者"],
+    inputChecklist: ["一段动作清楚、剪辑少的主参考视频", "说明参考视频负责什么、生成结果替换什么的 Prompt", "如果身份或构图必须锁定，再补图片关键帧"],
+    commonPitfalls: ["用很长的混剪当主参考", "没有给参考视频划定职责边界", "没有确认参考素材的使用权"],
+    outputNotes: ["动作跟随比单帧好看更重要", "短而清楚的参考通常优于复杂混剪", "评估时要看结果是否完成了你分配给参考视频的任务"],
+  },
+  "ai-video-generator-with-audio-sync": {
+    bestFor: ["音乐视频、节拍短片、旁白视频和广告冲击点", "需要声音线索驱动画面能量的创作者", "想先测试声音如何改变视频节奏的团队"],
+    inputChecklist: ["短音频、节拍段落、旁白节点或音效模式", "说明重要声音点对应画面动作的 Prompt", "用于锁定主体、世界观和构图的可选视觉参考"],
+    commonPitfalls: ["上传音频却不说明哪些节点重要", "期待每个节拍都变成剪辑点", "在确认节奏前先纠结画面精修"],
+    outputNotes: ["音频驱动的视频应先审节奏，再审画面", "几个明确时点比一整首无说明的音乐更有用", "声音必须有具体工作，这条流程才有价值"],
+  },
+  "ai-video-extension": {
+    bestFor: ["延长已有镜头而不是重做创意", "补尾段、出场动作、转场尾巴或自然续写", "已有源视频接近可用但时长不够的团队"],
+    inputChecklist: ["一段空间和动势都稳定的源视频", "主体状态、光线和场景逻辑的连续性说明", "如果结尾构图很重要，可以准备尾帧目标"],
+    commonPitfalls: ["把视频延展当成重新换场景", "源视频动势不清楚却期待自然续写", "没有说明哪些内容不能变"],
+    outputNotes: ["好的延展应该像同一镜头的下几秒", "尾帧目标适合用于控制最终构图", "先检查光线和镜头惯性，再看细节"],
+  },
+  "seedance-2-fast": {
+    bestFor: ["早期 Prompt 探索和快速方向测试", "最终渲染前比较多个运镜或节奏方案", "想先低成本判断运动逻辑是否可行的创作者"],
+    inputChecklist: ["接近最终方向的 Prompt", "只放验证方向所需的参考素材", "提前定义什么时候切换到标准模型"],
+    commonPitfalls: ["把探索结果当正式交付", "用过于松散的 Prompt 做测试", "在身份或细节要求很高时不做标准模型复审"],
+    outputNotes: ["Fast 的价值是减少昂贵的最终模型试错", "测试应该回答方向、运动和节奏是否成立", "等工作流稳定后再切换模型"],
+  },
+  "motion-control-ai-video-generator": {
+    bestFor: ["镜头路径、速度和主体动作比风格词更重要的场景", "推进、环绕、转场、动作戏和参考运镜工作流", "把运动当成生产变量审查的团队"],
+    inputChecklist: ["分别写清主体动作、镜头路径、节奏和结尾状态", "运动很难文字描述时再加参考视频", "一个清楚的镜头目标，让运动服务表达"],
+    commonPitfalls: ["只写电影感运动，却没说明什么在动", "把多个运镜塞进一个短片段", "只看画面好不好看，不看运动是否完成任务"],
+    outputNotes: ["运镜控制应该让镜头更清楚，不只是更忙", "一个明确动作通常比多个竞争动作更稳", "最好的审查问题是：运动有没有完成它的工作"],
+  },
+  "consistent-character-ai-video-generator": {
+    bestFor: ["角色身份必须保持可识别的视频", "虚拟人、吉祥物、头像和叙事连续性工作流", "把身份参考和动作参考拆开控制的团队"],
+    inputChecklist: ["能看清脸、服装、轮廓和比例的角色参考", "说明哪些身份特征必须固定", "身份锁定后再加入动作或运镜参考"],
+    commonPitfalls: ["角色还没锁定就加入强动作", "上传彼此冲突的角色版本", "加入过多风格变化，破坏身份稳定"],
+    outputNotes: ["先审身份，再审特效和环境", "服装和轮廓常常和脸一样重要", "每个输入各司其职时，一致性会更稳"],
+  },
+  "product-ad-ai-video-generator": {
+    bestFor: ["付费社媒产品短片、上新测试和广告概念", "把产品静图转成商业化运动镜头的团队", "材质、标签、灯光和最终定格都很重要的产品"],
+    inputChecklist: ["一张形状、标签和材质清楚的产品静图", "一个广告镜头动作，例如推进、环绕、揭幕或扫光", "需要特定商业节奏时再加运镜参考"],
+    commonPitfalls: ["从很弱的产品图开始，却期待高级广告质感", "在一个短镜头里塞太多卖点", "让运动遮挡产品，而不是销售产品"],
+    outputNotes: ["产品是否清楚是第一审批门槛", "材质语言比笼统高级感更有效", "最后一帧应该仍然像一张能卖货的产品图"],
   },
 };
 

@@ -6,15 +6,18 @@ import { site } from "@/config/site";
 import { buildLocaleAlternates } from "@/utils/seo/metadata";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { FAQSchema } from "@/components/breadcrumb-schema";
+import { PromptTemplateLibrary } from "@/components/guides/PromptTemplateLibrary";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const params = await props.params;
   const { locale } = params;
   const isZh = locale === "zh";
-  const title = isZh ? `使用指南 | ${site.siteName}` : `Guides | ${site.siteName}`;
+  const title = isZh
+    ? `Seedance 2 Prompt 模板与使用指南 | ${site.siteName}`
+    : `Seedance 2 Prompt Guide and Templates | ${site.siteName}`;
   const description = isZh
-    ? "浏览 Seedance 2 使用指南，了解图生视频、文生视频、参考动作、视频延展、多模态素材准备、结果评估与版权边界。"
-    : "Browse Seedance 2 guides covering image to video, text to video, reference motion, video extension, multi-modal asset prep, output review, and usage boundaries.";
+    ? "浏览 Seedance 2 Prompt 模板库和使用指南，复制图生视频、参考视频、音频同步、角色一致性和视频延展的可复用提示词。"
+    : "Browse Seedance 2 prompt templates and workflow guides for image to video, reference video, audio sync, character consistency, and video extension.";
 
   return {
     title: { absolute: title },
@@ -127,12 +130,14 @@ export default async function GuidesPage(props: { params: Promise<{ locale: stri
               {isZh ? "Seedance 2 使用指南" : "Seedance 2 Guides"}
             </div>
             <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-              {isZh ? "先理解工作流，再开始生成。" : "Understand the workflow before you generate."}
+              {isZh
+                ? "Seedance 2 Prompt 模板库：先复制，再进入工作流。"
+                : "Seedance 2 Prompt Guide: copy templates, then enter the workflow."}
             </h1>
             <p className="mx-auto max-w-3xl text-base leading-8 text-white/66 sm:text-lg">
               {isZh
-                ? "这一层页面专门承接首页放不下的解释内容：怎么准备素材、什么场景最适合 Seedance 2、结果如何评估、版权和隐私需要注意什么。"
-                : "This layer holds the explanations that should not be overloaded onto the homepage: how to prepare assets, which scenarios fit Seedance 2 best, how to review outputs, and what to keep in mind around privacy and rights."}
+                ? "这里不是说明书堆叠，而是可复用的工作流武器库：复制 Prompt，替换变量，带入创作中心，再补图片、视频或音频参考。"
+                : "This is not a pile of documentation. It is a reusable workflow library: copy a prompt, replace the variables, open the creation center, then add image, video, or audio references."}
             </p>
           </section>
 
@@ -158,6 +163,8 @@ export default async function GuidesPage(props: { params: Promise<{ locale: stri
               description={isZh ? "如果你在上传真人、产品或客户素材，要先确认权利归属、商用范围和数据处理方式。" : "If you upload human, product, or client material, confirm rights, commercial usage scope, and data handling expectations first."}
             />
           </section>
+
+          <PromptTemplateLibrary locale={locale} />
 
           <section className="space-y-6">
             <div className="max-w-4xl">

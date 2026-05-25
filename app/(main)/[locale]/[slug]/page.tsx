@@ -17,9 +17,12 @@ import { InspirationGallery } from "@/components/gallery/InspirationGallery";
 import { ImageGallerySchema } from "@/components/gallery/ImageGallerySchema";
 import { LandingPromptBar } from "@/components/landing/LandingPromptBar";
 
-function getCreationCenterHref(locale: string, mode: string) {
+function getCreationCenterHref(locale: string, mode: string, model?: string) {
   const params = new URLSearchParams();
   params.set("mode", mode);
+  if (model) {
+    params.set("model", model);
+  }
   return `/${locale}/creative-center?${params.toString()}`;
 }
 
@@ -90,7 +93,11 @@ export default async function LandingPage(props: {
     text: step,
   }));
   const insightBlock = getLandingPageInsights(page.slug, locale);
-  const creationCenterHref = getCreationCenterHref(locale, page.mode);
+  const creationCenterHref = getCreationCenterHref(
+    locale,
+    page.mode,
+    page.model,
+  );
   const updatedLabel = new Intl.DateTimeFormat(
     locale === "zh" ? "zh-CN" : "en-US",
     {
@@ -143,6 +150,7 @@ export default async function LandingPage(props: {
           <LandingPromptBar
             locale={locale}
             mode={page.mode}
+            model={page.model}
             title={page.h1}
             summary={page.workflowSummary}
           />

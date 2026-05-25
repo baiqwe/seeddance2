@@ -11,11 +11,12 @@ import type {
 type LandingPromptBarProps = {
   locale: string;
   mode: VideoGenerationMode;
+  model?: VideoModelId;
   title: string;
   summary: string;
 };
 
-const MODEL: VideoModelId = "bytedance/seedance-2";
+const DEFAULT_MODEL: VideoModelId = "bytedance/seedance-2";
 
 function getPlaceholder(locale: string, mode: VideoGenerationMode) {
   const isZh = locale === "zh";
@@ -46,6 +47,7 @@ function getPlaceholder(locale: string, mode: VideoGenerationMode) {
 export function LandingPromptBar({
   locale,
   mode,
+  model = DEFAULT_MODEL,
   title,
   summary,
 }: LandingPromptBarProps) {
@@ -56,7 +58,7 @@ export function LandingPromptBar({
   const openCreationCenter = () => {
     const params = new URLSearchParams();
     params.set("mode", mode);
-    params.set("model", MODEL);
+    params.set("model", model);
     params.set("ratio", "16:9");
     params.set("duration", "15s");
     params.set("resolution", "720p");
@@ -75,7 +77,14 @@ export function LandingPromptBar({
       <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_280px]">
         <div className="rounded-[22px] bg-[#070b12] p-4 ring-1 ring-white/[0.05]">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            {["Seedance 2", "720p", "16:9", "15s"].map((item) => (
+            {[
+              model === "bytedance/seedance-2-fast"
+                ? "Seedance 2 Fast"
+                : "Seedance 2",
+              "720p",
+              "16:9",
+              "15s",
+            ].map((item) => (
               <span
                 key={item}
                 className="rounded-full bg-[#101726] px-3 py-1 text-xs text-white/62 ring-1 ring-white/[0.05]"
