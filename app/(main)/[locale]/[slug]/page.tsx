@@ -121,6 +121,30 @@ export default async function LandingPage(props: {
       timeZone: "UTC",
     },
   ).format(new Date(page.lastUpdated));
+  const taskCards = [
+    {
+      title: locale === "zh" ? "这个页面解决什么任务" : "What this workflow solves",
+      body: page.workflowSummary,
+    },
+    {
+      title: locale === "zh" ? "开始前先准备什么" : "What to prepare first",
+      body:
+        insightBlock?.inputChecklist[0] ||
+        page.executionSteps[0] ||
+        page.subtitle,
+    },
+    {
+      title: locale === "zh" ? "常见失败点" : "Common failure point",
+      body:
+        insightBlock?.commonPitfalls[0] ||
+        page.executionSteps[1] ||
+        page.subtitle,
+    },
+  ];
+  const taskPlaybookNote =
+    insightBlock?.outputNotes[0] ||
+    insightBlock?.commonPitfalls[0] ||
+    page.workflowSummary;
 
   return (
     <div className="bg-background">
@@ -159,8 +183,8 @@ export default async function LandingPage(props: {
             </p>
             <p className="max-w-3xl text-sm leading-7 text-white/54">
               {locale === "zh"
-                ? "这是一个面向创作者的第三方多模态工作流页面，用来帮助你把具体任务组织进创作中心。"
-                : "This is an independent workflow page for creators who want to organize a specific video task before opening the creation center."}
+                ? `${page.workflowSummary} 本页先帮你判断素材、参数和成本是否适合这个任务，再进入创作中心生成。`
+                : `${page.workflowSummary} Use this page to judge whether the assets, settings, and cost fit the task before moving into the creation center.`}
             </p>
           </div>
           <LandingPromptBar
@@ -171,30 +195,7 @@ export default async function LandingPage(props: {
             summary={page.workflowSummary}
           />
           <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {[
-              {
-                title: locale === "zh" ? "真实任务输入" : "Real Task Inputs",
-                body:
-                  locale === "zh"
-                    ? "先把主体、关键帧、镜头方向和参考素材分清楚，再进入创作中心上传文件。这样比只写一段很长的 Prompt 更容易复盘。"
-                    : "Separate subject, keyframes, camera direction, and references before uploading files in the creation center. That is easier to review than one oversized prompt.",
-              },
-              {
-                title: locale === "zh" ? "结果判断标准" : "Review Criteria",
-                body:
-                  locale === "zh"
-                    ? "评估时优先看主体稳定、动作连贯、光线一致和镜头节奏，而不是只看第一帧是否惊艳。"
-                    : "Review subject stability, motion continuity, lighting consistency, and camera rhythm instead of judging only the first impressive frame.",
-              },
-              {
-                title:
-                  locale === "zh" ? "独立工具说明" : "Independent Tool Note",
-                body:
-                  locale === "zh"
-                    ? "这是独立多模态工作流页面，重点帮助你组织可付费生成前的信息、成本和素材准备。"
-                    : "This independent workflow page helps you organize generation intent, references, and cost expectations before paid rendering.",
-              },
-            ].map((item) => (
+            {taskCards.map((item) => (
               <div
                 key={item.title}
                 className="rounded-[20px] bg-[#0b1020] p-5 ring-1 ring-[#232938]/65"
@@ -236,13 +237,13 @@ export default async function LandingPage(props: {
               <div className="surface-card border-white/8 bg-[#1d1f26] p-6 text-sm leading-8 text-white/70">
                 <p>
                   {locale === "zh"
-                    ? `${page.h1} 的关键不是“能不能生成”，而是能不能把参考素材、镜头方向和节奏目标组织成一套别人也能复用的做法。`
-                    : `${page.h1} is not just about getting a result. It is about organizing references, motion direction, and pacing into a process a team can repeat.`}
+                    ? taskPlaybookNote
+                    : taskPlaybookNote}
                 </p>
                 <p className="mt-3">
                   {locale === "zh"
-                    ? "把它当成一个具体任务的工作台说明页会更有帮助：你可以直接照着准备素材、组织镜头，再去创作中心开始生成。"
-                    : "It is most useful when treated as a task-specific playbook: prepare the right assets, organize the shot properly, then move into the creation center and generate."}
+                    ? `建议按本页的 ${page.targetKeyword} 任务来准备素材，而不是把所有需求塞进一个超长 Prompt。`
+                    : `Use this ${page.targetKeyword} page as a task checklist instead of forcing every requirement into one oversized prompt.`}
                 </p>
               </div>
             </div>

@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
+Allow: /_next/static/
 Disallow: /api/
-Disallow: /_next/
 Disallow: /*/sign-in
 Disallow: /*/sign-up
 Disallow: /*/forgot-password

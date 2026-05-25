@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./i18n.ts');
+const enableCloudflareImageLoader =
+  process.env.NEXT_PUBLIC_ENABLE_CF_IMAGE_RESIZING === "true";
 
 const nextConfig: NextConfig = {
   output: "standalone",
@@ -13,7 +15,16 @@ const nextConfig: NextConfig = {
   },
 
   images: {
-    unoptimized: true, // Required for Cloudflare Pages
+    ...(enableCloudflareImageLoader
+      ? {
+          loader: "custom" as const,
+          loaderFile: "./utils/cloudflare-image-loader.ts",
+        }
+      : {
+          // OpenNext on Cloudflare does not provide the Next.js image optimizer.
+          // Enable NEXT_PUBLIC_ENABLE_CF_IMAGE_RESIZING once Cloudflare Image Resizing is turned on.
+          unoptimized: true,
+        }),
     remotePatterns: [
       {
         protocol: 'https',

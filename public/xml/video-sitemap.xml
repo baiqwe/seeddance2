@@ -1,263 +1,303 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://www.seedance2video.cc/en/product-ad-generator</loc>
+    <lastmod>2026-05-09T02:00:00.000Z</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-09.jpg</video:thumbnail_loc>
+      <video:title>Golden-Hour Fabric Lifestyle Shot</video:title>
+      <video:description>A single lifestyle keyframe becomes a warm, slow-moving textile ad.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-09.mp4</video:content_loc>
+      <video:duration>8</video:duration>
+      <video:publication_date>2026-05-09T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
     <loc>https://www.seedance2video.cc/en/image-to-video</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
+    <lastmod>2026-05-10T02:00:00.000Z</lastmod>
     <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/custom/seedance-hero-4.png</video:thumbnail_loc>
-      <video:title>Balance beam motion study</video:title>
-      <video:description>A compact performance clip that works well as a keyframe-to-motion example for Seedance 2 image-to-video workflows.</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/seedance-hero-4.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/en/image-to-video#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
-    </video:video>
-  </url>
-  <url>
-    <loc>https://www.seedance2video.cc/en/ai-short-drama-maker</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
-    <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/custom/seedance-hero-6.png</video:thumbnail_loc>
-      <video:title>Street rush sequence</video:title>
-      <video:description>A fast narrative moment that fits short-drama, storyboard, and text-led video ideation with stronger urgency.</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/seedance-hero-6.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/en/ai-short-drama-maker#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
-    </video:video>
-  </url>
-  <url>
-    <loc>https://www.seedance2video.cc/en/reference-video-generator</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
-    <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/custom/seedance-space-travel.png</video:thumbnail_loc>
-      <video:title>Space travel sequence</video:title>
-      <video:description>A full Seedance 2 clip that moves from stylized terrain into large-scale sci-fi worldbuilding.</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/seedance-space-travel.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/en/reference-video-generator#showcase</video:player_loc>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-05.jpg</video:thumbnail_loc>
+      <video:title>Character Consistency Shot</video:title>
+      <video:description>The portrait holds identity while the prompt adds a controlled close-up move.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-05.mp4</video:content_loc>
       <video:duration>15</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
+      <video:publication_date>2026-05-10T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://www.seedance2video.cc/en/dance-motion-transfer</loc>
+    <lastmod>2026-05-22T02:00:00.000Z</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-02.jpg</video:thumbnail_loc>
+      <video:title>Dance Motion Transfer</video:title>
+      <video:description>Use one input for the performer look and another for choreography rhythm.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-02.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-11T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-03.jpg</video:thumbnail_loc>
+      <video:title>Studio fight motion reference</video:title>
+      <video:description>A fast movement clip for evaluating timing, body mechanics, and action continuity.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-03.mp4</video:content_loc>
+      <video:duration>11</video:duration>
+      <video:publication_date>2026-05-17T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-11.jpg</video:thumbnail_loc>
+      <video:title>Fencing motion transfer</video:title>
+      <video:description>A controlled motion-transfer sample for testing opposing movement, timing, and clear silhouettes.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-11.mp4</video:content_loc>
+      <video:duration>14</video:duration>
+      <video:publication_date>2026-05-21T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-12.jpg</video:thumbnail_loc>
+      <video:title>Fencing timing variation</video:title>
+      <video:description>A timing variation that helps compare how reference motion behaves across similar action setups.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-12.mp4</video:content_loc>
+      <video:duration>14</video:duration>
+      <video:publication_date>2026-05-22T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
     </video:video>
   </url>
   <url>
     <loc>https://www.seedance2video.cc/en/storyboard-to-video</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
+    <lastmod>2026-05-20T02:00:00.000Z</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-07.jpg</video:thumbnail_loc>
+      <video:title>Storyboard to Previs</video:title>
+      <video:description>Use keyframes plus motion rhythm to preview action blocking.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-07.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-12T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
     <video:video>
       <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/custom/seedance-autumn-duel.png</video:thumbnail_loc>
       <video:title>Autumn duel sequence</video:title>
       <video:description>A complete cinematic action sample with stronger blocking, camera travel, and character momentum.</video:description>
       <video:content_loc>https://media.seedance2video.cc/videos/gallery/seedance-autumn-duel.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/en/storyboard-to-video#showcase</video:player_loc>
       <video:duration>13</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
+      <video:publication_date>2026-05-15T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-04.jpg</video:thumbnail_loc>
+      <video:title>Sci-fi visor close-up</video:title>
+      <video:description>A cinematic close-up for testing Seedance 2 mood, reflective surfaces, and micro camera movement.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-04.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-18T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-08.jpg</video:thumbnail_loc>
+      <video:title>Reflective visor alternate</video:title>
+      <video:description>A second sci-fi close-up that is useful for comparing shot consistency and visual texture.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-08.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-19T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-10.jpg</video:thumbnail_loc>
+      <video:title>Ink fashion storyboard</video:title>
+      <video:description>A stylized storyboard example for converting illustration language into video direction.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-10.mp4</video:content_loc>
+      <video:duration>10</video:duration>
+      <video:publication_date>2026-05-20T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
     </video:video>
   </url>
   <url>
-    <loc>https://www.seedance2video.cc/en/product-ad-generator</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
+    <loc>https://www.seedance2video.cc/en/ai-short-drama-maker</loc>
+    <lastmod>2026-05-23T02:00:00.000Z</lastmod>
     <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/ghibli.jpg</video:thumbnail_loc>
-      <video:title>Product reveal sequence</video:title>
-      <video:description>Turn still product shots and one motion reference into a polished campaign-ready reveal.</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/product-reveal.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/en/product-ad-generator#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-06.jpg</video:thumbnail_loc>
+      <video:title>Text Concept Test</video:title>
+      <video:description>A text-only setup shows what must be specified when there are no references.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-06.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-13T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
     </video:video>
-  </url>
-  <url>
-    <loc>https://www.seedance2video.cc/en/dance-motion-transfer</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
     <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/webtoon.jpg</video:thumbnail_loc>
-      <video:title>Dance motion transfer</video:title>
-      <video:description>Clone choreography timing from reference footage while preserving a fresh character identity.</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/dance-motion.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/en/dance-motion-transfer#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
-    </video:video>
-  </url>
-  <url>
-    <loc>https://www.seedance2video.cc/en/storyboard-to-video</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
-    <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/retro_90s.jpg</video:thumbnail_loc>
-      <video:title>Storyboard to previs</video:title>
-      <video:description>Extend still frames into continuous camera moves for previs, blocking, and scene timing tests.</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/storyboard-previs.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/en/storyboard-to-video#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
-    </video:video>
-  </url>
-  <url>
-    <loc>https://www.seedance2video.cc/en/image-to-video</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
-    <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/cyberpunk.jpg</video:thumbnail_loc>
-      <video:title>Image to video seed shot</video:title>
-      <video:description>Use still imagery as a locked visual seed, then push into motion with camera direction and timing.</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/image-to-video.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/en/image-to-video#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-13.jpg</video:thumbnail_loc>
+      <video:title>Cinematic eye close-up</video:title>
+      <video:description>A dramatic close-up for evaluating mood, focus shifts, and story tension in short-form clips.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-13.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-23T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
     </video:video>
   </url>
   <url>
     <loc>https://www.seedance2video.cc/en/reference-video-generator</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
+    <lastmod>2026-05-16T02:00:00.000Z</lastmod>
     <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/standard.jpg</video:thumbnail_loc>
-      <video:title>Reference-led video generation</video:title>
-      <video:description>Blend images, clips, and audio into a single prompt-driven job instead of relying on text alone.</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/reference-led.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/en/reference-video-generator#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-01.jpg</video:thumbnail_loc>
+      <video:title>Silver-haired character close-up</video:title>
+      <video:description>A tight character shot for testing Seedance 2 identity, lighting, and facial-detail continuity.</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-01.mp4</video:content_loc>
+      <video:duration>14</video:duration>
+      <video:publication_date>2026-05-16T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
     </video:video>
   </url>
   <url>
-    <loc>https://www.seedance2video.cc/en/video-extension</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
+    <loc>https://www.seedance2video.cc/zh/product-ad-generator</loc>
+    <lastmod>2026-05-09T02:00:00.000Z</lastmod>
     <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/cosplay.jpg</video:thumbnail_loc>
-      <video:title>Scene extension workflow</video:title>
-      <video:description>Continue an existing clip with the same scene logic, motion direction, and tonal continuity.</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/video-extension.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/en/video-extension#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-09.jpg</video:thumbnail_loc>
+      <video:title>夕阳布料生活方式镜头</video:title>
+      <video:description>用一张生活方式关键帧，生成温暖、缓慢、有布料质感的广告镜头。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-09.mp4</video:content_loc>
+      <video:duration>8</video:duration>
+      <video:publication_date>2026-05-09T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
     </video:video>
   </url>
   <url>
     <loc>https://www.seedance2video.cc/zh/image-to-video</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
+    <lastmod>2026-05-10T02:00:00.000Z</lastmod>
     <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/custom/seedance-hero-4.png</video:thumbnail_loc>
-      <video:title>平衡木动作镜头</video:title>
-      <video:description>一条更适合图生视频场景的动作样片：先锁住角色起始画面，再把运动感逐步推出来。</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/seedance-hero-4.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/zh/image-to-video#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
-    </video:video>
-  </url>
-  <url>
-    <loc>https://www.seedance2video.cc/zh/ai-short-drama-maker</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
-    <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/custom/seedance-hero-6.png</video:thumbnail_loc>
-      <video:title>街头追逐片段</video:title>
-      <video:description>一条更有叙事冲突感的街头奔跑样片，适合短剧、分镜预演和文本驱动的镜头构思。</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/seedance-hero-6.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/zh/ai-short-drama-maker#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
-    </video:video>
-  </url>
-  <url>
-    <loc>https://www.seedance2video.cc/zh/reference-video-generator</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
-    <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/custom/seedance-space-travel.png</video:thumbnail_loc>
-      <video:title>宇宙穿梭场景片段</video:title>
-      <video:description>一条完整的 Seedance 2 场景视频，从体素地貌一路推进到更宏观的宇宙世界观。</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/seedance-space-travel.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/zh/reference-video-generator#showcase</video:player_loc>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-05.jpg</video:thumbnail_loc>
+      <video:title>角色一致性镜头</video:title>
+      <video:description>肖像图负责身份稳定，Prompt 负责近景运镜和情绪。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-05.mp4</video:content_loc>
       <video:duration>15</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
+      <video:publication_date>2026-05-10T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://www.seedance2video.cc/zh/dance-motion-transfer</loc>
+    <lastmod>2026-05-22T02:00:00.000Z</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-02.jpg</video:thumbnail_loc>
+      <video:title>舞蹈动作迁移</video:title>
+      <video:description>一个输入负责角色造型，另一个输入负责舞蹈节奏。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-02.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-11T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-03.jpg</video:thumbnail_loc>
+      <video:title>棚拍动作参考</video:title>
+      <video:description>适合观察节奏、肢体运动和动作连续性的快速动作样例。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-03.mp4</video:content_loc>
+      <video:duration>11</video:duration>
+      <video:publication_date>2026-05-17T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-11.jpg</video:thumbnail_loc>
+      <video:title>击剑动作迁移</video:title>
+      <video:description>用于测试对抗动作、时机和清晰轮廓的受控动作迁移样例。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-11.mp4</video:content_loc>
+      <video:duration>14</video:duration>
+      <video:publication_date>2026-05-21T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-12.jpg</video:thumbnail_loc>
+      <video:title>击剑节奏变化</video:title>
+      <video:description>用于对比相似动作场景下参考动作和节奏变化的样例。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-12.mp4</video:content_loc>
+      <video:duration>14</video:duration>
+      <video:publication_date>2026-05-22T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
     </video:video>
   </url>
   <url>
     <loc>https://www.seedance2video.cc/zh/storyboard-to-video</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
+    <lastmod>2026-05-20T02:00:00.000Z</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-07.jpg</video:thumbnail_loc>
+      <video:title>分镜到影视预演</video:title>
+      <video:description>用关键帧和运动节奏预演动作场面调度。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-07.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-12T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
     <video:video>
       <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/custom/seedance-autumn-duel.png</video:thumbnail_loc>
       <video:title>秋林决斗完整片段</video:title>
       <video:description>一条完整的动作型样片，镜头调度、走位关系和人物动势都更完整。</video:description>
       <video:content_loc>https://media.seedance2video.cc/videos/gallery/seedance-autumn-duel.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/zh/storyboard-to-video#showcase</video:player_loc>
       <video:duration>13</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
+      <video:publication_date>2026-05-15T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-04.jpg</video:thumbnail_loc>
+      <video:title>科幻目镜特写</video:title>
+      <video:description>用于测试 Seedance 2 在氛围、反光材质和细微镜头运动上的表现。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-04.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-18T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-08.jpg</video:thumbnail_loc>
+      <video:title>反光目镜变化镜头</video:title>
+      <video:description>另一条科幻特写样例，适合对比镜头一致性和画面材质。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-08.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-19T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-10.jpg</video:thumbnail_loc>
+      <video:title>水墨时装分镜</video:title>
+      <video:description>用于展示如何把插画语言转换成视频镜头方向的风格化分镜样例。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-10.mp4</video:content_loc>
+      <video:duration>10</video:duration>
+      <video:publication_date>2026-05-20T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
     </video:video>
   </url>
   <url>
-    <loc>https://www.seedance2video.cc/zh/product-ad-generator</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
+    <loc>https://www.seedance2video.cc/zh/ai-short-drama-maker</loc>
+    <lastmod>2026-05-23T02:00:00.000Z</lastmod>
     <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/ghibli.jpg</video:thumbnail_loc>
-      <video:title>产品广告揭幕镜头</video:title>
-      <video:description>把静态产品图和一段参考运镜，转成更像广告片开场的揭幕镜头。</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/product-reveal.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/zh/product-ad-generator#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-06.jpg</video:thumbnail_loc>
+      <video:title>文本概念验证</video:title>
+      <video:description>无参考素材时，Prompt 必须把主体、镜头和氛围都写清楚。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-06.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-13T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
     </video:video>
-  </url>
-  <url>
-    <loc>https://www.seedance2video.cc/zh/dance-motion-transfer</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
     <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/webtoon.jpg</video:thumbnail_loc>
-      <video:title>舞蹈动作迁移</video:title>
-      <video:description>沿用参考视频里的舞蹈节奏和动作语言，同时保持新的角色设定。</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/dance-motion.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/zh/dance-motion-transfer#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
-    </video:video>
-  </url>
-  <url>
-    <loc>https://www.seedance2video.cc/zh/storyboard-to-video</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
-    <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/retro_90s.jpg</video:thumbnail_loc>
-      <video:title>分镜到预演视频</video:title>
-      <video:description>把静态分镜延展成连续镜头，用于影视预演、走位和节奏验证。</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/storyboard-previs.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/zh/storyboard-to-video#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
-    </video:video>
-  </url>
-  <url>
-    <loc>https://www.seedance2video.cc/zh/image-to-video</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
-    <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/cyberpunk.jpg</video:thumbnail_loc>
-      <video:title>图像转视频起始镜头</video:title>
-      <video:description>先把静态图片当成锁定起始画面，再用运镜和节奏把它推成视频镜头。</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/image-to-video.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/zh/image-to-video#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-13.jpg</video:thumbnail_loc>
+      <video:title>电影感眼部特写</video:title>
+      <video:description>适合观察情绪、焦点变化和短片叙事张力的电影感特写样例。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-13.mp4</video:content_loc>
+      <video:duration>15</video:duration>
+      <video:publication_date>2026-05-23T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
     </video:video>
   </url>
   <url>
     <loc>https://www.seedance2video.cc/zh/reference-video-generator</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
+    <lastmod>2026-05-16T02:00:00.000Z</lastmod>
     <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/standard.jpg</video:thumbnail_loc>
-      <video:title>多参考视频生成</video:title>
-      <video:description>把图片、视频和音频一起融入单个任务，而不是只靠一句文字描述。</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/reference-led.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/zh/reference-video-generator#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
-    </video:video>
-  </url>
-  <url>
-    <loc>https://www.seedance2video.cc/zh/video-extension</loc>
-    <lastmod>2026-05-09T12:00:00+08:00</lastmod>
-    <video:video>
-      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/generated/cosplay.jpg</video:thumbnail_loc>
-      <video:title>视频平滑扩写</video:title>
-      <video:description>沿着原视频的场景逻辑、动作方向和画面气质，继续把镜头平滑扩写下去。</video:description>
-      <video:content_loc>https://media.seedance2video.cc/videos/gallery/video-extension.mp4</video:content_loc>
-      <video:player_loc>https://www.seedance2video.cc/zh/video-extension#showcase</video:player_loc>
-      <video:duration>5</video:duration>
-      <video:publication_date>2026-04-23T00:00:00+08:00</video:publication_date>
+      <video:thumbnail_loc>https://media.seedance2video.cc/images/gallery/kie/kie-seedance-01.jpg</video:thumbnail_loc>
+      <video:title>银发角色特写</video:title>
+      <video:description>用于观察 Seedance 2 在角色身份、光影和面部细节连续性上的表现。</video:description>
+      <video:content_loc>https://media.seedance2video.cc/videos/gallery/kie/kie-seedance-01.mp4</video:content_loc>
+      <video:duration>14</video:duration>
+      <video:publication_date>2026-05-16T10:00:00+08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
     </video:video>
   </url>
 </urlset>

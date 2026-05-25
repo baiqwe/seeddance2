@@ -43,7 +43,7 @@ function normalizeSupportEmail(email?: string): string {
 }
 
 export const site: SiteConfig = {
-  siteName: process.env.NEXT_PUBLIC_SITE_NAME || "Seedance 2.0",
+  siteName: process.env.NEXT_PUBLIC_SITE_NAME || "Seedance2Video",
   siteUrl: normalizeSiteUrl(process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || PRODUCTION_SITE_URL),
   ogImagePath: process.env.NEXT_PUBLIC_OG_IMAGE_PATH || "/web-app-manifest-512x512.png",
   supportEmail: normalizeSupportEmail(process.env.NEXT_PUBLIC_SUPPORT_EMAIL),

@@ -29,7 +29,6 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             template: `%s | ${site.siteName}`
         },
         description: messages.metadata.description,
-        keywords: messages.metadata.keywords,
 
         // ✅ 作者和站点信息
         authors: [{ name: site.siteName }],

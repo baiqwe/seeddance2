@@ -1,4 +1,4 @@
-import { indexableLandingPageSlugs } from "@/config/landing-pages";
+import { indexableLandingPageSlugs, landingPages } from "@/config/landing-pages";
 import { site } from "@/config/site";
 import { locales } from "@/i18n/routing";
 
@@ -49,14 +49,17 @@ export function getPageSitemapEntries(): SitemapPageEntry[] {
   );
 
   const landingEntries = locales.flatMap((locale) =>
-    indexableLandingPageSlugs.map((slug) => ({
-      url: new URL(`/${locale}/${slug}`, site.siteUrl).toString(),
-      lastModified: LANDING_LASTMOD,
-      alternates: {
-        "en-US": new URL(`/en/${slug}`, site.siteUrl).toString(),
-        "zh-CN": new URL(`/zh/${slug}`, site.siteUrl).toString(),
-      },
-    }))
+    indexableLandingPageSlugs.map((slug) => {
+      const pageLastmod = landingPages[slug]?.lastUpdated || LANDING_LASTMOD;
+      return {
+        url: new URL(`/${locale}/${slug}`, site.siteUrl).toString(),
+        lastModified: pageLastmod,
+        alternates: {
+          "en-US": new URL(`/en/${slug}`, site.siteUrl).toString(),
+          "zh-CN": new URL(`/zh/${slug}`, site.siteUrl).toString(),
+        },
+      };
+    })
   );
 
   return [...staticEntries, ...landingEntries];

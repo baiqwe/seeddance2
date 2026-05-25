@@ -14,7 +14,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     const params = await props.params;
     const { locale } = params;
     const messages = await getMessages({ locale }) as {
-        metadata: { title: string; description: string; keywords: string };
+        metadata: { title: string; description: string };
     };
     const canonical = `/${locale}`;
     const ogImage = new URL(site.ogImagePath, site.siteUrl).toString();
@@ -22,7 +22,6 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     return {
         title: { absolute: messages.metadata.title },
         description: messages.metadata.description,
-        keywords: messages.metadata.keywords.split(",").map((keyword) => keyword.trim()),
         alternates: buildLocaleAlternates(canonical),
         openGraph: {
             title: messages.metadata.title,

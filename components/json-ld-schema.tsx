@@ -7,6 +7,7 @@
 import { getTranslations } from 'next-intl/server';
 import { site } from '@/config/site';
 import { galleryItems } from '@/config/gallery';
+import { PLAN_MINI } from '@/config/credit-packs';
 import { toSchemaDateTime } from '@/utils/seo/date';
 import { parseDurationLabelToSeconds, secondsToIsoDuration } from '@/utils/seo/video';
 
@@ -26,6 +27,7 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
             (value): value is string => Boolean(value)
         );
         const screenshotUrl = toAbsoluteUrl(site.ogImagePath);
+        const pricingUrl = toAbsoluteUrl(`/${locale}/pricing`);
 
         const organizationSchema = {
             "@context": "https://schema.org",
@@ -59,8 +61,12 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
             "operatingSystem": "Web Browser",
             "offers": {
                 "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
+                "name": PLAN_MINI.name,
+                "description": PLAN_MINI.description,
+                "price": PLAN_MINI.price.toString(),
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                ...(pricingUrl ? { "url": pricingUrl } : {})
             },
             "featureList": [
                 "Multi-modal AI video generation workspace",
@@ -81,7 +87,7 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
             const durationSeconds = parseDurationLabelToSeconds(item.durationLabel) ?? 5;
             const thumbnailUrl = toAbsoluteUrl(item.afterImage);
             const contentUrl = toAbsoluteUrl(item.videoUrl);
-            const embedUrl = toAbsoluteUrl(`/${locale}/${item.slug}#showcase`);
+            const embedUrl = toAbsoluteUrl(`/${locale}/${item.slug}`);
 
             if (!thumbnailUrl || !contentUrl || !embedUrl) {
                 return [];

@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "next:build": "next build",
-    "build": "next build && opennextjs-cloudflare build --skipBuild && node scripts/patch-opennext-cloudflare.mjs",
+    "build": "npm run seo:generate && next build && opennextjs-cloudflare build --skipBuild && node scripts/patch-opennext-cloudflare.mjs",
     "d1:init": "wrangler d1 execute seedance2-prod --remote --config ./wrangler.jsonc --file ./migrations/d1/0000_bootstrap_all.sql",
     "d1:tables": "wrangler d1 execute seedance2-prod --remote --command \"SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;\"",
     "preview": "npm run build && opennextjs-cloudflare preview",
@@ -13,7 +13,8 @@
     "r2:cors:list": "wrangler r2 bucket cors list seedance2-media",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "start": "next start",
-    "gallery:generate": "node scripts/generate-gallery-samples.js"
+    "gallery:generate": "node scripts/generate-gallery-samples.js",
+    "seo:generate": "node scripts/generate-seo-files.mjs"
   },
   "dependencies": {
     "@auth/d1-adapter": "^1.11.2",
