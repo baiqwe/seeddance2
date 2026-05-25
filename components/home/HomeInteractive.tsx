@@ -38,6 +38,9 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
     const locale = pathParts[1] === 'zh' ? 'zh' : 'en';
     const isZh = locale === 'zh';
     const [activeTemplateId, setActiveTemplateId] = useState(showcaseTemplates[0]?.id ?? '');
+    const [isPreviewLoading, setIsPreviewLoading] = useState(true);
+    const [isAutoCycling, setIsAutoCycling] = useState(true);
+    const [activeStoryTab, setActiveStoryTab] = useState<'prompt' | 'references' | 'logic'>('prompt');
 
     useEffect(() => {
         onShowStaticContent(true);
@@ -62,10 +65,12 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
     const openSignUp = () => {
         const params = new URLSearchParams();
         params.set('next', creationCenterTarget);
+        trackPreviewEvent('home_template_signup_click', { template_id: activeTemplate.id, locale });
         router.push(`/${locale}/sign-up?${params.toString()}`);
     };
 
     const openPricing = () => {
+        trackPreviewEvent('home_template_pricing_click', { template_id: activeTemplate.id, locale });
         router.push(`/${locale}/pricing`);
     };
 
@@ -76,7 +81,15 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
     const resultNotes = isZh ? activeTemplate.resultNotesZh : activeTemplate.resultNotes;
     const previewRatio = activeTemplate.previewRatio ?? activeTemplate.ratio;
 
+    const selectTemplate = (templateId: string) => {
+        setIsAutoCycling(false);
+        setActiveStoryTab('prompt');
+        setActiveTemplateId(templateId);
+        trackPreviewEvent('home_template_preview', { template_id: templateId, locale });
+    };
+
     useEffect(() => {
+        setIsPreviewLoading(true);
         const video = previewVideoRef.current;
         if (!video || !activeTemplate.outputVideo) return;
 
@@ -87,20 +100,44 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
         });
     }, [activeTemplate.id, activeTemplate.outputVideo]);
 
+    useEffect(() => {
+        if (!isAutoCycling || showcaseTemplates.length < 2) return;
+
+        const timer = window.setInterval(() => {
+            setActiveStoryTab('prompt');
+            setActiveTemplateId((currentId) => {
+                const currentIndex = showcaseTemplates.findIndex((template) => template.id === currentId);
+                const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % showcaseTemplates.length : 0;
+                return showcaseTemplates[nextIndex]?.id ?? currentId;
+            });
+        }, 9000);
+
+        return () => window.clearInterval(timer);
+    }, [isAutoCycling]);
+
     return (
         <div className="mx-auto w-full max-w-7xl">
             <div className="relative overflow-hidden rounded-[36px] border border-white/12 bg-[#080d17]/95 shadow-[0_42px_120px_-64px_rgba(0,0,0,0.96)]">
-                <div className="relative grid gap-0 xl:grid-cols-[320px_minmax(0,1fr)_440px]">
+                <div className="relative grid gap-0 xl:grid-cols-[300px_minmax(0,1fr)_minmax(360px,480px)]">
                     <aside className="relative border-b border-white/10 bg-[#0b1220] p-4 xl:border-b-0 xl:border-r xl:p-5">
                         <div className="mb-4 flex items-center justify-between gap-3">
                             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/24 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-cyan-100/68">
                                 <Sparkles className="h-3.5 w-3.5 text-cyan-200" />
                                 {isZh ? '01 模板选择' : '01 Template deck'}
                             </div>
-                            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] text-white/64">
+                            <button
+                                type="button"
+                                onClick={() => setIsAutoCycling((value) => !value)}
+                                className={cn(
+                                    'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] transition-colors',
+                                    isAutoCycling
+                                        ? 'border-cyan-200/20 bg-cyan-200/10 text-cyan-50'
+                                        : 'border-white/10 bg-white/[0.04] text-white/64 hover:bg-white/[0.08] hover:text-white'
+                                )}
+                            >
                                 <MousePointerClick className="h-3.5 w-3.5" />
-                                {isZh ? '可切换' : 'Switch'}
-                            </div>
+                                {isAutoCycling ? (isZh ? '自动播放' : 'Auto') : (isZh ? '手动' : 'Manual')}
+                            </button>
                         </div>
                         <h2 className="mt-4 text-2xl font-semibold tracking-tight text-white">
                             {isZh ? '先看输入如何影响结果' : 'See how inputs shape the result'}
@@ -119,17 +156,28 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                                         key={template.id}
                                         type="button"
                                         aria-pressed={active}
-                                        onClick={() => setActiveTemplateId(template.id)}
+                                        onClick={() => selectTemplate(template.id)}
                                         className={cn(
-                                            'group relative w-full overflow-hidden rounded-[22px] border p-3.5 text-left outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-cyan-200/60',
+                                            'group relative w-full overflow-hidden rounded-[22px] border p-2.5 text-left outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-cyan-200/60',
                                             active
-                                                ? 'border-cyan-100/36 bg-cyan-950/30 shadow-[0_18px_54px_-42px_rgba(103,232,249,0.75)]'
-                                                : 'border-white/9 bg-slate-950/34 hover:-translate-y-0.5 hover:border-white/18 hover:bg-slate-900/64'
+                                                ? 'border-cyan-100/42 bg-cyan-950/34 shadow-[0_18px_54px_-42px_rgba(103,232,249,0.75)]'
+                                                : 'border-white/9 bg-slate-950/34 hover:-translate-y-0.5 hover:border-cyan-100/24 hover:bg-slate-900/64'
                                         )}
                                     >
                                         <div className="flex items-start gap-3">
+                                            <span className="relative h-[58px] w-[78px] shrink-0 overflow-hidden rounded-[14px] border border-white/10 bg-black">
+                                                <img
+                                                    src={template.poster}
+                                                    alt={isZh ? `${template.titleZh} 预览缩略图` : `${template.title} preview thumbnail`}
+                                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                />
+                                                <span className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(2,6,23,0.52))]" />
+                                                <span className="absolute bottom-1.5 left-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-black/62 text-white backdrop-blur">
+                                                    <PlayCircle className="h-3.5 w-3.5" />
+                                                </span>
+                                            </span>
                                             <span className={cn(
-                                                'flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border text-xs font-semibold',
+                                                'hidden h-8 w-8 shrink-0 items-center justify-center rounded-xl border text-xs font-semibold 2xl:flex',
                                                 active ? 'border-cyan-200/28 bg-cyan-200/12 text-cyan-100' : 'border-white/10 bg-black/20 text-white/46'
                                             )}>
                                                 {String(index + 1).padStart(2, '0')}
@@ -140,6 +188,13 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                                                 </span>
                                                 <span className="mt-1 line-clamp-2 block text-xs leading-5 text-white/46">
                                                     {isZh ? template.subtitleZh : template.subtitle}
+                                                </span>
+                                                <span className="mt-2 flex flex-wrap gap-1.5">
+                                                    {[template.ratio, template.duration, template.resolution].map((value) => (
+                                                        <span key={`${template.id}-${value}`} className="rounded-full border border-white/8 bg-black/22 px-2 py-0.5 text-[10px] text-white/46">
+                                                            {value}
+                                                        </span>
+                                                    ))}
                                                 </span>
                                             </span>
                                         </div>
@@ -172,10 +227,7 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                                 {isZh ? '不可编辑 · 用于判断效果' : 'Read-only · effect preview'}
                             </span>
                         </div>
-                        <div
-                            aria-disabled="true"
-                            className="pointer-events-none select-none rounded-[30px] border border-white/10 bg-slate-950/42 p-4 opacity-90 shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] sm:p-5"
-                        >
+                        <div className="select-none rounded-[30px] border border-white/10 bg-slate-950/42 p-4 opacity-90 shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] sm:p-5">
                         <div className="flex flex-wrap items-start justify-between gap-4">
                             <div>
                                 <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/14 bg-emerald-200/[0.06] px-3 py-1.5 text-xs text-emerald-100/76">
@@ -197,62 +249,95 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                             </div>
                         </div>
 
-                        <div className="mt-5 rounded-[24px] border border-white/10 bg-black/24 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]">
-                            <div className="mb-3 flex items-center justify-between gap-3">
-                                <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
-                                    <WandSparkles className="h-3.5 w-3.5 text-cyan-200/80" />
-                                    {isZh ? '输入给模型的 Prompt' : 'Prompt sent to the model'}
-                                </div>
-                                <span className="rounded-full border border-white/8 bg-white/[0.04] px-2.5 py-1 text-[11px] text-white/44">
-                                    {isZh ? '与右侧视频一一对应' : 'Mapped to the preview video'}
-                                </span>
-                            </div>
-                            <p className="text-sm leading-7 text-white/76 md:text-base md:leading-8">
-                                {prompt}
-                            </p>
+                        <div className="mt-5 flex flex-wrap gap-2">
+                            {[
+                                { id: 'prompt' as const, icon: WandSparkles, label: isZh ? 'Prompt' : 'Prompt' },
+                                { id: 'references' as const, icon: Clapperboard, label: isZh ? '参考素材' : 'References' },
+                                { id: 'logic' as const, icon: Settings2, label: isZh ? '结果逻辑' : 'Result logic' },
+                            ].map((tab) => {
+                                const Icon = tab.icon;
+                                const active = activeStoryTab === tab.id;
+                                return (
+                                    <button
+                                        key={tab.id}
+                                        type="button"
+                                        onClick={() => setActiveStoryTab(tab.id)}
+                                        className={cn(
+                                            'pointer-events-auto inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-medium transition-colors',
+                                            active
+                                                ? 'border-cyan-100/32 bg-cyan-100/12 text-cyan-50'
+                                                : 'border-white/9 bg-white/[0.035] text-white/52 hover:bg-white/[0.07] hover:text-white'
+                                        )}
+                                    >
+                                        <Icon className="h-3.5 w-3.5" />
+                                        {tab.label}
+                                    </button>
+                                );
+                            })}
                         </div>
 
-                        <div className="mt-4 grid gap-4">
-                            <div className="rounded-[24px] border border-white/10 bg-white/[0.035] p-4">
-                                <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
-                                    <Clapperboard className="h-3.5 w-3.5 text-blue-200/80" />
-                                    {isZh ? '参考素材如何参与生成' : 'How references influence the output'}
-                                </div>
-                                <div className="mt-4 grid gap-3">
-                                    {activeTemplate.references.length > 0 ? (
-                                        activeTemplate.references.map((reference) => (
-                                            <ReferenceCard key={`${activeTemplate.id}-${reference.type}-${reference.label}`} reference={reference} isZh={isZh} />
-                                        ))
-                                    ) : (
-                                        <div className="rounded-[18px] border border-dashed border-white/10 bg-black/18 p-4 text-sm leading-7 text-white/52">
-                                            {isZh
-                                                ? '这个模板不依赖参考素材。它用 Prompt 同时控制主体、镜头、光线、节奏和负向约束。'
-                                                : 'This template uses no references. The prompt carries subject, camera, lighting, pacing, and negative direction.'}
+                        <div className="mt-4 min-h-[300px] rounded-[24px] border border-white/10 bg-black/22 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]">
+                            {activeStoryTab === 'prompt' ? (
+                                <div>
+                                    <div className="mb-3 flex items-center justify-between gap-3">
+                                        <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
+                                            <WandSparkles className="h-3.5 w-3.5 text-cyan-200/80" />
+                                            {isZh ? '输入给模型的 Prompt' : 'Prompt sent to the model'}
                                         </div>
-                                    )}
+                                        <span className="rounded-full border border-white/8 bg-white/[0.04] px-2.5 py-1 text-[11px] text-white/44">
+                                            {isZh ? '与右侧视频一一对应' : 'Mapped to the preview video'}
+                                        </span>
+                                    </div>
+                                    <p className="text-sm leading-7 text-white/76 md:text-base md:leading-8">
+                                        {prompt}
+                                    </p>
                                 </div>
-                            </div>
+                            ) : null}
 
-                            <div className="rounded-[24px] border border-white/10 bg-white/[0.035] p-4">
-                                <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
-                                    <Settings2 className="h-3.5 w-3.5 text-violet-200/80" />
-                                    {isZh ? '为什么这些输入会得到右侧结果' : 'Why these inputs create this result'}
+                            {activeStoryTab === 'references' ? (
+                                <div>
+                                    <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
+                                        <Clapperboard className="h-3.5 w-3.5 text-blue-200/80" />
+                                        {isZh ? '参考素材如何参与生成' : 'How references influence the output'}
+                                    </div>
+                                    <div className="mt-4 grid gap-3">
+                                        {activeTemplate.references.length > 0 ? (
+                                            activeTemplate.references.map((reference) => (
+                                                <ReferenceCard key={`${activeTemplate.id}-${reference.type}-${reference.label}`} reference={reference} isZh={isZh} />
+                                            ))
+                                        ) : (
+                                            <div className="rounded-[18px] border border-dashed border-white/10 bg-black/18 p-4 text-sm leading-7 text-white/52">
+                                                {isZh
+                                                    ? '这个模板不依赖参考素材。它用 Prompt 同时控制主体、镜头、光线、节奏和负向约束。'
+                                                    : 'This template uses no references. The prompt carries subject, camera, lighting, pacing, and negative direction.'}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                                <p className="mt-4 text-sm leading-7 text-white/64">{intent}</p>
-                                <div className="mt-4 space-y-2">
-                                    {resultNotes.map((note) => (
-                                        <div key={note} className="flex items-start gap-2 rounded-[14px] border border-white/8 bg-black/16 px-3 py-2 text-xs leading-5 text-white/60">
-                                            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-200" />
-                                            {note}
-                                        </div>
-                                    ))}
+                            ) : null}
+
+                            {activeStoryTab === 'logic' ? (
+                                <div>
+                                    <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/42">
+                                        <Settings2 className="h-3.5 w-3.5 text-violet-200/80" />
+                                        {isZh ? '为什么这些输入会得到右侧结果' : 'Why these inputs create this result'}
+                                    </div>
+                                    <p className="mt-4 text-sm leading-7 text-white/64">{intent}</p>
+                                    <div className="mt-4 space-y-2">
+                                        {resultNotes.map((note) => (
+                                            <div key={note} className="flex items-start gap-2 rounded-[14px] border border-white/8 bg-black/16 px-3 py-2 text-xs leading-5 text-white/60">
+                                                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-200" />
+                                                {note}
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
+                            ) : null}
                         </div>
                         </div>
                     </section>
 
-                    <aside className="border-t border-white/10 bg-[#11131c] p-4 sm:p-5 xl:border-l xl:border-t-0 xl:p-6">
+                    <aside className="border-t border-white/10 bg-[#11131c] p-4 sm:p-5 xl:sticky xl:top-20 xl:self-start xl:border-l xl:border-t-0 xl:p-6">
                         <div className="flex items-center justify-between gap-3">
                             <div>
                                 <div className="text-xs uppercase tracking-[0.18em] text-white/40">
@@ -267,21 +352,40 @@ export default function HomeInteractive({ onShowStaticContent }: HomeInteractive
                             </span>
                         </div>
 
-                        <div className="mt-5 overflow-hidden rounded-[28px] border border-white/10 bg-black shadow-[0_24px_80px_-48px_rgba(0,0,0,0.95)]">
+                        <div className="relative mt-5 overflow-hidden rounded-[28px] border border-white/10 bg-black shadow-[0_24px_80px_-48px_rgba(0,0,0,0.95)]">
                             {activeTemplate.outputVideo ? (
-                                <video
-                                    ref={previewVideoRef}
-                                    key={activeTemplate.id}
-                                    src={activeTemplate.outputVideo}
-                                    poster={activeTemplate.poster}
-                                    muted
-                                    loop
-                                    playsInline
-                                    autoPlay
-                                    controls
-                                    preload="auto"
-                                    className={cn(getVideoAspectClass(previewRatio), 'w-full bg-black object-contain')}
-                                />
+                                <>
+                                    <video
+                                        ref={previewVideoRef}
+                                        key={activeTemplate.id}
+                                        src={activeTemplate.outputVideo}
+                                        poster={activeTemplate.poster}
+                                        muted
+                                        loop
+                                        playsInline
+                                        autoPlay
+                                        controls
+                                        preload="metadata"
+                                        onLoadStart={() => setIsPreviewLoading(true)}
+                                        onLoadedData={() => setIsPreviewLoading(false)}
+                                        onCanPlay={() => setIsPreviewLoading(false)}
+                                        className={cn(
+                                            getVideoAspectClass(previewRatio),
+                                            'w-full bg-black object-contain transition-opacity duration-300',
+                                            isPreviewLoading ? 'opacity-45' : 'opacity-100'
+                                        )}
+                                    />
+                                    <div className="pointer-events-none absolute left-4 top-4 rounded-full border border-white/10 bg-black/58 px-3 py-1.5 text-xs text-white/70 backdrop-blur-md">
+                                        {isZh ? `正在预览：${title}` : `Previewing: ${title}`}
+                                    </div>
+                                    {isPreviewLoading ? (
+                                        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/24 backdrop-blur-[1px]">
+                                            <div className="rounded-full border border-white/12 bg-black/56 px-4 py-2 text-xs text-white/70">
+                                                {isZh ? '正在加载预览视频' : 'Loading preview'}
+                                            </div>
+                                        </div>
+                                    ) : null}
+                                </>
                             ) : (
                                 <div className={cn(getVideoAspectClass(previewRatio), 'relative w-full overflow-hidden bg-[radial-gradient(circle_at_50%_26%,rgba(103,232,249,0.16),transparent_32%),linear-gradient(180deg,#111827,#020617)]')}>
                                     <img
@@ -399,4 +503,14 @@ function getVideoAspectClass(ratio: string) {
     if (ratio === '3:4') return 'aspect-[3/4]';
     if (ratio === '21:9') return 'aspect-[21/9]';
     return 'aspect-video';
+}
+
+function trackPreviewEvent(eventName: string, payload: Record<string, string>) {
+    const metricsWindow = window as Window & {
+        gtag?: (command: 'event', name: string, params?: Record<string, string>) => void;
+        clarity?: (command: 'event', name: string) => void;
+    };
+
+    metricsWindow.gtag?.('event', eventName, payload);
+    metricsWindow.clarity?.('event', eventName);
 }

@@ -114,8 +114,7 @@ export const showcaseTemplates: ShowcaseTemplate[] = [
       "Create a short-form dance video by separating identity and motion. Keep the character styling, outfit silhouette, body type, and color palette from the image reference, then follow the choreography timing, pose transitions, and camera energy from the motion clip. Generate confident full-body movement with clean silhouettes, stable framing, and punchy social-media pacing. Do not change the character into the dancer from the reference video.",
     promptZh:
       "把身份和动作拆开生成短视频：保留图片参考里的角色造型、服装轮廓、体型和色彩，再沿用动作视频里的舞蹈节奏、姿态转换和镜头能量。生成自信的全身舞蹈动作，人物轮廓清晰，构图稳定，节奏适合社交媒体传播。不要把角色替换成动作参考视频里的人。",
-    ratio: "9:16",
-    previewRatio: "16:9",
+    ratio: "16:9",
     duration: "15s",
     resolution: "720p",
     outputVideo: mediaAsset("/videos/gallery/kie/kie-seedance-02.mp4"),
@@ -142,8 +141,8 @@ export const showcaseTemplates: ShowcaseTemplate[] = [
       "The image decides who performs. The video decides how they move. The prompt prevents identity replacement and keeps the clip social-ready.",
     intentZh:
       "图片决定谁来跳，视频决定怎么动，Prompt 防止身份被替换并控制短视频节奏。",
-    resultNotes: ["Identity and motion are separated", "Prompt prevents dancer replacement", "Designed for vertical social clips"],
-    resultNotesZh: ["身份和动作分开控制", "Prompt 防止角色被替换", "适合竖版短视频"],
+    resultNotes: ["Identity and motion are separated", "Prompt prevents dancer replacement", "Designed for full-frame choreography previews"],
+    resultNotesZh: ["身份和动作分开控制", "Prompt 防止角色被替换", "适合完整画幅的动作预览"],
   },
   {
     id: "storyboard-previs",
