@@ -28,6 +28,20 @@ export default async function HomeStaticContent({ locale }: Props) {
         : "Use existing clips to lock motion, camera behavior, and pacing so the new output stays closer to your intended shot language.",
     },
     {
+      href: `${localePrefix}/ai-video-generator-with-reference-video`,
+      title: isZh ? "参考视频 AI 生成器" : "AI Video with Reference Video",
+      description: isZh
+        ? "把参考视频里的动作、镜头路径或节奏迁移到新的主体上，适合需要精准控流的镜头。"
+        : "Transfer motion, camera path, or pacing from a reference clip into a new subject when control matters.",
+    },
+    {
+      href: `${localePrefix}/ai-video-generator-with-audio-sync`,
+      title: isZh ? "音频同步视频生成" : "Audio Sync Video Generator",
+      description: isZh
+        ? "用音乐、节拍或音效提示控制镜头节奏，适合短视频、MV 和广告节奏验证。"
+        : "Use music, beat, or sound cues to guide video pacing for shorts, music videos, and campaign tests.",
+    },
+    {
       href: `${localePrefix}/dance-motion-transfer`,
       title: isZh ? "动作迁移工作流" : "Motion Transfer Workflow",
       description: isZh
@@ -54,6 +68,27 @@ export default async function HomeStaticContent({ locale }: Props) {
       description: isZh
         ? "适合产品揭幕、材质展示、发售预热和 campaign 测试片段。"
         : "Useful for product reveals, material sweeps, launch teasers, and campaign test edits.",
+    },
+    {
+      href: `${localePrefix}/seedance-2-fast`,
+      title: isZh ? "Seedance 2 Fast 工作流" : "Seedance 2 Fast Workflow",
+      description: isZh
+        ? "先用 Fast 快速试方向、看节奏，再把稳定方案切到标准模型做正式生成。"
+        : "Use Fast to test direction and rhythm before moving stable ideas into the standard model.",
+    },
+    {
+      href: `${localePrefix}/motion-control-ai-video-generator`,
+      title: isZh ? "运动控制视频生成" : "Motion Control Video Generator",
+      description: isZh
+        ? "把主体动作、镜头路径、速度和结尾状态写清楚，让运动成为可审查的生产变量。"
+        : "Define subject motion, camera path, speed, and end state so movement becomes reviewable.",
+    },
+    {
+      href: `${localePrefix}/consistent-character-ai-video-generator`,
+      title: isZh ? "角色一致性视频生成" : "Consistent Character Video",
+      description: isZh
+        ? "把身份参考和动作参考拆开，适合虚拟人、吉祥物和连续叙事镜头。"
+        : "Separate identity references from motion references for avatars, mascots, and narrative continuity.",
     },
   ];
 

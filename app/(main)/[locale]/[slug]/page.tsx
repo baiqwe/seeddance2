@@ -26,6 +26,19 @@ function getCreationCenterHref(locale: string, mode: string, model?: string) {
   return `/${locale}/creative-center?${params.toString()}`;
 }
 
+const relatedPrioritySlugs = [
+  "ai-video-generator-with-reference-video",
+  "ai-video-generator-with-audio-sync",
+  "image-to-video",
+  "seedance-2-fast",
+  "motion-control-ai-video-generator",
+  "consistent-character-ai-video-generator",
+  "product-ad-ai-video-generator",
+  "ai-video-extension",
+  "video-extension",
+  "reference-video-generator",
+];
+
 export async function generateStaticParams() {
   return locales.flatMap((locale) =>
     landingPageSlugs.map((slug) => ({
@@ -79,8 +92,11 @@ export default async function LandingPage(props: {
 
   const t = await getTranslations({ locale, namespace: "landing" });
   const localePrefix = `/${locale}`;
-  const relatedPages = Object.values(landingPages)
-    .filter((item) => item.slug !== page.slug)
+  const relatedPages = relatedPrioritySlugs
+    .map((relatedSlug) => landingPages[relatedSlug])
+    .filter((item): item is NonNullable<(typeof landingPages)[string]> =>
+      Boolean(item) && item.slug !== page.slug,
+    )
     .slice(0, 3)
     .map((item) => getLocalizedLandingPage(item.slug, locale))
     .filter((item): item is NonNullable<typeof item> => Boolean(item));

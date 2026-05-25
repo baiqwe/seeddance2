@@ -26,9 +26,16 @@ export function Footer() {
 
   const styleLinks = [
     { label: isZh ? "图像转视频" : "Image to Video", href: `${localePrefix}/image-to-video`, id: "image-to-video" },
-    { label: isZh ? "参考视频生成" : "Reference Video", href: `${localePrefix}/reference-video-generator`, id: "reference-video-generator" },
+    { label: isZh ? "参考视频生成" : "Reference Video", href: `${localePrefix}/ai-video-generator-with-reference-video`, id: "reference-video-generator" },
+    { label: isZh ? "音频同步视频" : "Audio Sync Video", href: `${localePrefix}/ai-video-generator-with-audio-sync`, id: "audio-sync" },
     { label: isZh ? "动作迁移" : "Motion Transfer", href: `${localePrefix}/dance-motion-transfer`, id: "dance-motion-transfer" },
     { label: isZh ? "视频延展" : "Video Extension", href: `${localePrefix}/video-extension`, id: "video-extension" },
+  ];
+  const solutionLinks = [
+    { label: isZh ? "Seedance 2 Fast" : "Seedance 2 Fast", href: `${localePrefix}/seedance-2-fast`, id: "seedance-2-fast" },
+    { label: isZh ? "运动控制视频" : "Motion Control Video", href: `${localePrefix}/motion-control-ai-video-generator`, id: "motion-control-ai-video-generator" },
+    { label: isZh ? "角色一致性视频" : "Consistent Character Video", href: `${localePrefix}/consistent-character-ai-video-generator`, id: "consistent-character-ai-video-generator" },
+    { label: isZh ? "产品广告视频" : "Product Ad Video", href: `${localePrefix}/product-ad-ai-video-generator`, id: "product-ad-ai-video-generator" },
   ];
   const communityLinks = [
     { label: "LinkedIn", href: site.socialLinks.linkedin },
@@ -61,7 +68,7 @@ export function Footer() {
     <footer className="border-t border-border/70 bg-[linear-gradient(180deg,rgba(7,11,21,0.92),rgba(5,8,18,0.98))]">
       <div className="container px-4 py-14 md:py-20">
         <div className="surface-panel px-6 py-8 md:px-8 md:py-10">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-7">
           {/* Brand */}
           <div className="col-span-full lg:col-span-2">
             <Logo />
@@ -110,6 +117,23 @@ export function Footer() {
             </h3>
             <nav className="flex flex-col gap-2">
               {styleLinks.map((link) => (
+                <Link
+                  key={link.id}
+                  href={link.href}
+                  className="text-sm text-muted-foreground transition-all hover:translate-x-0.5 hover:text-primary"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h3 className="text-sm font-semibold">
+              {currentLocale === 'zh' ? '场景页面' : 'Scenario Pages'}
+            </h3>
+            <nav className="flex flex-col gap-2">
+              {solutionLinks.map((link) => (
                 <Link
                   key={link.id}
                   href={link.href}
