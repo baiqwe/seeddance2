@@ -14,6 +14,14 @@ export async function middleware(request: NextRequest) {
   const redirectUrl = request.nextUrl.clone()
   let shouldCanonicalRedirect = false
 
+  if (!isLocalHost && request.nextUrl.pathname === '/' && (hostname === APEX_HOSTNAME || hostname === WWW_HOSTNAME)) {
+    redirectUrl.hostname = WWW_HOSTNAME
+    redirectUrl.protocol = 'https:'
+    redirectUrl.port = ''
+    redirectUrl.pathname = '/en'
+    return NextResponse.redirect(redirectUrl, 308)
+  }
+
   if (!isLocalHost && request.nextUrl.pathname === '/sitemap.xml') {
     redirectUrl.pathname = '/xml/sitemap.xml'
     shouldCanonicalRedirect = true

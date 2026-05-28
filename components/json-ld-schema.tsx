@@ -27,6 +27,7 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
             (value): value is string => Boolean(value)
         );
         const screenshotUrl = toAbsoluteUrl(site.ogImagePath);
+        const logoUrl = toAbsoluteUrl(site.ogImagePath);
         const pricingUrl = toAbsoluteUrl(`/${locale}/pricing`);
 
         const organizationSchema = {
@@ -35,6 +36,18 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
             "name": site.siteName,
             "url": site.siteUrl,
             "email": site.supportEmail,
+            ...(logoUrl ? {
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": logoUrl
+                }
+            } : {}),
+            "contactPoint": [{
+                "@type": "ContactPoint",
+                "contactType": "customer support",
+                "email": site.supportEmail,
+                "availableLanguage": ["en", "zh-CN"]
+            }],
             ...(sameAs.length ? { sameAs } : {}),
         };
 
@@ -49,6 +62,12 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
                 "@type": "Organization",
                 "name": site.siteName,
                 "url": site.siteUrl,
+                ...(logoUrl ? {
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": logoUrl
+                    }
+                } : {}),
             },
         };
 
@@ -79,7 +98,13 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
             "provider": {
                 "@type": "Organization",
                 "name": site.siteName,
-                "url": site.siteUrl
+                "url": site.siteUrl,
+                ...(logoUrl ? {
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": logoUrl
+                    }
+                } : {})
             }
         };
 
@@ -105,7 +130,13 @@ export async function SoftwareApplicationSchema({ locale }: { locale: string }) 
                 ...(item.uploadDate ? { "uploadDate": toSchemaDateTime(item.uploadDate) } : {}),
                 "publisher": {
                     "@type": "Organization",
-                    "name": site.siteName
+                    "name": site.siteName,
+                    ...(logoUrl ? {
+                        "logo": {
+                            "@type": "ImageObject",
+                            "url": logoUrl
+                        }
+                    } : {})
                 }
             }];
         });
