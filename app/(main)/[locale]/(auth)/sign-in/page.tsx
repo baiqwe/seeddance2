@@ -1,8 +1,4 @@
-import { signInAction } from "@/app/actions";
 import { FormMessage, Message } from "@/components/form-message";
-import { SubmitButton } from "@/components/submit-button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getLocalePath } from "@/utils/utils";
@@ -26,71 +22,17 @@ export default async function Login(props: { params: Promise<{ locale: string }>
         </h1>
         <p className="text-sm text-muted-foreground">
           {isZh
-            ? "使用本站账号管理你的创作任务、积分和生成历史。"
-            : "Use your site account to manage video requests, credits, and generation history."}
+            ? "使用 Google 安全继续，管理你的创作任务、积分和生成历史。"
+            : "Continue securely with Google to manage video requests, credits, and generation history."}
         </p>
       </div>
       <div className="rounded-2xl border border-border/70 bg-muted/30 px-4 py-3 text-xs leading-6 text-muted-foreground">
         {isZh
-          ? "说明：seedance2video.cc 是独立 AI 视频工作流网站，不隶属于 ByteDance、TikTok、CapCut 或 Google。本站不会索要这些平台的密码。"
-          : "Note: seedance2video.cc is an independent AI video workflow website and is not affiliated with ByteDance, TikTok, CapCut, or Google. We never ask for passwords from those platforms."}
+          ? "说明：seedance2video.cc 是独立 AI 视频工作流网站，不隶属于 ByteDance、TikTok、CapCut 或 Google。本站不会要求你在本页面输入任何第三方平台密码。"
+          : "Note: seedance2video.cc is an independent AI video workflow website and is not affiliated with ByteDance, TikTok, CapCut, or Google. We never ask you to enter passwords from those platforms on this page."}
       </div>
       <div className="grid gap-6">
-        <form className="grid gap-4">
-          <input type="hidden" name="locale" value={locale} />
-          <input type="hidden" name="next" value={next ?? ""} />
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              name="email"
-              placeholder="name@example.com"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              required
-            />
-          </div>
-          <div className="grid gap-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-              <Link
-                href={getLocalePath("/forgot-password", locale)}
-                className="text-sm font-medium text-primary hover:underline"
-              >
-                {isZh ? "忘记密码？" : "Forgot password?"}
-              </Link>
-            </div>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="••••••••"
-              autoComplete="current-password"
-              required
-            />
-          </div>
-          <SubmitButton
-            className="w-full"
-            pendingText="Signing in..."
-            formAction={signInAction}
-          >
-            {isZh ? "登录" : "Sign in"}
-          </SubmitButton>
-          <FormMessage message={searchParams} />
-        </form>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              {isZh ? "或使用 Google 继续" : "Or continue with"}
-            </span>
-          </div>
-        </div>
-        <Button asChild variant="outline" className="w-full flex items-center justify-center gap-2">
+        <Button asChild className="w-full flex items-center justify-center gap-2">
           <a href={`/auth/google?locale=${locale}&mode=sign-in${next ? `&next=${encodeURIComponent(next)}` : ""}`}>
             <svg viewBox="0 0 24 24" className="h-5 w-5">
               <path
@@ -113,6 +55,12 @@ export default async function Login(props: { params: Promise<{ locale: string }>
             {isZh ? "使用 Google 登录" : "Sign in with Google"}
           </a>
         </Button>
+        <FormMessage message={searchParams} />
+        <p className="text-center text-xs leading-6 text-muted-foreground">
+          {isZh
+            ? "登录会跳转到 Google 官方授权页。本站不会看到或保存你的 Google 密码。"
+            : "You will be redirected to Google's official authorization page. This site never sees or stores your Google password."}
+        </p>
         <div className="text-sm text-muted-foreground text-center">
           {isZh ? "还没有账号？" : "Don't have an account?"}{" "}
           <Link
