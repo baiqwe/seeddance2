@@ -2,7 +2,7 @@ import { indexableLandingPageSlugs, landingPages } from "@/config/landing-pages"
 import { site } from "@/config/site";
 import { locales } from "@/i18n/routing";
 
-const staticPages = ["", "creative-center", "guides", "pricing", "about", "contact"] as const;
+const staticPages = ["", "creative-center", "guides", "pricing", "about", "contact", "privacy", "terms"] as const;
 
 const PAGE_LASTMOD: Record<(typeof staticPages)[number], string> = {
   "": "2026-05-09T12:00:00+08:00",
@@ -11,9 +11,11 @@ const PAGE_LASTMOD: Record<(typeof staticPages)[number], string> = {
   "pricing": "2026-05-02T12:00:00+08:00",
   "about": "2026-05-09T12:00:00+08:00",
   "contact": "2026-05-09T12:00:00+08:00",
+  "privacy": "2026-06-09T12:00:00+08:00",
+  "terms": "2026-06-09T12:00:00+08:00",
 };
 
-const LANDING_LASTMOD = "2026-05-09T12:00:00+08:00";
+const LANDING_LASTMOD = "2026-06-09T12:00:00+08:00";
 
 export type SitemapPageEntry = {
   url: string;

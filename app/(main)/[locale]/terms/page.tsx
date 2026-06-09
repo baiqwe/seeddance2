@@ -23,7 +23,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     title: { absolute: title },
     description,
     robots: {
-      index: false,
+      index: true,
       follow: true,
     },
     alternates: buildLocaleAlternates(`/${locale}/terms`),

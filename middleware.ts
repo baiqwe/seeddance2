@@ -6,6 +6,41 @@ const intlMiddleware = createIntlMiddleware(routing)
 const APEX_HOSTNAME = 'seedance2video.cc'
 const WWW_HOSTNAME = 'www.seedance2video.cc'
 const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '0.0.0.0'])
+const SEO_CACHE_CONTROL = 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400'
+const PUBLIC_STATIC_SEGMENTS = new Set([
+  '',
+  'about',
+  'contact',
+  'guide',
+  'guides',
+  'pricing',
+  'privacy',
+  'terms',
+])
+const NON_SEO_SEGMENTS = new Set([
+  'creative-center',
+  'dashboard',
+  'forgot-password',
+  'reset-password',
+  'sign-in',
+  'sign-up',
+  'video',
+])
+
+function isPublicSeoPage(pathname: string) {
+  const match = pathname.match(/^\/(en|zh)(?:\/([^/?#]+))?\/?$/)
+  if (!match) return false
+  const segment = match[2] || ''
+  if (NON_SEO_SEGMENTS.has(segment)) return false
+  return PUBLIC_STATIC_SEGMENTS.has(segment) || Boolean(segment)
+}
+
+function withSeoCacheHeaders(response: NextResponse, pathname: string) {
+  if (isPublicSeoPage(pathname)) {
+    response.headers.set('Cache-Control', SEO_CACHE_CONTROL)
+  }
+  return response
+}
 
 export async function middleware(request: NextRequest) {
   const hostname = request.nextUrl.hostname
@@ -62,7 +97,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(normalizedUrl, 307)
   }
 
-  return intlMiddleware(request)
+  return withSeoCacheHeaders(intlMiddleware(request), request.nextUrl.pathname)
 }
 
 export const config = {

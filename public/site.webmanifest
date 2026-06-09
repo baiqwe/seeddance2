@@ -1,6 +1,9 @@
 {
   "name": "Seedance 2",
   "short_name": "Seedance 2",
+  "id": "/en",
+  "start_url": "/en",
+  "scope": "/",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

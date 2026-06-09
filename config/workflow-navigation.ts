@@ -32,6 +32,15 @@ export const workflowNavigationGroups: WorkflowNavigationGroup[] = [
       "把 Prompt、静帧、参考视频或音频线索转成可控的视频生成任务。",
     items: [
       {
+        id: "seedance-2-generator",
+        slug: "seedance-2-ai-video-generator",
+        href: "/seedance-2-ai-video-generator",
+        label: "Seedance 2.0 Generator",
+        labelZh: "Seedance 2.0 生成器",
+        description: "Main Seedance 2.0 hub for prompts, images, videos, and audio cues.",
+        descriptionZh: "Seedance 2.0 核心入口，串起 Prompt、图片、视频和音频线索。",
+      },
+      {
         id: "image-to-video",
         slug: "image-to-video",
         href: "/image-to-video",
@@ -48,6 +57,15 @@ export const workflowNavigationGroups: WorkflowNavigationGroup[] = [
         labelZh: "参考视频",
         description: "Use motion, camera, or pacing from an existing clip.",
         descriptionZh: "借用已有视频里的动作、运镜或节奏。",
+      },
+      {
+        id: "video-to-video",
+        slug: "seedance-video-to-video",
+        href: "/seedance-video-to-video",
+        label: "Video to Video",
+        labelZh: "视频转视频",
+        description: "Guide new outputs with motion, pacing, and camera behavior from a source clip.",
+        descriptionZh: "用源视频里的动作、节奏和运镜指导新输出。",
       },
       {
         id: "audio-sync",
@@ -138,6 +156,15 @@ export const workflowNavigationGroups: WorkflowNavigationGroup[] = [
         description: "Use the faster model for early direction and rhythm checks.",
         descriptionZh: "用 Fast 模型快速验证方向和节奏。",
       },
+      {
+        id: "quality-first-model",
+        slug: "seedance-2-pro-ai-video-generator",
+        href: "/seedance-2-pro-ai-video-generator",
+        label: "Seedance 2 Pro",
+        labelZh: "Seedance 2 Pro",
+        description: "Move from early tests into a quality-first final review workflow.",
+        descriptionZh: "从早期测试切到质量优先的正式审查流程。",
+      },
     ],
   },
 ];
@@ -163,4 +190,3 @@ export function getWorkflowGroupForSlug(slug: string) {
     group.items.some((item) => item.slug === slug),
   );
 }
-

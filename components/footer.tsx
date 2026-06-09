@@ -25,6 +25,8 @@ export function Footer() {
   ];
 
   const styleLinks = [
+    { label: isZh ? "Seedance 2.0 生成器" : "Seedance 2.0 Generator", href: `${localePrefix}/seedance-2-ai-video-generator`, id: "seedance-2-ai-video-generator" },
+    { label: isZh ? "视频转视频" : "Video to Video", href: `${localePrefix}/seedance-video-to-video`, id: "seedance-video-to-video" },
     { label: isZh ? "图像转视频" : "Image to Video", href: `${localePrefix}/image-to-video`, id: "image-to-video" },
     { label: isZh ? "参考视频生成" : "Reference Video", href: `${localePrefix}/ai-video-generator-with-reference-video`, id: "reference-video-generator" },
     { label: isZh ? "音频同步视频" : "Audio Sync Video", href: `${localePrefix}/ai-video-generator-with-audio-sync`, id: "audio-sync" },
@@ -33,6 +35,7 @@ export function Footer() {
   ];
   const solutionLinks = [
     { label: isZh ? "Seedance 2 Fast" : "Seedance 2 Fast", href: `${localePrefix}/seedance-2-fast`, id: "seedance-2-fast" },
+    { label: isZh ? "Seedance 2 Pro" : "Seedance 2 Pro", href: `${localePrefix}/seedance-2-pro-ai-video-generator`, id: "seedance-2-pro-ai-video-generator" },
     { label: isZh ? "运动控制视频" : "Motion Control Video", href: `${localePrefix}/motion-control-ai-video-generator`, id: "motion-control-ai-video-generator" },
     { label: isZh ? "角色一致性视频" : "Consistent Character Video", href: `${localePrefix}/consistent-character-ai-video-generator`, id: "consistent-character-ai-video-generator" },
     { label: isZh ? "产品广告视频" : "Product Ad Video", href: `${localePrefix}/product-ad-ai-video-generator`, id: "product-ad-ai-video-generator" },

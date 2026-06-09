@@ -14,6 +14,20 @@ export default async function HomeStaticContent({ locale }: Props) {
 
   const workflowLinks = [
     {
+      href: `${localePrefix}/seedance-2-ai-video-generator`,
+      title: isZh ? "Seedance 2.0 AI 视频生成器" : "Seedance 2.0 AI Video Generator",
+      description: isZh
+        ? "核心入口页：理解 Seedance 2.0 适合什么、多模态素材怎么分工，以及何时进入创作中心。"
+        : "The core hub for understanding what Seedance 2.0 can control, how multi-modal inputs work, and when to open the creation center.",
+    },
+    {
+      href: `${localePrefix}/seedance-video-to-video`,
+      title: isZh ? "Seedance 视频转视频" : "Seedance Video to Video",
+      description: isZh
+        ? "用已有视频里的动作、运镜和节奏指导新输出，适合比纯文字更需要运动控制的任务。"
+        : "Guide new outputs with motion, camera behavior, and pacing from an existing clip when text alone is too loose.",
+    },
+    {
       href: `${localePrefix}/image-to-video`,
       title: isZh ? "图生视频工作流" : "Image to Video Workflow",
       description: isZh
@@ -77,6 +91,13 @@ export default async function HomeStaticContent({ locale }: Props) {
         : "Use Fast to test direction and rhythm before moving stable ideas into the standard model.",
     },
     {
+      href: `${localePrefix}/seedance-2-pro-ai-video-generator`,
+      title: isZh ? "Seedance 2 Pro 质量优先工作流" : "Seedance 2 Pro Quality Workflow",
+      description: isZh
+        ? "当方向已经验证过，把素材和参考收敛到质量优先的正式生成流程。"
+        : "When direction is validated, move stable references into a quality-first generation pass for review.",
+    },
+    {
       href: `${localePrefix}/motion-control-ai-video-generator`,
       title: isZh ? "运动控制视频生成" : "Motion Control Video Generator",
       description: isZh
@@ -137,6 +158,25 @@ export default async function HomeStaticContent({ locale }: Props) {
     { href: `${localePrefix}/privacy`, label: isZh ? "查看隐私政策" : "Privacy policy" },
     { href: `${localePrefix}/terms`, label: isZh ? "查看服务条款" : "Terms of service" },
     { href: `${localePrefix}/contact`, label: isZh ? "联系支持" : "Contact support" },
+  ];
+
+  const searchIntentLinks = [
+    {
+      href: `${localePrefix}/seedance-2-ai-video-generator`,
+      label: isZh ? "Seedance 2.0 AI 视频生成器" : "Seedance 2.0 AI video generator",
+    },
+    {
+      href: `${localePrefix}/seedance-video-to-video`,
+      label: isZh ? "Seedance 视频转视频" : "Seedance video to video",
+    },
+    {
+      href: `${localePrefix}/seedance-2-fast`,
+      label: "Seedance 2 Fast",
+    },
+    {
+      href: `${localePrefix}/seedance-2-pro-ai-video-generator`,
+      label: "Seedance 2 Pro",
+    },
   ];
 
   const buyerFaqs = [
@@ -310,6 +350,37 @@ export default async function HomeStaticContent({ locale }: Props) {
                     <p className="mt-3 text-sm leading-7 text-white/64">{link.description}</p>
                   </Link>
                 ))}
+              </div>
+            </div>
+
+            <div className="surface-panel px-6 py-7 md:px-8">
+              <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+                <div>
+                  <div className="section-kicker">
+                    {isZh ? "Search Intent Map" : "Search Intent Map"}
+                  </div>
+                  <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white">
+                    {isZh
+                      ? "如果你是从 Google 搜 Seedance 2 进来，先看这几个入口。"
+                      : "If you found us while searching for Seedance 2, these are the most direct entry points."}
+                  </h2>
+                  <p className="mt-4 text-sm leading-8 text-white/66">
+                    {isZh
+                      ? "这些页面分别承接核心模型词、视频转视频、Fast 探索和质量优先生成，避免所有搜索意图都挤在首页。"
+                      : "These pages separate the core model query, video-to-video workflows, Fast exploration, and quality-first generation so every searcher does not land on the same generic homepage."}
+                  </p>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {searchIntentLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="rounded-2xl border border-white/8 bg-white/[0.035] px-4 py-4 text-sm font-medium text-white/82 transition-colors hover:border-cyan-200/30 hover:bg-white/[0.06] hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
 

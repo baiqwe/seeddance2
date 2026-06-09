@@ -378,6 +378,87 @@
       }
     ]
   },
+  "seedance-2-ai-video-generator": {
+    "slug": "seedance-2-ai-video-generator",
+    "targetKeyword": "seedance 2.0 ai video generator",
+    "title": "Seedance 2.0 AI Video Generator | Image, Video, and Audio References",
+    "description": "Use Seedance 2.0 as a multi-modal AI video generator for prompts, images, reference videos, audio cues, motion control, and production-ready workflow planning.",
+    "h1": "Seedance 2.0 AI Video Generator",
+    "subtitle": "Understand what Seedance 2.0 can control, what inputs to prepare, and when to move from a simple prompt into a reference-driven workflow.",
+    "workflowSummary": "This is the main Seedance 2.0 AI video generator hub. Use it to decide whether the shot needs text, image, reference video, audio, motion, or extension control before opening the creation center.",
+    "lastUpdated": "2026-06-09T00:00:00+08:00",
+    "executionSteps": [
+      "Decide whether the video is mainly about subject identity, camera movement, source-video motion, audio timing, or continuity.",
+      "Prepare the matching input: images for subject and composition, video for motion and pacing, audio for rhythm, and prompt text for boundaries.",
+      "Open the creation center, generate a short test, then route the task into the more specific workflow page if the first pass needs tighter control."
+    ],
+    "ctaText": "Open Seedance 2.0 generator",
+    "mode": "multi_modal_video",
+    "faqs": [
+      {
+        "question": "What is Seedance 2.0 best used for?",
+        "answer": "Seedance 2.0 is strongest when a video task needs more than text: image references, source video motion, camera control, audio timing, product shots, character consistency, or clip extension."
+      },
+      {
+        "question": "How is this different from a text-to-video prompt?",
+        "answer": "A text prompt describes the target, but a Seedance 2.0 workflow can assign separate jobs to images, reference clips, audio cues, and text so the output is easier to review and repeat."
+      }
+    ]
+  },
+  "seedance-video-to-video": {
+    "slug": "seedance-video-to-video",
+    "targetKeyword": "seedance video to video",
+    "title": "Seedance Video to Video Workflow | Reference Motion and Camera Control",
+    "description": "Use Seedance video-to-video workflows to borrow motion, camera rhythm, pacing, and scene continuity from a source clip while generating a new controlled output.",
+    "h1": "Seedance Video to Video Workflow",
+    "subtitle": "Use a source or reference video to guide motion and pacing instead of asking a long prompt to guess how the shot should move.",
+    "workflowSummary": "Use this workflow when the best description of the target is already inside a video. The source clip can guide motion, camera behavior, pacing, or continuity while the prompt explains what should change.",
+    "lastUpdated": "2026-06-09T00:00:00+08:00",
+    "executionSteps": [
+      "Choose a short source clip with clear motion, stable framing, and as few cuts as possible.",
+      "Write down which part of the clip should be copied: body motion, camera path, scene timing, effect rhythm, or continuation logic.",
+      "Open the creation center, upload the reference video, add optional images for identity or style, and review whether the new output follows the assigned video role."
+    ],
+    "ctaText": "Open video-to-video workflow",
+    "mode": "multi_modal_video",
+    "faqs": [
+      {
+        "question": "When should I use video to video instead of image to video?",
+        "answer": "Use video to video when motion, camera path, timing, or source-scene continuity matters more than animating a single still frame."
+      },
+      {
+        "question": "What kind of source video works best?",
+        "answer": "Short clips with one clear movement or camera behavior work best. Long edits with many cuts make it harder to understand which motion should control the result."
+      }
+    ]
+  },
+  "seedance-2-pro-ai-video-generator": {
+    "slug": "seedance-2-pro-ai-video-generator",
+    "targetKeyword": "seedance 2 pro ai video generator",
+    "title": "Seedance 2 Pro AI Video Generator | Quality-First Workflow",
+    "description": "Plan when to move from fast Seedance 2 tests into a quality-first AI video generation workflow for client review, product shots, and identity-critical videos.",
+    "h1": "Seedance 2 Pro AI Video Generator",
+    "subtitle": "Use a quality-first Seedance 2 workflow when direction is already validated and the next pass needs stronger detail, consistency, and review value.",
+    "workflowSummary": "This page helps teams decide when to stop scouting and invest in a higher-quality render. Validate motion cheaply first, then preserve only the inputs that actually improve the final pass.",
+    "lastUpdated": "2026-06-09T00:00:00+08:00",
+    "executionSteps": [
+      "Use Fast or a short test pass first to validate camera movement, subject framing, and prompt direction.",
+      "Keep the references that improved control and remove inputs that created conflict or noise.",
+      "Open the creation center for the quality-first pass, then review detail, identity, product legibility, and final-frame usefulness before using the clip publicly."
+    ],
+    "ctaText": "Open quality-first workflow",
+    "mode": "multi_modal_video",
+    "faqs": [
+      {
+        "question": "When should I switch from Fast to a quality-first workflow?",
+        "answer": "Switch when the creative direction is already clear and the next output needs stronger detail, identity stability, product readability, or client-review quality."
+      },
+      {
+        "question": "Should I start every task with the highest-quality setting?",
+        "answer": "Usually no. Early high-cost renders are wasteful when the prompt, references, or motion target are still unclear. Use lower-friction tests first, then scale the stable idea."
+      }
+    ]
+  },
   "motion-control-ai-video-generator": {
     "slug": "motion-control-ai-video-generator",
     "targetKeyword": "motion control ai video generator",

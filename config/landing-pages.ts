@@ -39,7 +39,7 @@ type LandingPageLocalizedCopy = {
   faqsZh: LandingPageFaq[];
 };
 
-const landingPageInsights: Record<LandingPageSlug, LandingPageInsightBlock> = {
+const landingPageInsights: Partial<Record<LandingPageSlug, LandingPageInsightBlock>> = {
   "image-to-video": {
     bestFor: [
       "Character stills that need controlled camera motion",
@@ -419,7 +419,7 @@ const landingPageInsights: Record<LandingPageSlug, LandingPageInsightBlock> = {
 export const landingPages = rawLandingPages as Record<string, LandingPageConfig>;
 export type LandingPageSlug = keyof typeof landingPages;
 
-const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
+const landingPagesZh: Partial<Record<LandingPageSlug, LandingPageLocalizedCopy>> = {
   "image-to-video": {
     titleZh: "图生视频 AI 生成器 | 基于 Seedance 2",
     descriptionZh: "从一张静态图片出发，加入运镜、节奏、主体连续性和画面意图，把关键帧变成更可控的 AI 视频工作流，适合先做镜头验证再进入完整创作。",
@@ -602,6 +602,45 @@ const landingPagesZh: Record<LandingPageSlug, LandingPageLocalizedCopy> = {
       { question: "什么时候不建议用 Fast？", answer: "细节很多的产品广告、强角色一致性或正式交付镜头，不建议直接把 Fast 当最终版本。" }
     ]
   },
+  "seedance-2-ai-video-generator": {
+    titleZh: "Seedance 2.0 AI 视频生成器 | 图片、视频和音频参考工作流",
+    descriptionZh: "用 Seedance 2.0 把文字、图片、参考视频和音频线索组织成可控的视频生成流程，适合先理解输入职责、成本和输出评估方式。",
+    h1Zh: "Seedance 2.0 AI 视频生成器",
+    subtitleZh: "围绕 Seedance 2.0 的核心搜索意图，集中说明它适合做什么、需要准备什么，以及如何进入生成流程。",
+    workflowSummaryZh: "这页是 Seedance 2.0 的核心入口：先理解多模态输入怎么分工，再根据任务进入创作中心或具体工作流页面。",
+    executionStepsZh: ["先确定这条视频要控制主体、动作、镜头还是节奏。", "准备对应素材：图片锁定主体，视频说明动作，音频说明节奏，Prompt 负责约束边界。", "进入创作中心生成，并根据结果决定是否切到更细的工作流页面。"],
+    ctaTextZh: "打开 Seedance 2.0 生成器",
+    faqsZh: [
+      { question: "Seedance 2.0 AI 视频生成器适合什么任务？", answer: "适合图生视频、参考视频生成、产品广告、角色一致性、动作迁移和视频延展等需要多输入控制的任务。" },
+      { question: "它和普通文生视频有什么不同？", answer: "普通文生视频主要靠文字描述，Seedance 2.0 工作流更强调让图片、视频、音频和文字分别承担不同控制职责。" }
+    ]
+  },
+  "seedance-video-to-video": {
+    titleZh: "Seedance 视频转视频工作流 | 参考视频、动作和镜头控制",
+    descriptionZh: "用 Seedance 视频转视频流程复用参考片段里的动作、运镜、节奏和场景逻辑，再生成新的主体、风格或镜头版本。",
+    h1Zh: "Seedance 视频转视频工作流",
+    subtitleZh: "用已有视频做运动和节奏参考，而不是只靠更长的 Prompt 猜测镜头应该怎么动。",
+    workflowSummaryZh: "当你已经有一段接近目标的参考视频时，用这页判断哪些信息应该被继承、哪些应该被替换。",
+    executionStepsZh: ["选择一段短而清楚的参考视频，最好只有一个主要动作或镜头目标。", "写清楚参考视频负责动作、运镜、节奏还是场景连续性。", "进入创作中心上传参考视频，并用 Prompt 说明新主体、新风格或需要保留的边界。"],
+    ctaTextZh: "打开视频转视频工作流",
+    faqsZh: [
+      { question: "视频转视频一定要上传源视频吗？", answer: "是的，这条流程的核心是用源视频或参考视频提供动作、镜头和节奏信息。" },
+      { question: "什么样的视频参考最好？", answer: "短、清楚、少剪辑、动作目标明确的视频通常比长混剪更稳定。" }
+    ]
+  },
+  "seedance-2-pro-ai-video-generator": {
+    titleZh: "Seedance 2 Pro AI 视频生成器 | 质量优先工作流",
+    descriptionZh: "了解什么时候应该从 Seedance 2 Fast 切到更高质量的 Seedance 2 Pro 或标准生成流程，用于客户可审阅、产品广告和角色一致性镜头。",
+    h1Zh: "Seedance 2 Pro AI 视频生成器",
+    subtitleZh: "当方向已经验证过，下一步应该把素材、参考和成本集中到质量优先的生成流程。",
+    workflowSummaryZh: "这页帮助你判断什么时候不该继续用 Fast 探索，而应该进入更高质量的正式生成阶段。",
+    executionStepsZh: ["先用 Fast 或低成本方案验证主体、动作和构图方向。", "保留表现稳定的 Prompt、图片参考和视频参考，删掉无用输入。", "进入创作中心切换到质量优先方案，并重点检查细节、身份和最终交付画面。"],
+    ctaTextZh: "打开质量优先工作流",
+    faqsZh: [
+      { question: "什么时候需要质量优先流程？", answer: "当视频要给客户看、用于产品广告、角色一致性要求高或细节很多时，就应该从快速探索切到质量优先流程。" },
+      { question: "Fast 和 Pro 应该怎么配合？", answer: "Fast 用于判断方向，质量优先流程用于最终审查和交付。不要一开始就把高成本生成用于模糊想法。" }
+    ]
+  },
   "motion-control-ai-video-generator": {
     titleZh: "运镜控制 AI 视频生成器 | 基于 Seedance 2",
     descriptionZh: "把 AI 视频生成拆成镜头路径、主体动作、节奏和连续性，让运镜不再只靠模糊 Prompt 猜测。",
@@ -667,7 +706,7 @@ export function getLocalizedLandingPage(slug: string, locale: string): LandingPa
   };
 }
 
-const landingPageInsightsZh: Record<LandingPageSlug, LandingPageInsightBlock> = {
+const landingPageInsightsZh: Partial<Record<LandingPageSlug, LandingPageInsightBlock>> = {
   "image-to-video": {
     bestFor: [
       "需要稳定运镜的人像、角色立绘和产品主视觉",
@@ -935,7 +974,7 @@ const landingPageInsightsZh: Record<LandingPageSlug, LandingPageInsightBlock> = 
 export function getLandingPageInsights(slug: string, locale: string): LandingPageInsightBlock | null {
   const typedSlug = slug as LandingPageSlug;
   if (!(typedSlug in landingPageInsights)) return null;
-  return locale === "zh" ? landingPageInsightsZh[typedSlug] : landingPageInsights[typedSlug];
+  return (locale === "zh" ? landingPageInsightsZh[typedSlug] : landingPageInsights[typedSlug]) ?? null;
 }
 
 export const landingPageSlugs = Object.keys(landingPages);

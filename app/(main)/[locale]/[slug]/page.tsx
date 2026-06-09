@@ -28,10 +28,13 @@ function getCreationCenterHref(locale: string, mode: string, model?: string) {
 }
 
 const relatedPrioritySlugs = [
+  "seedance-2-ai-video-generator",
+  "seedance-video-to-video",
   "ai-video-generator-with-reference-video",
   "ai-video-generator-with-audio-sync",
   "image-to-video",
   "seedance-2-fast",
+  "seedance-2-pro-ai-video-generator",
   "motion-control-ai-video-generator",
   "consistent-character-ai-video-generator",
   "product-ad-ai-video-generator",
